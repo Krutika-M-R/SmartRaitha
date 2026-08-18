@@ -6,6 +6,7 @@ import InputField from '../components/InputField';
 import Button from '../components/Button';
 import ErrorMessage from '../components/ErrorMessage';
 import { useAuth } from '../context/AuthContext';
+import { validateName, validateEmail, validatePassword } from '../utils/validation';
 
 export default function SignupScreen({ navigation }) {
   const { signup } = useAuth();
@@ -22,10 +23,30 @@ export default function SignupScreen({ navigation }) {
       setError('Please fill in all fields.');
       return;
     }
+
+    const nameErr = validateName(name);
+    if (nameErr) {
+      setError(nameErr);
+      return;
+    }
+
+    const emailErr = validateEmail(email);
+    if (emailErr) {
+      setError(emailErr);
+      return;
+    }
+
+    const passErr = validatePassword(password);
+    if (passErr) {
+      setError(passErr);
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
+
     setLoading(true);
     try {
       await signup(name, email, password);
@@ -47,9 +68,9 @@ export default function SignupScreen({ navigation }) {
       <ErrorMessage message={error} />
 
       <InputField label="Name" value={name} onChangeText={setName} placeholder="Your name" />
-      <InputField label="Email" value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="you@example.com" />
-      <InputField label="Password" value={password} onChangeText={setPassword} secureTextEntry placeholder="••••••••" />
-      <InputField label="Confirm Password" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry placeholder="••••••••" />
+      <InputField label="Email" value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="you@gmail.com" />
+      <InputField label="Password" value={password} onChangeText={setPassword} secureTextEntry placeholder="********" />
+      <InputField label="Confirm Password" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry placeholder="********" />
 
       <Button title="Sign Up" onPress={handleSignup} loading={loading} />
 

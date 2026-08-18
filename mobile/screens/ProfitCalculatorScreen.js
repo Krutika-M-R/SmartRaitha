@@ -69,7 +69,11 @@ export default function ProfitCalculatorScreen({ route }) {
             key={mandi.id}
             title={mandi.name}
             variant={selectedMandiId === mandi.id ? 'primary' : 'secondary'}
-            onPress={() => setSelectedMandiId(mandi.id)}
+            onPress={() => {
+              setSelectedMandiId(mandi.id);
+              setResult(null);
+              setError('');
+            }}
           />
         ))}
       </View>

@@ -10,9 +10,11 @@ import Button from '../components/Button';
 import cropService from '../services/cropService';
 import recommendationService from '../services/recommendationService';
 import { useAuth } from '../context/AuthContext';
+import { useLocation } from '../hooks/useLocation';
 
 export default function HomeScreen({ navigation }) {
   const { user } = useAuth();
+  const { location, error: locationError, loading: locationLoading } = useLocation();
   const [crops, setCrops] = useState([]);
   const [selectedCrop, setSelectedCrop] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
@@ -41,27 +43,43 @@ export default function HomeScreen({ navigation }) {
   }
 
   async function loadRecommendation(cropId) {
+    if (!location) {
+      setRecommendation(null);
+      return;
+    }
+
     try {
-      const data = await recommendationService.getRecommendation(cropId, 100);
+      const data = await recommendationService.getRecommendation(
+        cropId,
+        100,
+        location.latitude,
+        location.longitude,
+      );
       setRecommendation(data);
     } catch (e) {
       // recommendation is optional on the home screen - fail quietly
+      setRecommendation(null);
     }
   }
 
+  useEffect(() => {
+    if (selectedCrop && location) {
+      loadRecommendation(selectedCrop.id);
+    }
+  }, [selectedCrop, location]);
+
   function handleSelectCrop(crop) {
     setSelectedCrop(crop);
-    loadRecommendation(crop.id);
   }
 
-  if (loading) return <LoadingIndicator message="Loading your dashboard..." />;
+  if (loading || locationLoading) return <LoadingIndicator message="Loading your dashboard..." />;
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.large }}>
       <Text style={styles.greeting}>Good morning{user?.name ? `, ${user.name}` : ''}</Text>
       <Text style={styles.question}>What are you selling?</Text>
 
-      <ErrorMessage message={error} />
+      <ErrorMessage message={error || locationError} />
 
       <View style={styles.chipRow}>
         {crops.map((crop) => (
