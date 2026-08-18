@@ -6,6 +6,7 @@ import CropSelector from '../components/CropSelector';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import RecommendationCard from '../components/RecommendationCard';
+import PriceBarChart from '../components/PriceBarChart';
 import Button from '../components/Button';
 import cropService from '../services/cropService';
 import recommendationService from '../services/recommendationService';
@@ -91,6 +92,16 @@ export default function HomeScreen({ navigation }) {
         <>
           <Text style={styles.sectionTitle}>Recommended market</Text>
           <RecommendationCard recommendation={recommendation} />
+
+          {recommendation?.allOptions && recommendation.allOptions.length > 0 && (
+            <View style={{ marginTop: spacing.large }}>
+              <PriceBarChart prices={recommendation.allOptions.map((item) => ({
+                id: item.mandi.id,
+                mandi: { id: item.mandi.id, name: item.mandi.name },
+                modalPrice: item.modalPrice,
+              }))} />
+            </View>
+          )}
 
           <View style={styles.actions}>
             <Button

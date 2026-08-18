@@ -5,6 +5,7 @@ import { spacing } from '../constants/spacing';
 import MandiCard from '../components/MandiCard';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
+import PriceBarChart from '../components/PriceBarChart';
 import priceService from '../services/priceService';
 
 export default function MarketsScreen({ route }) {
@@ -41,13 +42,17 @@ export default function MarketsScreen({ route }) {
       {prices.length === 0 ? (
         <Text style={styles.empty}>No price data available for this crop.</Text>
       ) : (
-        <FlatList
-          data={prices}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <MandiCard mandiName={item.mandi.name} modalPrice={item.modalPrice} distanceKm={null} />
-          )}
-        />
+        <>
+          <PriceBarChart prices={prices} />
+          <FlatList
+            data={prices}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => (
+              <MandiCard mandiName={item.mandi.name} modalPrice={item.modalPrice} distanceKm={null} />
+            )}
+            scrollEnabled={false}
+          />
+        </>
       )}
     </View>
   );
