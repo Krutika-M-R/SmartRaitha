@@ -1,0 +1,54 @@
+# SmartRaitha — Mobile App (React Native + Expo)
+
+## 1. Install dependencies
+
+```bash
+npm install
+```
+
+## 2. Point the app at your backend
+
+Open `services/api.js` and set `BASE_URL` to wherever your backend is running:
+
+- **Android emulator:** `http://10.0.2.2:5000/api` (already set as default)
+- **Physical phone + Expo Go:** `http://<your-laptop-LAN-IP>:5000/api` — find your IP with `ipconfig` (Windows) or `ifconfig` (Mac/Linux), and make sure your phone is on the same Wi-Fi as your laptop.
+
+## 3. Run the app
+
+```bash
+npx expo start
+```
+
+Scan the QR code with Expo Go on your Android phone.
+
+## Folder structure
+
+```
+components/     Reusable UI pieces (Button, InputField, MandiCard, ProfitCard, ...)
+screens/        One file per screen (Login, Signup, Home, Markets, ProfitCalculator, Profile)
+navigation/      AuthNavigator (logged-out), AppNavigator (logged-in tabs), RootNavigator (switches between them)
+services/       One file per backend resource — each just wraps a fetch call to the API
+context/        AuthContext — holds the logged-in user and JWT across the whole app
+constants/      colors.js and spacing.js — the single source of truth for styling values
+```
+
+## How the screens connect to the backend
+
+Every service file in `services/` matches one group of endpoints in the backend:
+
+| Service file | Backend endpoints it calls |
+|---|---|
+| `authService.js` | `/auth/signup`, `/auth/login`, `/auth/me` |
+| `cropService.js` | `/crops` |
+| `mandiService.js` | `/mandis` |
+| `priceService.js` | `/prices`, `/prices/history` |
+| `profitService.js` | `/profit/calculate` |
+| `recommendationService.js` | `/recommendations` |
+| `predictionService.js` | `/predictions` |
+
+The JWT returned on login/signup is stored with `AsyncStorage` and attached automatically as an `Authorization: Bearer <token>` header on any request marked `auth: true` in `services/api.js`.
+
+## Notes
+
+- This app pairs with the `smartraitha-backend` folder (Node/Express/Prisma/Postgres) shared earlier — no other backend changes are needed.
+- Screens intentionally kept minimal (no emojis, limited color palette) to match the UI/UX requirements from your project synopsis. Feel free to build out Onboarding/Splash/Trends screens on top of this same pattern.

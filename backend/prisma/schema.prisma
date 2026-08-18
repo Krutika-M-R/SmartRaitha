@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Crop {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  prices Price[]
+}
+
+model Mandi {
+  id             Int                   @id @default(autoincrement())
+  name           String
+  state          String
+  district       String?
+  latitude       Float?
+  longitude      Float?
+  prices         Price[]
+  transportCosts TransportationCost[]
+}
+
+model Price {
+  id         Int      @id @default(autoincrement())
+  crop       Crop     @relation(fields: [cropId], references: [id])
+  cropId     Int
+  mandi      Mandi    @relation(fields: [mandiId], references: [id])
+  mandiId    Int
+  minPrice   Float
+  maxPrice   Float
+  modalPrice Float
+  date       DateTime
+
+  @@index([cropId, mandiId, date])
+}
+
+model TransportationCost {
+  id            Int   @id @default(autoincrement())
+  mandi         Mandi @relation(fields: [mandiId], references: [id])
+  mandiId       Int
+  distanceKm    Float
+  ratePerKm     Float
+  estimatedCost Float
+}
+
+model Prediction {
+  id             Int      @id @default(autoincrement())
+  cropId         Int
+  mandiId        Int
+  predictedDate  DateTime
+  predictedPrice Float
+  modelVersion   String?
+  createdAt      DateTime @default(now())
+
+  @@index([cropId, mandiId])
+}
