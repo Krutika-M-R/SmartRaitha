@@ -6,8 +6,8 @@ export function validateName(name) {
 }
 
 export function validateEmail(email) {
-  if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email)) {
-    return 'Please enter a valid @gmail.com address.';
+  if (!/^[a-zA-Z0-9._%+-]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return 'Please enter a valid email address.';
   }
   return null;
 }

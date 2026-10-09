@@ -27,9 +27,17 @@ export function AuthProvider({ children }) {
     setUser(loggedInUser);
   }
 
+  async function verifyEmailCode(email, code) {
+    return authService.verifyEmailCode(email, code);
+  }
+
+  async function googleLogin(idToken) {
+    const loggedInUser = await authService.googleLogin(idToken);
+    setUser(loggedInUser);
+  }
+
   async function signup(name, email, password) {
-    const newUser = await authService.signup(name, email, password);
-    setUser(newUser);
+    return authService.signup(name, email, password);
   }
 
   async function logout() {
@@ -37,8 +45,14 @@ export function AuthProvider({ children }) {
     setUser(null);
   }
 
+  async function updateProfile(profile) {
+    const updatedUser = await authService.updateProfile(profile);
+    setUser(updatedUser);
+    return updatedUser;
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, verifyEmailCode, googleLogin, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

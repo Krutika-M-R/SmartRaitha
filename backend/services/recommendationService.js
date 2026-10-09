@@ -33,14 +33,15 @@ async function recommendBestMandi({ cropId, quantityKg, latitude, longitude }) {
   }
 
   results.sort((a, b) => b.netProfit - a.netProfit);
-  const best = results[0];
+  const topMandis = results.slice(0, 5);
+  const best = topMandis[0];
 
   return {
     recommended: best || null,
     reason: best
       ? `${best.mandi.name} gives the highest estimated net profit after transportation cost (${best.distanceKm.toFixed(1)} km away).`
       : 'Not enough data to make a recommendation yet.',
-    allOptions: results,
+    allOptions: topMandis,
   };
 }
 

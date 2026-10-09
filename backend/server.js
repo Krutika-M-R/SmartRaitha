@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const routes = require('./routes');
+const prisma = require('./config/prisma');
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,19 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`SmartRaitha backend running on port ${PORT}`);
-});
+
+async function startServer() {
+  try {
+    await prisma.$connect();
+    console.log('Database connected successfully.');
+  } catch (error) {
+    console.error('Database connection failed:', error.message);
+    process.exit(1);
+  }
+
+  app.listen(PORT, () => {
+    console.log(`SmartRaitha backend running on port ${PORT}`);
+  });
+}
+
+startServer();

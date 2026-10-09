@@ -1,8 +1,12 @@
 import os
+from pathlib import Path
 import psycopg2
 from dotenv import load_dotenv
 
-load_dotenv()
+ML_DIR = Path(__file__).resolve().parent
+load_dotenv(ML_DIR / '.env')
+if not os.getenv('DATABASE_URL'):
+    load_dotenv(ML_DIR.parent / 'backend' / '.env')
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
