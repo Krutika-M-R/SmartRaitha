@@ -9,10 +9,11 @@ HOW:   Rebuilds the same feature vector used during training, using the
 
 import pandas as pd
 import joblib
+from pathlib import Path
 
 from data_loader import load_price_history
 
-MODEL_PATH = "models/price_model.pkl"
+MODEL_PATH = Path(__file__).resolve().parent / "models" / "price_model.pkl"
 
 
 class PredictionError(Exception):

@@ -102,6 +102,8 @@ server.js       App entry point
 |---|---|---|---|
 | POST | /api/auth/signup | No | Create account |
 | POST | /api/auth/login | No | Log in, get JWT |
+| POST | /api/auth/verify-code | No | Verify the six-digit signup email code |
+| POST | /api/auth/google | No | Sign in or create an account with Google |
 | GET | /api/auth/me | Yes | Get current user |
 | GET | /api/crops | No | List all crops |
 | GET | /api/mandis | No | List all mandis |

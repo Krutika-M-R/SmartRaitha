@@ -15,6 +15,7 @@ Run:  python train.py
 import joblib
 import numpy as np
 import pandas as pd
+from pathlib import Path
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -23,7 +24,7 @@ from sklearn.preprocessing import LabelEncoder
 
 from data_loader import load_price_history
 
-MODEL_PATH = "models/price_model.pkl"
+MODEL_PATH = Path(__file__).resolve().parent / "models" / "price_model.pkl"
 MIN_ROWS_REQUIRED = 30  # below this, predictions won't be meaningful
 
 

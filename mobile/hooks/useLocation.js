@@ -16,7 +16,21 @@ export function useLocation() {
       }
       try {
         const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
-        setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
+        let placeName = '';
+        try {
+          const places = await Location.reverseGeocodeAsync({
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+          });
+          const place = places[0];
+          placeName = [place?.city, place?.district, place?.region]
+            .filter(Boolean)
+            .filter((value, index, values) => values.indexOf(value) === index)
+            .join(', ');
+        } catch (e) {
+          // Weather and mandi recommendations still work without a place name.
+        }
+        setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, placeName });
       } catch (e) {
         setError('Could not fetch your location.');
       } finally {

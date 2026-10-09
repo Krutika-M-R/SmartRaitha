@@ -10,11 +10,19 @@ const profitController = require('../controllers/profitController');
 const recommendationController = require('../controllers/recommendationController');
 const predictionController = require('../controllers/predictionController');
 const importController = require('../controllers/importController');
+const assistantController = require('../controllers/assistantController');
+const farmGuidanceController = require('../controllers/farmGuidanceController');
 
 // Auth
 router.post('/auth/signup', authController.signup);
 router.post('/auth/login', authController.login);
+router.post('/auth/verify-code', authController.verifyCode);
+router.post('/auth/google', authController.googleLogin);
+router.get('/auth/verify-email', authController.verifyEmail);
 router.get('/auth/me', requireAuth, authController.me);
+router.put('/auth/profile', requireAuth, authController.updateProfile);
+router.post('/assistant', requireAuth, assistantController.askAssistant);
+router.get('/farm-guidance', requireAuth, farmGuidanceController.getGuidance);
 
 // Crops & Mandis
 router.get('/crops', cropController.getCrops);

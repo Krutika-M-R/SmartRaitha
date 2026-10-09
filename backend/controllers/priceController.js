@@ -11,7 +11,16 @@ async function getPricesForCrop(req, res) {
       include: { mandi: true },
       orderBy: { date: 'desc' }
     });
-    res.json(prices);
+
+    // Compare markets using only the latest price reported for each mandi.
+    const latestPricesByMandi = new Map();
+    for (const price of prices) {
+      if (!latestPricesByMandi.has(price.mandiId)) {
+        latestPricesByMandi.set(price.mandiId, price);
+      }
+    }
+
+    res.json([...latestPricesByMandi.values()]);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Could not fetch prices.' });

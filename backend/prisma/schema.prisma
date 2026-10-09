@@ -8,11 +8,17 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  name         String
-  email        String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
+  id                    Int      @id @default(autoincrement())
+  name                  String
+  email                 String   @unique
+  passwordHash          String
+  gender                String?
+  age                   Int?
+  place                 String?
+  emailVerified         Boolean  @default(false)
+  verificationToken     String?  @unique
+  verificationExpiresAt DateTime?
+  createdAt             DateTime @default(now())
 }
 
 model Crop {
