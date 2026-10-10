@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const prisma = require('../config/prisma');
 const jwtSecret = require('../config/jwtSecret');
-const { sendVerificationCode } = require('../services/emailService');
+const { sendVerificationCode, sendPasswordResetCode, sendWelcomeEmail, sendPasswordChangedEmail } = require('../services/emailService');
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -42,27 +42,23 @@ async function signup(req, res) {
     const verificationToken = crypto.createHash('sha256').update(verificationCode).digest('hex');
     const verificationExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-    let developmentVerificationCode;
     try {
       await sendVerificationCode({ email, name, code: verificationCode });
     } catch (err) {
-      console.error(err);
-      if (process.env.NODE_ENV === 'production') {
-        return res.status(503).json({ error: 'We could not send the verification email. Please try again later.' });
+      if (err.code === 'EAUTH' || err.responseCode === 535) {
+        return res.status(503).json({
+          error: 'Gmail rejected the SMTP login. Use the sender account\'s 16-character Google App Password in SMTP_PASS, not its regular password.',
+        });
       }
-      developmentVerificationCode = verificationCode;
+      console.error(err);
+      return res.status(503).json({ error: 'We could not send the verification code. Check the SMTP settings and try again.' });
     }
 
     await prisma.user.create({
-      data: { name, email, passwordHash, verificationToken, verificationExpiresAt }
+      data: { name, email, passwordHash, emailVerified: false, verificationToken, verificationExpiresAt }
     });
 
-    res.status(201).json({
-      message: developmentVerificationCode
-        ? 'Account created. Use the development verification code shown in the app.'
-        : 'Account created. Check your email to verify your account.',
-      ...(developmentVerificationCode ? { developmentVerificationCode } : {}),
-    });
+    res.status(201).json({ message: 'Verification code sent. Enter it to finish creating your account.' });
   } catch (err) {
     console.error(err);
     if (isDatabaseUnavailable(err)) return sendDatabaseUnavailable(res);
@@ -76,23 +72,126 @@ async function verifyCode(req, res) {
     const email = typeof req.body.email === 'string' ? req.body.email.trim().toLowerCase() : '';
     const code = typeof req.body.code === 'string' ? req.body.code.trim() : '';
     if (!email || !/^\d{6}$/.test(code)) {
-      return res.status(400).json({ error: 'A valid email and 6-digit code are required.' });
+      return res.status(400).json({ error: 'A valid email and 6-digit verification code are required.' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user || user.emailVerified || !user.verificationExpiresAt || user.verificationExpiresAt < new Date()) {
+      return res.status(400).json({ error: 'Invalid or expired verification code.' });
+    }
+
+    const codeHash = crypto.createHash('sha256').update(code).digest('hex');
+    if (user.verificationToken !== codeHash) {
+      return res.status(400).json({ error: 'Invalid or expired verification code.' });
+    }
+
+    const verifiedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: { emailVerified: true, verificationToken: null, verificationExpiresAt: null },
+    });
+    try {
+      await sendWelcomeEmail({ email: verifiedUser.email, name: verifiedUser.name });
+    } catch (err) {
+      console.error('Signup welcome email could not be sent:', err.message);
+    }
+    const token = jwt.sign({ userId: verifiedUser.id }, jwtSecret, { expiresIn: '7d' });
+    res.json({
+      token,
+      user: {
+        id: verifiedUser.id,
+        name: verifiedUser.name,
+        email: verifiedUser.email,
+        gender: verifiedUser.gender,
+        age: verifiedUser.age,
+        place: verifiedUser.place,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    if (isDatabaseUnavailable(err)) return sendDatabaseUnavailable(res);
+    res.status(500).json({ error: 'Could not verify the signup code.' });
+  }
+}
+
+// POST /api/auth/password-reset/request { email }
+async function requestPasswordReset(req, res) {
+  try {
+    const email = typeof req.body.email === 'string' ? req.body.email.trim().toLowerCase() : '';
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ error: 'Please enter a valid email address.' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user || !user.emailVerified) {
+      return res.json({ message: 'If a verified account exists for that email, a reset code has been sent.' });
+    }
+
+    const code = String(crypto.randomInt(100000, 1000000));
+    const verificationToken = crypto.createHash('sha256').update(code).digest('hex');
+    const verificationExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    await prisma.user.update({ where: { id: user.id }, data: { verificationToken, verificationExpiresAt } });
+
+    try {
+      await sendPasswordResetCode({ email, name: user.name, code });
+    } catch (err) {
+      await prisma.user.update({ where: { id: user.id }, data: { verificationToken: null, verificationExpiresAt: null } });
+      if (err.code === 'EAUTH' || err.responseCode === 535) {
+        return res.status(503).json({ error: 'Email delivery is unavailable. Check the SMTP account settings and try again.' });
+      }
+      console.error(err);
+      return res.status(503).json({ error: 'Could not send the password reset code. Check the mail settings and try again.' });
+    }
+
+    res.json({ message: 'If a verified account exists for that email, a reset code has been sent.' });
+  } catch (err) {
+    console.error(err);
+    if (isDatabaseUnavailable(err)) return sendDatabaseUnavailable(res);
+    res.status(500).json({ error: 'Could not request a password reset.' });
+  }
+}
+
+// POST /api/auth/password-reset/confirm { email, code, password }
+async function confirmPasswordReset(req, res) {
+  try {
+    const email = typeof req.body.email === 'string' ? req.body.email.trim().toLowerCase() : '';
+    const code = typeof req.body.code === 'string' ? req.body.code.trim() : '';
+    const password = typeof req.body.password === 'string' ? req.body.password : '';
+    if (!isValidEmail(email) || !/^\d{6}$/.test(code)) {
+      return res.status(400).json({ error: 'Enter a valid email and the 6-digit reset code.' });
+    }
+    if (password.length < 8 || !/[0-9]/.test(password) || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters and include a number and special character.' });
     }
 
     const user = await prisma.user.findUnique({ where: { email } });
     const codeHash = crypto.createHash('sha256').update(code).digest('hex');
-    if (!user || user.verificationToken !== codeHash || !user.verificationExpiresAt || user.verificationExpiresAt < new Date()) {
-      return res.status(400).json({ error: 'Invalid or expired verification code.' });
+    if (!user || !user.emailVerified || user.verificationToken !== codeHash || !user.verificationExpiresAt || user.verificationExpiresAt < new Date()) {
+      return res.status(400).json({ error: 'Invalid or expired reset code. Request a new code and try again.' });
     }
 
-    await prisma.user.update({
+    const passwordHash = await bcrypt.hash(password, 10);
+    const updatedUser = await prisma.user.update({
       where: { id: user.id },
-      data: { emailVerified: true, verificationToken: null, verificationExpiresAt: null },
+      data: { passwordHash, verificationToken: null, verificationExpiresAt: null },
     });
-    res.json({ message: 'Email verified. You can now log in.' });
+
+    let confirmationEmailSent = true;
+    try {
+      await sendPasswordChangedEmail({ email: updatedUser.email, name: updatedUser.name });
+    } catch (err) {
+      confirmationEmailSent = false;
+      console.error('Password changed, but confirmation email could not be sent:', err.message);
+    }
+
+    res.json({
+      message: confirmationEmailSent
+        ? 'Password changed successfully. A confirmation email has been sent.'
+        : 'Password changed successfully, but the confirmation email could not be sent.',
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Could not verify email code.' });
+    if (isDatabaseUnavailable(err)) return sendDatabaseUnavailable(res);
+    res.status(500).json({ error: 'Could not reset the password.' });
   }
 }
 
@@ -145,14 +244,12 @@ async function login(req, res) {
     if (!user) {
       return res.status(401).json({ error: 'Invalid email or password.' });
     }
-    if (!user.emailVerified) {
-      return res.status(403).json({ error: 'Please verify your email before logging in.' });
-      
-    }
-
     const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) {
       return res.status(401).json({ error: 'Invalid email or password.' });
+    }
+    if (!user.emailVerified) {
+      return res.status(403).json({ error: 'Verify the code sent during signup before logging in.' });
     }
 
     const token = jwt.sign({ userId: user.id }, jwtSecret, { expiresIn: '7d' });
@@ -161,29 +258,6 @@ async function login(req, res) {
     console.error(err);
     if (isDatabaseUnavailable(err)) return sendDatabaseUnavailable(res);
     res.status(500).json({ error: 'Login failed. Please try again.' });
-  }
-}
-
-// GET /api/auth/verify-email?token=...
-async function verifyEmail(req, res) {
-  try {
-    const { token } = req.query;
-    const user = token
-      ? await prisma.user.findUnique({ where: { verificationToken: token } })
-      : null;
-
-    if (!user || !user.verificationExpiresAt || user.verificationExpiresAt < new Date()) {
-      return res.status(400).send('<h1>Invalid or expired verification link</h1>');
-    }
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { emailVerified: true, verificationToken: null, verificationExpiresAt: null },
-    });
-    res.send('<h1>Email verified</h1><p>Your SmartRaitha account is ready. You can return to the app and log in.</p>');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('<h1>Could not verify email</h1>');
   }
 }
 
@@ -232,4 +306,4 @@ async function updateProfile(req, res) {
   }
 }
 
-module.exports = { signup, login, verifyEmail, verifyCode, googleLogin, me, updateProfile };
+module.exports = { signup, verifyCode, requestPasswordReset, confirmPasswordReset, login, googleLogin, me, updateProfile };

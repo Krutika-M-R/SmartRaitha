@@ -11,7 +11,7 @@ export default function RootNavigator() {
   const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowWelcome(false), 3000);
+    const timer = setTimeout(() => setShowWelcome(false), 6000);
     return () => clearTimeout(timer);
   }, []);
 

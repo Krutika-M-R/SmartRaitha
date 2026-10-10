@@ -1,10 +1,10 @@
 import request from './api';
 
-async function askAssistant(message, language, history) {
+async function askAssistant(message, language, history, location) {
   return request('/assistant', {
     method: 'POST',
     auth: true,
-    body: { message, language, history },
+    body: { message, language, history, location },
   });
 }
 

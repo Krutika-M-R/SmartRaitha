@@ -1,102 +1,145 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, View, Text, StyleSheet } from 'react-native';
+import { Animated, Easing, Image, View, Text, StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
 import { colors } from '../constants/colors';
 
-const crops = [
-  { emoji: '🌾', styleName: 'cropOne', delay: 0, duration: 2600 },
-  { emoji: '🌽', styleName: 'cropTwo', delay: 350, duration: 3000 },
-  { emoji: '🍅', styleName: 'cropThree', delay: 700, duration: 2800 },
-  { emoji: '🥕', styleName: 'cropFour', delay: 1050, duration: 3200 },
-  { emoji: '🌶️', styleName: 'cropFive', delay: 1400, duration: 2900 },
+const produce = [
+  { emoji: '🍎', styleName: 'produceOne', delay: 0 },
+  { emoji: '🍊', styleName: 'produceTwo', delay: 300 },
+  { emoji: '🍇', styleName: 'produceThree', delay: 600 },
+  { emoji: '🥭', styleName: 'produceFour', delay: 900 },
+  { emoji: '🍍', styleName: 'produceFive', delay: 1200 },
+  { emoji: '🥕', styleName: 'produceSix', delay: 1500 },
+  { emoji: '🥦', styleName: 'produceSeven', delay: 1800 },
+  { emoji: '🌽', styleName: 'produceEight', delay: 2100 },
 ];
 
-function FloatingCrop({ emoji, styleName, delay, duration }) {
+function FallingProduce({ emoji, styleName, delay }) {
   const progress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const animation = Animated.loop(
       Animated.sequence([
         Animated.delay(delay),
-        Animated.timing(progress, { toValue: 1, duration, useNativeDriver: true }),
-        Animated.timing(progress, { toValue: 0, duration: 500, useNativeDriver: true }),
+        Animated.timing(progress, {
+          toValue: 0.82,
+          duration: 850,
+          easing: Easing.in(Easing.quad),
+          useNativeDriver: true,
+        }),
+        Animated.spring(progress, { toValue: 1.08, useNativeDriver: true, speed: 12, bounciness: 12 }),
+        Animated.spring(progress, { toValue: 1, useNativeDriver: true, speed: 16, bounciness: 6 }),
+        Animated.delay(900),
+        Animated.timing(progress, { toValue: 0, duration: 450, useNativeDriver: true }),
       ]),
     );
     animation.start();
     return () => animation.stop();
-  }, [delay, duration, progress]);
+  }, [delay, progress]);
 
   const animatedStyle = {
-    opacity: progress.interpolate({ inputRange: [0, 0.18, 0.82, 1], outputRange: [0, 1, 1, 0] }),
+    opacity: progress.interpolate({ inputRange: [0, 0.12, 0.22, 1], outputRange: [0, 0, 1, 1] }),
     transform: [
-      { translateY: progress.interpolate({ inputRange: [0, 1], outputRange: [30, -85] }) },
-      { scale: progress.interpolate({ inputRange: [0, 0.2, 1], outputRange: [0.5, 1, 0.9] }) },
-      { rotate: progress.interpolate({ inputRange: [0, 0.5, 1], outputRange: ['-12deg', '8deg', '-5deg'] }) },
+      { translateY: progress.interpolate({ inputRange: [0, 0.82, 1, 1.08], outputRange: [-125, 0, -5, 0] }) },
+      { scale: progress.interpolate({ inputRange: [0, 0.82, 1, 1.08], outputRange: [0.35, 1, 1.18, 1] }) },
+      { rotate: progress.interpolate({ inputRange: [0, 0.82, 1, 1.08], outputRange: ['-24deg', '0deg', '12deg', '-6deg'] }) },
     ],
   };
 
-  return <Animated.Text style={[styles.crop, styles[styleName], animatedStyle]}>{emoji}</Animated.Text>;
+  return <Animated.Text style={[styles.produce, styles[styleName], animatedStyle]}>{emoji}</Animated.Text>;
+}
+
+function FallingWatermelon() {
+  const fall = useRef(new Animated.Value(0)).current;
+  const split = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const animation = Animated.loop(
+      Animated.sequence([
+        Animated.delay(1600),
+        Animated.timing(opacity, { toValue: 1, duration: 120, useNativeDriver: true }),
+        Animated.timing(fall, { toValue: 0.82, duration: 900, easing: Easing.in(Easing.quad), useNativeDriver: true }),
+        Animated.spring(fall, { toValue: 1.08, useNativeDriver: true, speed: 11, bounciness: 12 }),
+        Animated.spring(fall, { toValue: 1, useNativeDriver: true, speed: 16, bounciness: 6 }),
+        Animated.timing(split, { toValue: 1, duration: 220, useNativeDriver: true }),
+        Animated.delay(650),
+        Animated.timing(opacity, { toValue: 0, duration: 250, useNativeDriver: true }),
+        Animated.parallel([
+          Animated.timing(fall, { toValue: 0, duration: 1, useNativeDriver: true }),
+          Animated.timing(split, { toValue: 0, duration: 1, useNativeDriver: true }),
+        ]),
+      ]),
+    );
+    animation.start();
+    return () => animation.stop();
+  }, [fall, opacity, split]);
+
+  const wholeStyle = {
+    opacity: opacity.interpolate({ inputRange: [0, 1], outputRange: [0, 1] }),
+    transform: [
+      { translateY: fall.interpolate({ inputRange: [0, 0.82, 1, 1.08], outputRange: [-120, 0, -6, 0] }) },
+      { rotate: fall.interpolate({ inputRange: [0, 0.82, 1, 1.08], outputRange: ['-20deg', '0deg', '10deg', '-5deg'] }) },
+      { scale: fall.interpolate({ inputRange: [0, 0.82, 1, 1.08], outputRange: [0.35, 1, 1.12, 1] }) },
+    ],
+  };
+  const cutOpacity = split.interpolate({ inputRange: [0, 0.25, 1], outputRange: [0, 0, 1] });
+  const leftHalfStyle = {
+    opacity: Animated.multiply(opacity, cutOpacity),
+    transform: [{ translateX: split.interpolate({ inputRange: [0, 1], outputRange: [0, -20] }) }],
+  };
+  const rightHalfStyle = {
+    opacity: Animated.multiply(opacity, cutOpacity),
+    transform: [{ translateX: split.interpolate({ inputRange: [0, 1], outputRange: [0, 20] }) }],
+  };
+
+  return (
+    <View style={styles.watermelonPosition}>
+      <Animated.View style={[styles.watermelon, wholeStyle]}>
+        <View style={styles.watermelonStripeOne} />
+        <View style={styles.watermelonStripeTwo} />
+        <View style={styles.watermelonStripeThree} />
+      </Animated.View>
+      <Animated.Text style={[styles.watermelonHalfLeft, leftHalfStyle]}>🍉</Animated.Text>
+      <Animated.Text style={[styles.watermelonHalfRight, rightHalfStyle]}>🍉</Animated.Text>
+    </View>
+  );
 }
 
 export default function WelcomeScreen() {
-  const farmerProgress = useRef(new Animated.Value(0)).current;
-  const pulseProgress = useRef(new Animated.Value(0)).current;
+  const [fontsLoaded] = useFonts({
+    VintageDisplay: require('@expo-google-fonts/abril-fatface/400Regular/AbrilFatface_400Regular.ttf'),
+    DapperItalic: require('@expo-google-fonts/cormorant-garamond/600SemiBold_Italic/CormorantGaramond_600SemiBold_Italic.ttf'),
+  });
   const loadingProgress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    const farmerAnimation = Animated.loop(
-      Animated.sequence([
-        Animated.timing(farmerProgress, { toValue: 1, duration: 900, useNativeDriver: true }),
-        Animated.timing(farmerProgress, { toValue: 0, duration: 900, useNativeDriver: true }),
-      ]),
-    );
-    farmerAnimation.start();
-    const pulseAnimation = Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseProgress, { toValue: 1, duration: 1600, useNativeDriver: true }),
-        Animated.timing(pulseProgress, { toValue: 0, duration: 1600, useNativeDriver: true }),
-      ]),
-    );
     const loadingAnimation = Animated.loop(
       Animated.timing(loadingProgress, { toValue: 1, duration: 1800, useNativeDriver: false }),
     );
-    pulseAnimation.start();
     loadingAnimation.start();
     return () => {
-      farmerAnimation.stop();
-      pulseAnimation.stop();
       loadingAnimation.stop();
     };
-  }, [farmerProgress, pulseProgress, loadingProgress]);
+  }, [loadingProgress]);
 
   return (
     <View style={styles.container}>
       <View style={styles.topGlow} />
-      <Animated.View
-        style={[
-          styles.halo,
-          {
-            opacity: pulseProgress.interpolate({ inputRange: [0, 1], outputRange: [0.35, 0.65] }),
-            transform: [{ scale: pulseProgress.interpolate({ inputRange: [0, 1], outputRange: [0.88, 1.12] }) }],
-          },
-        ]}
-      />
-      <Animated.Text
-        style={[
-          styles.farmer,
-          {
-            transform: [
-              { translateY: farmerProgress.interpolate({ inputRange: [0, 1], outputRange: [0, -12] }) },
-              { rotate: farmerProgress.interpolate({ inputRange: [0, 0.5, 1], outputRange: ['-3deg', '3deg', '-3deg'] }) },
-            ],
-          },
-        ]}
-      >
-        👨‍🌾
-      </Animated.Text>
-      {crops.map((crop) => <FloatingCrop key={crop.emoji} {...crop} />)}
+      <View style={styles.farmerFrame}>
+        <Image
+          source={require('../assets/WhatsApp Image 2026-10-10 at 2.38.18 PM.jpeg')}
+          style={styles.farmerImage}
+          resizeMode="contain"
+        />
+      </View>
+      {produce.map((item) => <FallingProduce key={item.emoji} {...item} />)}
+      <FallingWatermelon />
       <View style={styles.brandBlock}>
-        <Text style={styles.title}>SmartRaitha</Text>
-        <Text style={styles.subtitle}>Grow wiser. Sell better.</Text>
+        <Text style={[styles.title, fontsLoaded && styles.vintageTitle]}>SmartRaitha</Text>
+        <Text style={[styles.subtitle, fontsLoaded && styles.dapperTagline]}>
+          Every cost counted.{ '\n' }Every return considered.
+        </Text>
         <View style={styles.loadingTrack}>
           <Animated.View
             style={[
@@ -106,7 +149,6 @@ export default function WelcomeScreen() {
           />
         </View>
       </View>
-      <View style={styles.ground} />
     </View>
   );
 }
@@ -119,23 +161,42 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   topGlow: { position: 'absolute', top: -90, width: 280, height: 220, borderRadius: 140, backgroundColor: '#4D9951', opacity: 0.45 },
-  halo: { position: 'absolute', top: '15%', width: 150, height: 150, borderRadius: 75, borderWidth: 2, borderColor: '#A9D8A9', backgroundColor: '#4A934E' },
+  farmerFrame: {
+    position: 'absolute',
+    top: '15%',
+    width: 286,
+    height: 286,
+    borderRadius: 30,
+    backgroundColor: colors.primary,
+    overflow: 'hidden',
+  },
+  farmerImage: { width: '100%', height: '100%' },
   title: {
     color: colors.surface,
-    fontSize: 36,
-    fontWeight: '800',
-    letterSpacing: 0.3,
+    fontSize: 44,
+    fontWeight: '700',
+    letterSpacing: 0,
   },
-  brandBlock: { position: 'absolute', top: '63%', alignItems: 'center' },
-  subtitle: { color: '#D7EED8', fontSize: 14, marginTop: 6, letterSpacing: 0.4 },
-  loadingTrack: { width: 104, height: 4, borderRadius: 2, backgroundColor: '#4A934E', marginTop: 20, overflow: 'hidden' },
+  vintageTitle: { fontFamily: 'VintageDisplay' },
+  brandBlock: { position: 'absolute', top: '61%', alignItems: 'center' },
+  subtitle: { color: '#D7EED8', fontSize: 21, marginTop: 5, lineHeight: 28, textAlign: 'center' },
+  dapperTagline: { fontFamily: 'DapperItalic', fontWeight: '600' },
+  loadingTrack: { width: 104, height: 4, borderRadius: 2, backgroundColor: '#4A934E', marginTop: 15, overflow: 'hidden' },
   loadingFill: { height: '100%', borderRadius: 2, backgroundColor: '#D7EED8' },
-  ground: { position: 'absolute', bottom: '13%', width: '62%', height: 2, backgroundColor: '#8BC58D', opacity: 0.6 },
-  farmer: { position: 'absolute', top: '20%', fontSize: 78 },
-  crop: { position: 'absolute', fontSize: 34 },
-  cropOne: { left: '16%', top: '46%' },
-  cropTwo: { left: '30%', top: '35%' },
-  cropThree: { right: '17%', top: '44%' },
-  cropFour: { right: '30%', top: '31%' },
-  cropFive: { left: '48%', top: '56%' },
+  produce: { position: 'absolute', fontSize: 34 },
+  produceOne: { left: '14%', top: '34%' },
+  produceTwo: { left: '31%', top: '42%' },
+  produceThree: { right: '14%', top: '35%' },
+  produceFour: { right: '29%', top: '47%' },
+  produceFive: { left: '48%', top: '31%' },
+  produceSix: { left: '5%', top: '50%' },
+  produceSeven: { right: '6%', top: '53%' },
+  produceEight: { right: '32%', top: '29%' },
+  watermelonPosition: { position: 'absolute', left: '43%', top: '48%', width: 66, height: 66 },
+  watermelon: { position: 'absolute', left: 6, top: 6, width: 54, height: 54, borderRadius: 27, backgroundColor: '#42A84B', overflow: 'hidden', borderWidth: 2, borderColor: '#276B32' },
+  watermelonStripeOne: { position: 'absolute', left: 12, top: -8, width: 8, height: 70, borderRadius: 4, backgroundColor: '#28763A', transform: [{ rotate: '22deg' }] },
+  watermelonStripeTwo: { position: 'absolute', left: 27, top: -8, width: 8, height: 70, borderRadius: 4, backgroundColor: '#28763A', transform: [{ rotate: '22deg' }] },
+  watermelonStripeThree: { position: 'absolute', left: 42, top: -8, width: 8, height: 70, borderRadius: 4, backgroundColor: '#28763A', transform: [{ rotate: '22deg' }] },
+  watermelonHalfLeft: { position: 'absolute', left: -3, top: 5, fontSize: 38 },
+  watermelonHalfRight: { position: 'absolute', right: -3, top: 5, fontSize: 38 },
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Animated, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
 import { colors } from '../constants/colors';
@@ -7,20 +7,55 @@ import { spacing } from '../constants/spacing';
 import { useLanguage } from '../context/LanguageContext';
 import assistantService from '../services/assistantService';
 import TopHeader from '../components/TopHeader';
+import { useLocation } from '../hooks/useLocation';
 
 export default function AssistantScreen({ navigation }) {
   const { language, t } = useLanguage();
+  const { location } = useLocation();
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([{ role: 'assistant', content: t('assistantIntro') }]);
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [speakingMessageIndex, setSpeakingMessageIndex] = useState(null);
+  const glowProgress = React.useRef(new Animated.Value(0)).current;
+  const isSpeaking = speakingMessageIndex !== null;
 
   const speechLanguage = { en: 'en-IN', kn: 'kn-IN', hi: 'hi-IN', te: 'te-IN' }[language] || 'en-IN';
 
-  function speakReply(text) {
+  function speakReply(text, index) {
+    if (speakingMessageIndex === index) {
+      Speech.stop();
+      setSpeakingMessageIndex(null);
+      return;
+    }
     Speech.stop();
-    Speech.speak(text, { language: speechLanguage, rate: 0.9, pitch: 1.0 });
+    setSpeakingMessageIndex(index);
+    Speech.speak(text, {
+      language: speechLanguage,
+      rate: 0.9,
+      pitch: 1.0,
+      onStart: () => setSpeakingMessageIndex(index),
+      onDone: () => setSpeakingMessageIndex(null),
+      onStopped: () => setSpeakingMessageIndex(null),
+      onError: () => setSpeakingMessageIndex(null),
+    });
   }
+
+  useEffect(() => {
+    if (!isSpeaking) {
+      glowProgress.stopAnimation();
+      glowProgress.setValue(0);
+      return undefined;
+    }
+
+    const glowAnimation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(glowProgress, { toValue: 1, duration: 650, useNativeDriver: true }),
+        Animated.timing(glowProgress, { toValue: 0, duration: 650, useNativeDriver: true }),
+      ]),
+    );
+    glowAnimation.start();
+    return () => glowAnimation.stop();
+  }, [glowProgress, isSpeaking]);
 
   useEffect(() => () => Speech.stop(), []);
 
@@ -33,13 +68,11 @@ export default function AssistantScreen({ navigation }) {
     setMessage('');
     setLoading(true);
     try {
-      const response = await assistantService.askAssistant(trimmedMessage, language, nextMessages);
+      const response = await assistantService.askAssistant(trimmedMessage, language, nextMessages, location);
       setMessages((current) => [...current, { role: 'assistant', content: response.reply }]);
-      if (voiceEnabled) speakReply(response.reply);
     } catch (error) {
       const errorMessage = error.message || t('assistantUnavailable');
       setMessages((current) => [...current, { role: 'assistant', content: errorMessage }]);
-      if (voiceEnabled) speakReply(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -51,21 +84,42 @@ export default function AssistantScreen({ navigation }) {
       <KeyboardAvoidingView style={styles.chat} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <View style={styles.titleRow}>
-          <View>
-            <Text style={styles.title}>{t('assistant')}</Text>
-            <Text style={styles.subtitle}>{t('assistantIntro')}</Text>
+          <View style={styles.identity}>
+            <View style={styles.avatarWrap}>
+              {isSpeaking && (
+                <Animated.View
+                  style={[
+                    styles.avatarGlow,
+                    {
+                      opacity: glowProgress.interpolate({ inputRange: [0, 1], outputRange: [0.45, 1] }),
+                      transform: [{ scale: glowProgress.interpolate({ inputRange: [0, 1], outputRange: [1, 1.2] }) }],
+                    },
+                  ]}
+                />
+              )}
+              <Image source={require('../assets/littleleaf-avatar.png')} style={styles.avatar} />
+            </View>
+            <View style={styles.identityCopy}>
+              <Text style={styles.title}>LittleLeaf</Text>
+              <Text style={styles.greeting}>Hiiii, fren! 💚🍃</Text>
+            </View>
           </View>
-          <TouchableOpacity style={[styles.voiceButton, voiceEnabled && styles.voiceButtonActive]} onPress={() => setVoiceEnabled((enabled) => !enabled)} accessibilityLabel={voiceEnabled ? t('voiceOff') : t('voiceOn')}>
-            <Ionicons name={voiceEnabled ? 'volume-high' : 'volume-mute'} size={20} color={voiceEnabled ? colors.surface : colors.textSecondary} />
-          </TouchableOpacity>
         </View>
+        <Text style={styles.subtitle}>Your tiny corner of comfort. How can I help you today?</Text>
         {messages.map((item, index) => (
           <View key={`${item.role}-${index}`} style={[styles.bubble, item.role === 'user' ? styles.userBubble : styles.assistantBubble]}>
             <Text style={[styles.bubbleText, item.role === 'user' && styles.userText]}>{item.content}</Text>
-            {item.role === 'assistant' && <TouchableOpacity onPress={() => speakReply(item.content)} style={styles.speakButton}>
-              <Ionicons name="volume-medium-outline" size={16} color={colors.primary} />
-              <Text style={styles.speakText}>{t('speak')}</Text>
-            </TouchableOpacity>}
+            {item.role === 'assistant' && (
+              <TouchableOpacity
+                onPress={() => speakReply(item.content, index)}
+                style={styles.speakButton}
+                accessibilityRole="button"
+                accessibilityLabel={speakingMessageIndex === index ? t('voiceOff') : t('speak')}
+              >
+                <Ionicons name={speakingMessageIndex === index ? 'volume-mute' : 'volume-high'} size={17} color={colors.primary} />
+                <Text style={styles.speakText}>{speakingMessageIndex === index ? t('voiceOff') : t('speak')}</Text>
+              </TouchableOpacity>
+            )}
           </View>
         ))}
         {loading && <Text style={styles.loading}>...</Text>}
@@ -92,11 +146,15 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   chat: { flex: 1 },
   content: { padding: spacing.large, paddingBottom: spacing.large },
-  title: { fontSize: 22, fontWeight: '800', color: colors.text, marginBottom: spacing.medium },
-  titleRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: spacing.medium },
-  subtitle: { color: colors.textSecondary, fontSize: 12, maxWidth: 250, lineHeight: 17 },
-  voiceButton: { width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background, borderWidth: 1, borderColor: colors.border },
-  voiceButtonActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+  title: { fontSize: 22, fontWeight: '800', color: colors.text },
+  titleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.small },
+  identity: { flexDirection: 'row', alignItems: 'center', flex: 1 },
+  avatarWrap: { width: 64, height: 64, alignItems: 'center', justifyContent: 'center' },
+  avatar: { width: 54, height: 54, borderRadius: 27, backgroundColor: colors.surface },
+  avatarGlow: { position: 'absolute', width: 60, height: 60, borderRadius: 30, borderWidth: 3, borderColor: '#57E36A' },
+  identityCopy: { marginLeft: spacing.medium },
+  greeting: { color: colors.success, fontSize: 15, fontWeight: '700', marginTop: 2 },
+  subtitle: { color: colors.textSecondary, fontSize: 14, maxWidth: 310, lineHeight: 20, marginBottom: spacing.large },
   bubble: { maxWidth: '88%', borderRadius: 14, padding: spacing.medium, marginBottom: spacing.small },
   assistantBubble: { alignSelf: 'flex-start', backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
   userBubble: { alignSelf: 'flex-end', backgroundColor: colors.primary },

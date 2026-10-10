@@ -29,7 +29,7 @@ function HomeStack() {
       <Stack.Screen name="HomeMain" component={HomeScreen} options={{ title: 'SmartRaitha' }} />
       <Stack.Screen name="Markets" component={MarketsScreen} options={{ title: t('markets') }} />
       <Stack.Screen name="ProfitCalculator" component={ProfitCalculatorScreen} options={{ title: t('profitCalculator') }} />
-      <Stack.Screen name="Assistant" component={AssistantScreen} options={{ title: t('assistant') }} />
+      <Stack.Screen name="Assistant" component={AssistantScreen} options={{ title: t('assistant'), headerShown: false }} />
     </Stack.Navigator>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
 import InputField from '../components/InputField';
@@ -10,7 +10,7 @@ import { validateName, validateEmail, validatePassword } from '../utils/validati
 import { useLanguage } from '../context/LanguageContext';
 
 export default function SignupScreen({ navigation }) {
-  const { signup, verifyEmailCode } = useAuth();
+  const { signup, verifySignupCode } = useAuth();
   const { t } = useLanguage();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -57,14 +57,9 @@ export default function SignupScreen({ navigation }) {
 
     setLoading(true);
     try {
-      const result = await signup(normalizedName, normalizedEmail, password);
+      await signup(normalizedName, normalizedEmail, password);
       setVerificationSent(true);
-      setCode(result.developmentVerificationCode || '');
-      setSuccess(result.developmentVerificationCode
-        ? 'Development verification code is ready below. Enter it to activate your account.'
-        : 'Verification code sent. Enter it below to activate your account.');
-      setPassword('');
-      setConfirmPassword('');
+      setSuccess(`We sent a verification code to ${normalizedEmail}. Enter it below.`);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -77,14 +72,13 @@ export default function SignupScreen({ navigation }) {
       setError('Enter the 6-digit verification code.');
       return;
     }
+
     setLoading(true);
     setError('');
     try {
-      await verifyEmailCode(email, code);
-      navigation.navigate('Login', { email: email.trim().toLowerCase() });
+      await verifySignupCode(email, code);
     } catch (e) {
       setError(e.message);
-    } finally {
       setLoading(false);
     }
   }
@@ -105,15 +99,21 @@ export default function SignupScreen({ navigation }) {
         {success ? <Text style={styles.success}>{success}</Text> : null}
 
         <InputField label={t('name')} value={name} onChangeText={setName} placeholder="Your name" />
-        <InputField label={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="you@example.com" />
-        <InputField label={t('password')} value={password} onChangeText={setPassword} secureTextEntry placeholder="********" />
-        <InputField label={t('confirmPassword')} value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry placeholder="********" />
+        {!verificationSent && (
+          <>
+            <InputField label={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="you@example.com" />
+            <InputField label={t('password')} value={password} onChangeText={setPassword} secureTextEntry placeholder="********" />
+            <InputField label={t('confirmPassword')} value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry placeholder="********" />
+          </>
+        )}
 
-        <Button title={t('signUp')} onPress={handleSignup} loading={loading} />
-        {verificationSent && <>
-          <InputField label="Email verification code" value={code} onChangeText={setCode} keyboardType="number-pad" placeholder="6-digit code" />
-          <Button title="Verify email" onPress={handleVerifyCode} loading={loading} />
-        </>}
+        {verificationSent && (
+          <>
+            <InputField label="Email verification code" value={code} onChangeText={setCode} keyboardType="number-pad" placeholder="6-digit code" />
+            <Button title="Verify and continue" onPress={handleVerifyCode} loading={loading} />
+          </>
+        )}
+        {!verificationSent && <Button title={t('signUp')} onPress={handleSignup} loading={loading} />}
 
         <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.linkWrap}>
           <Text style={styles.link}>{t('hasAccount')}</Text>

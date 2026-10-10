@@ -17,6 +17,9 @@ Copy `.env.example` to `.env` and fill in your real Neon connection string and J
 cp .env.example .env
 ```
 
+Signup verification codes are sent to the email address entered during registration using
+the SMTP settings in `.env`.
+
 ## 3. Create the database tables
 
 ```bash
@@ -100,9 +103,11 @@ server.js       App entry point
 
 | Method | Endpoint | Auth required | Description |
 |---|---|---|---|
-| POST | /api/auth/signup | No | Create account |
-| POST | /api/auth/login | No | Log in, get JWT |
-| POST | /api/auth/verify-code | No | Verify the six-digit signup email code |
+| POST | /api/auth/signup | No | Create account and send a six-digit code to the signup email |
+| POST | /api/auth/verify-code | No | Verify signup email code and sign the user in |
+| POST | /api/auth/password-reset/request | No | Send a password reset code to a verified account email |
+| POST | /api/auth/password-reset/confirm | No | Verify reset code, change password, and send confirmation email |
+| POST | /api/auth/login | No | Log in with email and password; get JWT |
 | POST | /api/auth/google | No | Sign in or create an account with Google |
 | GET | /api/auth/me | Yes | Get current user |
 | GET | /api/crops | No | List all crops |

@@ -27,8 +27,9 @@ export function AuthProvider({ children }) {
     setUser(loggedInUser);
   }
 
-  async function verifyEmailCode(email, code) {
-    return authService.verifyEmailCode(email, code);
+  async function verifySignupCode(identifier, code, method) {
+    const verifiedUser = await authService.verifySignupCode(identifier, code, method);
+    setUser(verifiedUser);
   }
 
   async function googleLogin(idToken) {
@@ -52,7 +53,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, verifyEmailCode, googleLogin, logout, updateProfile }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, verifySignupCode, googleLogin, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

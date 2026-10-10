@@ -17,7 +17,7 @@ const translations = {
     profile: 'Profile',
     markets: 'Markets',
     profitCalculator: 'Profit Calculator',
-    assistant: 'Raitha', assistantHelp: 'Ask Raitha for help', voiceOn: 'Voice on', voiceOff: 'Voice off', speak: 'Speak reply',
+    assistant: 'LittleLeaf', assistantHelp: 'Ask LittleLeaf for help', voiceOn: 'Voice on', voiceOff: 'Voice off', speak: 'Speak reply',
     whatSelling: 'What are you selling?',
     recommendedMarket: 'Recommended market',
     compareMarkets: 'Compare Markets',
@@ -54,7 +54,7 @@ const translations = {
   },
   kn: {
     language: 'ಭಾಷೆ', home: 'ಮುಖಪುಟ', profile: 'ಪ್ರೊಫೈಲ್', markets: 'ಮಾರುಕಟ್ಟೆಗಳು',
-    profitCalculator: 'ಲಾಭ ಲೆಕ್ಕಾಚಾರ', assistant: 'ರೈತ', assistantHelp: 'ಸಹಾಯಕ್ಕಾಗಿ ರೈತರನ್ನು ಕೇಳಿ', voiceOn: 'ಧ್ವನಿ ಆನ್', voiceOff: 'ಧ್ವನಿ ಆಫ್', speak: 'ಉತ್ತರವನ್ನು ಕೇಳಿ', whatSelling: 'ನೀವು ಏನು ಮಾರಾಟ ಮಾಡುತ್ತಿದ್ದೀರಿ?',
+    profitCalculator: 'ಲಾಭ ಲೆಕ್ಕಾಚಾರ', assistant: 'LittleLeaf', assistantHelp: 'LittleLeaf ನಿಂದ ಸಹಾಯ ಕೇಳಿ', voiceOn: 'ಧ್ವನಿ ಆನ್', voiceOff: 'ಧ್ವನಿ ಆಫ್', speak: 'ಉತ್ತರವನ್ನು ಕೇಳಿ', whatSelling: 'ನೀವು ಏನು ಮಾರಾಟ ಮಾಡುತ್ತಿದ್ದೀರಿ?',
     recommendedMarket: 'ಶಿಫಾರಸು ಮಾಡಿದ ಮಾರುಕಟ್ಟೆ', compareMarkets: 'ಮಾರುಕಟ್ಟೆಗಳನ್ನು ಹೋಲಿಸಿ', calculateProfit: 'ಲಾಭ ಲೆಕ್ಕಿಸಿ',
     selectMandi: 'ಮಂಡಿ ಆಯ್ಕೆಮಾಡಿ', quantityKg: 'ಪ್ರಮಾಣ (ಕೆಜಿ)', loadingMarkets: 'ಮಾರುಕಟ್ಟೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...',
     fetchingPrices: 'ಮಂಡಿ ಬೆಲೆಗಳನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ...', noPriceData: 'ಈ ಬೆಳೆಗೆ ಬೆಲೆ ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ.',
@@ -72,7 +72,7 @@ const translations = {
   },
   hi: {
     language: 'भाषा', home: 'होम', profile: 'प्रोफ़ाइल', markets: 'बाज़ार', profitCalculator: 'लाभ कैलकुलेटर',
-    assistant: 'राइथा', assistantHelp: 'सहायता के लिए राइथा से पूछें', voiceOn: 'आवाज़ चालू', voiceOff: 'आवाज़ बंद', speak: 'उत्तर सुनें', whatSelling: 'आप क्या बेच रहे हैं?', recommendedMarket: 'अनुशंसित बाज़ार',
+    assistant: 'LittleLeaf', assistantHelp: 'LittleLeaf से सहायता पूछें', voiceOn: 'आवाज़ चालू', voiceOff: 'आवाज़ बंद', speak: 'उत्तर सुनें', whatSelling: 'आप क्या बेच रहे हैं?', recommendedMarket: 'अनुशंसित बाज़ार',
     compareMarkets: 'बाज़ारों की तुलना करें', calculateProfit: 'लाभ की गणना करें', selectMandi: 'मंडी चुनें',
     quantityKg: 'मात्रा (किलो)', loadingMarkets: 'बाज़ार लोड हो रहे हैं...', fetchingPrices: 'मंडी की कीमतें प्राप्त हो रही हैं...',
     noPriceData: 'इस फसल के लिए कीमत की जानकारी उपलब्ध नहीं है.', notEnoughData: 'सिफारिश के लिए अभी पर्याप्त डेटा नहीं है.',
@@ -89,7 +89,7 @@ const translations = {
   },
   te: {
     language: 'భాష', home: 'హోమ్', profile: 'ప్రొఫైల్', markets: 'మార్కెట్లు', profitCalculator: 'లాభం లెక్కింపు',
-    assistant: 'రైత', assistantHelp: 'సహాయం కోసం రైతను అడగండి', voiceOn: 'వాయిస్ ఆన్', voiceOff: 'వాయిస్ ఆఫ్', speak: 'సమాధానం వినండి', whatSelling: 'మీరు ఏమి అమ్ముతున్నారు?', recommendedMarket: 'సిఫార్సు చేసిన మార్కెట్',
+    assistant: 'LittleLeaf', assistantHelp: 'సహాయం కోసం LittleLeaf ను అడగండి', voiceOn: 'వాయిస్ ఆన్', voiceOff: 'వాయిస్ ఆఫ్', speak: 'సమాధానం వినండి', whatSelling: 'మీరు ఏమి అమ్ముతున్నారు?', recommendedMarket: 'సిఫార్సు చేసిన మార్కెట్',
     compareMarkets: 'మార్కెట్లను పోల్చండి', calculateProfit: 'లాభాన్ని లెక్కించండి', selectMandi: 'మండిని ఎంచుకోండి',
     quantityKg: 'పరిమాణం (కిలోలు)', loadingMarkets: 'మార్కెట్లు లోడ్ అవుతున్నాయి...', fetchingPrices: 'మండి ధరలు పొందుతున్నాము...',
     noPriceData: 'ఈ పంటకు ధర సమాచారం అందుబాటులో లేదు.', notEnoughData: 'సిఫార్సు చేయడానికి తగినంత సమాచారం లేదు.',

@@ -15,10 +15,15 @@ export default function LoginScreen({ navigation, route }) {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     if (route.params?.email) setEmail(route.params.email);
-  }, [route.params?.email]);
+    if (route.params?.signupComplete) setSuccess('Account created. Log in with your email and password.');
+    if (route.params?.passwordResetComplete) {
+      setSuccess(route.params.resetMessage || 'Password changed successfully. Log in with your new password.');
+    }
+  }, [route.params?.email, route.params?.passwordResetComplete, route.params?.resetMessage, route.params?.signupComplete]);
 
   async function handleLogin() {
     setError('');
@@ -50,11 +55,16 @@ export default function LoginScreen({ navigation, route }) {
         <Text style={styles.subtitle}>{t('loginSubtitle')}</Text>
 
         <ErrorMessage message={error} />
+        {success ? <Text style={styles.success}>{success}</Text> : null}
 
         <InputField label={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="you@example.com" />
         <InputField label={t('password')} value={password} onChangeText={setPassword} secureTextEntry placeholder="••••••••" />
 
         <Button title={t('logIn')} onPress={handleLogin} loading={loading} />
+
+        <TouchableOpacity onPress={() => navigation.navigate('ResetPassword', { email: email.trim().toLowerCase() })} style={styles.forgotWrap}>
+          <Text style={styles.link}>Forgot password?</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Signup')} style={styles.linkWrap}>
           <Text style={styles.link}>{t('noAccount')}</Text>
@@ -70,5 +80,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 28, fontWeight: '800', color: colors.primary, marginBottom: spacing.small / 2 },
   subtitle: { fontSize: 14, color: colors.textSecondary, marginBottom: spacing.large },
   linkWrap: { marginTop: spacing.large, alignItems: 'center' },
+  forgotWrap: { marginTop: spacing.medium, alignItems: 'center' },
   link: { color: colors.primary, fontSize: 14 },
+  success: { color: '#287A45', fontSize: 13, marginBottom: spacing.medium },
 });

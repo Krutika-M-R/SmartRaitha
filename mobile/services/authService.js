@@ -9,10 +9,26 @@ async function signup(name, email, password) {
   return data;
 }
 
-async function verifyEmailCode(email, code) {
-  return request('/auth/verify-code', {
+async function verifySignupCode(email, code) {
+  const data = await request('/auth/verify-code', {
     method: 'POST',
     body: { email: email.trim().toLowerCase(), code: code.trim() },
+  });
+  await AsyncStorage.setItem('token', data.token);
+  return data.user;
+}
+
+async function requestPasswordReset(email) {
+  return request('/auth/password-reset/request', {
+    method: 'POST',
+    body: { email: email.trim().toLowerCase() },
+  });
+}
+
+async function confirmPasswordReset(email, code, password) {
+  return request('/auth/password-reset/confirm', {
+    method: 'POST',
+    body: { email: email.trim().toLowerCase(), code: code.trim(), password },
   });
 }
 
@@ -48,4 +64,4 @@ async function isLoggedIn() {
   return !!token;
 }
 
-export default { signup, verifyEmailCode, googleLogin, login, logout, getMe, updateProfile, isLoggedIn };
+export default { signup, verifySignupCode, requestPasswordReset, confirmPasswordReset, googleLogin, login, logout, getMe, updateProfile, isLoggedIn };
