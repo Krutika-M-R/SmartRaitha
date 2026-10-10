@@ -17,6 +17,11 @@ export default function HamburgerMenu({ navigation }) {
 
   function openRoute(route) {
     setVisible(false);
+    if (route === 'Home') {
+      const routeNames = navigation.getState()?.routeNames || [];
+      navigation.navigate(routeNames.includes('HomeMain') ? 'HomeMain' : 'Home');
+      return;
+    }
     navigation.navigate(route);
   }
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Animated, Image, View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Svg, { Defs, Path, Text as SvgText, TextPath } from 'react-native-svg';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
 import CropSelector from '../components/CropSelector';
@@ -149,13 +150,27 @@ export default function HomeScreen({ navigation }) {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Animated.View style={[styles.hero, popStyle(heroProgress)]}>
         <View style={styles.heroCopy}>
-          <Text style={styles.brand}>SmartRaitha</Text>
+          <Text style={styles.brand}>LittleLeaf</Text>
           <Text style={styles.greeting}>{getGreeting(t)}{user?.name ? `, ${user.name}` : ''}</Text>
-          <Text style={styles.heroSubtitle}>{t('whatSelling')}</Text>
         </View>
-        <View style={styles.farmerBadge}>
-          <Text style={styles.farmer}>👨‍🌾</Text>
-        </View>
+        <TouchableOpacity
+          style={styles.farmerBadge}
+          onPress={() => navigation.navigate('Assistant')}
+          accessibilityRole="button"
+          accessibilityLabel="Open LittleLeaf chatbot"
+        >
+          <View style={styles.farmerImageBadge}>
+            <Image source={require('../assets/littleleaf-avatar.png')} style={styles.farmerImage} resizeMode="contain" />
+          </View>
+          <Svg width={108} height={38} viewBox="0 0 108 38" style={styles.heroHelpArc}>
+            <Defs>
+              <Path id="homeHelpArc" d="M 5 2 Q 54 38 103 2" />
+            </Defs>
+            <SvgText fill="#F3F7EF" fontFamily="serif" fontSize={13} fontWeight="700" textAnchor="middle">
+              <TextPath href="#homeHelpArc" startOffset="50%">Any Help? 🌱</TextPath>
+            </SvgText>
+          </Svg>
+        </TouchableOpacity>
       </Animated.View>
 
       <ErrorMessage message={error || locationError} />
@@ -297,13 +312,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   heroCopy: { flex: 1, paddingTop: spacing.medium },
-  brand: { color: '#CDE8CF', fontSize: 13, fontWeight: '700', letterSpacing: 0.5, marginBottom: spacing.small },
+  brand: { color: '#CDE8CF', fontSize: 18, fontWeight: '800', marginBottom: spacing.small },
   greeting: { fontSize: 25, fontWeight: '800', color: colors.surface, lineHeight: 31 },
   heroSubtitle: { color: '#E5F2E5', fontSize: 14, marginTop: spacing.small, maxWidth: 190 },
-  farmerBadge: { width: 92, height: 92, borderRadius: 46, alignItems: 'center', justifyContent: 'center', backgroundColor: '#4A934E' },
-  farmer: { fontSize: 54 },
-  heroHelp: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: spacing.medium, paddingVertical: 8, borderRadius: 14, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.primary, shadowColor: '#173F1A', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.14, shadowRadius: 4, elevation: 3 },
-  heroHelpText: { color: colors.primary, fontSize: 12, fontWeight: '800' },
+  farmerBadge: { width: 108, minHeight: 116, alignItems: 'center', justifyContent: 'center' },
+  farmerImageBadge: { width: 76, height: 76, borderRadius: 38, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface, overflow: 'hidden' },
+  farmerImage: { width: '100%', height: '100%' },
+  heroHelpArc: { marginTop: -1, overflow: 'visible' },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.small },
   eyebrow: { color: colors.accent, fontSize: 11, fontWeight: '800', marginBottom: 2 },
   sectionTitle: { fontSize: 19, fontWeight: '800', color: colors.text, marginBottom: spacing.small },

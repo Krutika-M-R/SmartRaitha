@@ -15,10 +15,11 @@ const farmGuidanceController = require('../controllers/farmGuidanceController');
 
 // Auth
 router.post('/auth/signup', authController.signup);
-router.post('/auth/login', authController.login);
 router.post('/auth/verify-code', authController.verifyCode);
+router.post('/auth/password-reset/request', authController.requestPasswordReset);
+router.post('/auth/password-reset/confirm', authController.confirmPasswordReset);
+router.post('/auth/login', authController.login);
 router.post('/auth/google', authController.googleLogin);
-router.get('/auth/verify-email', authController.verifyEmail);
 router.get('/auth/me', requireAuth, authController.me);
 router.put('/auth/profile', requireAuth, authController.updateProfile);
 router.post('/assistant', requireAuth, assistantController.askAssistant);
