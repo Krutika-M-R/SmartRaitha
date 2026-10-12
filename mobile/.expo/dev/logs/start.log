@@ -1,0 +1,1196 @@
+{"_e":"root:init","_t":1787030181902,"format":"v0-jsonl","version":"57.0.16"}
+{"_e":"env:mode","_t":1787030181903,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1787030181906,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1787030188312,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1787030188675,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1787030190358,"plugins":[]}
+{"_e":"metro:instantiate","_t":1787030201390,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:client_log","_t":1787030213706,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030234780,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030239653,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030259096,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030274137,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030365237,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030434688,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"root:init","_t":1787030472571,"format":"v0-jsonl","version":"57.0.16"}
+{"_e":"env:mode","_t":1787030472573,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1787030472579,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1787030473341,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1787030474062,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1787030474689,"plugins":[]}
+{"_e":"metro:instantiate","_t":1787030485319,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:client_log","_t":1787030545190,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030558016,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"root:init","_t":1787030660175,"format":"v0-jsonl","version":"57.0.16"}
+{"_e":"env:mode","_t":1787030660176,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1787030660179,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1787030660710,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1787030661403,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1787030661850,"plugins":[]}
+{"_e":"metro:instantiate","_t":1787030668242,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:client_log","_t":1787030699709,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030712274,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"root:init","_t":1787030939516,"format":"v0-jsonl","version":"57.0.16"}
+{"_e":"env:mode","_t":1787030939517,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1787030939521,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1787030940053,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1787030940750,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1787030941159,"plugins":[]}
+{"_e":"metro:instantiate","_t":1787030947468,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:client_log","_t":1787030950998,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030982744,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787030989704,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787031002243,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787031007665,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"metro:client_log","_t":1787031106328,"level":"error","data":["Project is incompatible with this version of Expo Go\n\nThis project requires a newer version of Expo Go.\n\nHow to fix this error:\nDownload the latest version of Expo Go from the Play Store."]}
+{"_e":"root:init","_t":1791524884438,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791524884439,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791524884442,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791524885066,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791524885743,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791524887149,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791524892732,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791524912608,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791524912609,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791524912616,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791524913630,"id":"1","progress":0.010000000000000002,"total":1,"current":1}
+{"_e":"metro:bundling:progress","_t":1791524913729,"id":"1","progress":0.010000000000000002,"total":3,"current":1}
+{"_e":"metro:bundling:progress","_t":1791524913850,"id":"1","progress":0.04000000000000001,"total":3,"current":2}
+{"_e":"metro:bundling:progress","_t":1791524913952,"id":"1","progress":0.1111111111111111,"total":12,"current":4}
+{"_e":"metro:bundling:progress","_t":1791524914412,"id":"1","progress":0.17361111111111113,"total":12,"current":5}
+{"_e":"metro:bundling:progress","_t":1791524914518,"id":"1","progress":0.28994082840236685,"total":13,"current":7}
+{"_e":"metro:bundling:progress","_t":1791524914724,"id":"1","progress":0.37869822485207105,"total":13,"current":8}
+{"_e":"metro:bundling:progress","_t":1791524914825,"id":"1","progress":0.37869822485207105,"total":112,"current":8}
+{"_e":"metro:bundling:progress","_t":1791524914961,"id":"1","progress":0.37869822485207105,"total":113,"current":11}
+{"_e":"metro:bundling:progress","_t":1791524915061,"id":"1","progress":0.37869822485207105,"total":113,"current":13}
+{"_e":"metro:bundling:progress","_t":1791524915171,"id":"1","progress":0.37869822485207105,"total":116,"current":13}
+{"_e":"metro:bundling:progress","_t":1791524915257,"id":"1","progress":0.37869822485207105,"total":116,"current":14}
+{"_e":"metro:bundling:progress","_t":1791524915359,"id":"1","progress":0.37869822485207105,"total":120,"current":15}
+{"_e":"metro:bundling:progress","_t":1791524915460,"id":"1","progress":0.37869822485207105,"total":128,"current":17}
+{"_e":"metro:bundling:progress","_t":1791524915573,"id":"1","progress":0.37869822485207105,"total":130,"current":20}
+{"_e":"metro:bundling:progress","_t":1791524915679,"id":"1","progress":0.37869822485207105,"total":135,"current":23}
+{"_e":"metro:bundling:progress","_t":1791524915785,"id":"1","progress":0.37869822485207105,"total":139,"current":26}
+{"_e":"metro:bundling:progress","_t":1791524915901,"id":"1","progress":0.37869822485207105,"total":149,"current":30}
+{"_e":"metro:bundling:progress","_t":1791524916029,"id":"1","progress":0.37869822485207105,"total":149,"current":31}
+{"_e":"metro:bundling:progress","_t":1791524916149,"id":"1","progress":0.37869822485207105,"total":153,"current":36}
+{"_e":"metro:bundling:progress","_t":1791524916251,"id":"1","progress":0.37869822485207105,"total":165,"current":38}
+{"_e":"metro:bundling:progress","_t":1791524916374,"id":"1","progress":0.37869822485207105,"total":167,"current":43}
+{"_e":"metro:bundling:progress","_t":1791524916478,"id":"1","progress":0.37869822485207105,"total":170,"current":47}
+{"_e":"metro:bundling:progress","_t":1791524916581,"id":"1","progress":0.37869822485207105,"total":176,"current":55}
+{"_e":"metro:bundling:progress","_t":1791524916682,"id":"1","progress":0.37869822485207105,"total":195,"current":67}
+{"_e":"metro:bundling:progress","_t":1791524916782,"id":"1","progress":0.37869822485207105,"total":203,"current":78}
+{"_e":"metro:bundling:progress","_t":1791524916882,"id":"1","progress":0.37869822485207105,"total":218,"current":88}
+{"_e":"metro:bundling:progress","_t":1791524916982,"id":"1","progress":0.37869822485207105,"total":227,"current":99}
+{"_e":"metro:bundling:progress","_t":1791524917087,"id":"1","progress":0.37869822485207105,"total":241,"current":117}
+{"_e":"metro:bundling:progress","_t":1791524917187,"id":"1","progress":0.37869822485207105,"total":250,"current":129}
+{"_e":"metro:bundling:progress","_t":1791524917294,"id":"1","progress":0.37869822485207105,"total":268,"current":139}
+{"_e":"metro:bundling:progress","_t":1791524917395,"id":"1","progress":0.37869822485207105,"total":290,"current":147}
+{"_e":"metro:bundling:progress","_t":1791524917495,"id":"1","progress":0.37869822485207105,"total":305,"current":154}
+{"_e":"metro:bundling:progress","_t":1791524917603,"id":"1","progress":0.37869822485207105,"total":310,"current":164}
+{"_e":"metro:bundling:progress","_t":1791524917703,"id":"1","progress":0.37869822485207105,"total":321,"current":174}
+{"_e":"metro:bundling:progress","_t":1791524917804,"id":"1","progress":0.37869822485207105,"total":349,"current":183}
+{"_e":"metro:bundling:progress","_t":1791524917904,"id":"1","progress":0.37869822485207105,"total":360,"current":191}
+{"_e":"metro:bundling:progress","_t":1791524918030,"id":"1","progress":0.37869822485207105,"total":361,"current":195}
+{"_e":"metro:bundling:progress","_t":1791524918137,"id":"1","progress":0.37869822485207105,"total":369,"current":209}
+{"_e":"metro:bundling:progress","_t":1791524918237,"id":"1","progress":0.37869822485207105,"total":386,"current":218}
+{"_e":"metro:bundling:progress","_t":1791524918341,"id":"1","progress":0.37869822485207105,"total":398,"current":230}
+{"_e":"metro:bundling:progress","_t":1791524918442,"id":"1","progress":0.37869822485207105,"total":402,"current":234}
+{"_e":"metro:bundling:progress","_t":1791524918542,"id":"1","progress":0.37869822485207105,"total":405,"current":239}
+{"_e":"metro:bundling:progress","_t":1791524918642,"id":"1","progress":0.37869822485207105,"total":406,"current":248}
+{"_e":"metro:bundling:progress","_t":1791524918749,"id":"1","progress":0.37869822485207105,"total":422,"current":258}
+{"_e":"metro:bundling:progress","_t":1791524918859,"id":"1","progress":0.3935786756852973,"total":424,"current":266}
+{"_e":"metro:bundling:progress","_t":1791524918970,"id":"1","progress":0.4025683709869204,"total":435,"current":276}
+{"_e":"metro:bundling:progress","_t":1791524919072,"id":"1","progress":0.4025683709869204,"total":473,"current":284}
+{"_e":"metro:bundling:progress","_t":1791524919192,"id":"1","progress":0.4025683709869204,"total":480,"current":287}
+{"_e":"metro:bundling:progress","_t":1791524919292,"id":"1","progress":0.4025683709869204,"total":497,"current":293}
+{"_e":"metro:bundling:progress","_t":1791524919397,"id":"1","progress":0.4025683709869204,"total":498,"current":301}
+{"_e":"metro:bundling:progress","_t":1791524919498,"id":"1","progress":0.4025683709869204,"total":508,"current":314}
+{"_e":"metro:bundling:progress","_t":1791524919604,"id":"1","progress":0.4029273986816406,"total":512,"current":325}
+{"_e":"metro:bundling:progress","_t":1791524919706,"id":"1","progress":0.4116742958334725,"total":519,"current":333}
+{"_e":"metro:bundling:progress","_t":1791524919810,"id":"1","progress":0.4283840687294844,"total":521,"current":341}
+{"_e":"metro:bundling:progress","_t":1791524919910,"id":"1","progress":0.4503787824025214,"total":526,"current":353}
+{"_e":"metro:bundling:progress","_t":1791524920018,"id":"1","progress":0.4855281404165825,"total":531,"current":370}
+{"_e":"metro:bundling:progress","_t":1791524920122,"id":"1","progress":0.4968659901633784,"total":532,"current":375}
+{"_e":"metro:bundling:progress","_t":1791524920237,"id":"1","progress":0.5182917349765391,"total":532,"current":383}
+{"_e":"metro:bundling:progress","_t":1791524920338,"id":"1","progress":0.5267076464691468,"total":536,"current":389}
+{"_e":"metro:bundling:progress","_t":1791524920475,"id":"1","progress":0.5430810035642682,"total":536,"current":395}
+{"_e":"metro:bundling:progress","_t":1791524920577,"id":"1","progress":0.5590267140757468,"total":539,"current":403}
+{"_e":"metro:bundling:progress","_t":1791524920677,"id":"1","progress":0.5708641975308641,"total":540,"current":408}
+{"_e":"metro:bundling:progress","_t":1791524920777,"id":"1","progress":0.5708641975308641,"total":556,"current":417}
+{"_e":"metro:bundling:progress","_t":1791524920878,"id":"1","progress":0.5708641975308641,"total":594,"current":430}
+{"_e":"metro:bundling:progress","_t":1791524920978,"id":"1","progress":0.5708641975308641,"total":596,"current":440}
+{"_e":"metro:bundling:progress","_t":1791524921078,"id":"1","progress":0.5708641975308641,"total":596,"current":448}
+{"_e":"metro:bundling:progress","_t":1791524921222,"id":"1","progress":0.5750694444444444,"total":600,"current":455}
+{"_e":"metro:bundling:progress","_t":1791524921242,"id":"1","progress":0.5776,"total":600,"current":456}
+{"_e":"metro:bundling:progress","_t":1791524921345,"id":"1","progress":0.5838787651350427,"total":602,"current":460}
+{"_e":"metro:bundling:progress","_t":1791524921445,"id":"1","progress":0.5838787651350427,"total":617,"current":469}
+{"_e":"metro:bundling:progress","_t":1791524921548,"id":"1","progress":0.5911462426152131,"total":623,"current":479}
+{"_e":"metro:bundling:progress","_t":1791524921647,"id":"1","progress":0.5911462426152131,"total":657,"current":488}
+{"_e":"metro:bundling:progress","_t":1791524921748,"id":"1","progress":0.5911462426152131,"total":662,"current":496}
+{"_e":"metro:bundling:progress","_t":1791524921854,"id":"1","progress":0.5911462426152131,"total":674,"current":505}
+{"_e":"metro:bundling:progress","_t":1791524921955,"id":"1","progress":0.5911462426152131,"total":677,"current":518}
+{"_e":"metro:bundling:progress","_t":1791524922059,"id":"1","progress":0.5911462426152131,"total":690,"current":527}
+{"_e":"metro:bundling:progress","_t":1791524922159,"id":"1","progress":0.6019619500594531,"total":696,"current":540}
+{"_e":"metro:bundling:progress","_t":1791524922259,"id":"1","progress":0.6093781706317318,"total":702,"current":548}
+{"_e":"metro:bundling:progress","_t":1791524922362,"id":"1","progress":0.6246820053126179,"total":706,"current":558}
+{"_e":"metro:bundling:progress","_t":1791524922462,"id":"1","progress":0.6386617881339612,"total":717,"current":573}
+{"_e":"metro:bundling:progress","_t":1791524922566,"id":"1","progress":0.6605789077814177,"total":721,"current":586}
+{"_e":"metro:bundling:progress","_t":1791524922667,"id":"1","progress":0.6845048228076066,"total":724,"current":599}
+{"_e":"metro:bundling:progress","_t":1791524922769,"id":"1","progress":0.701723084258385,"total":727,"current":609}
+{"_e":"metro:bundling:progress","_t":1791524922879,"id":"1","progress":0.7147303040453925,"total":731,"current":618}
+{"_e":"metro:bundling:progress","_t":1791524922994,"id":"1","progress":0.7336905401773717,"total":732,"current":627}
+{"_e":"metro:bundling:progress","_t":1791524923094,"id":"1","progress":0.7430020087123549,"total":739,"current":637}
+{"_e":"metro:bundling:progress","_t":1791524923210,"id":"1","progress":0.7430020087123549,"total":767,"current":648}
+{"_e":"metro:bundling:progress","_t":1791524923320,"id":"1","progress":0.7430020087123549,"total":777,"current":656}
+{"_e":"metro:bundling:progress","_t":1791524923422,"id":"1","progress":0.7430020087123549,"total":802,"current":666}
+{"_e":"metro:bundling:progress","_t":1791524923524,"id":"1","progress":0.7430020087123549,"total":818,"current":670}
+{"_e":"metro:bundling:progress","_t":1791524923630,"id":"1","progress":0.7430020087123549,"total":828,"current":674}
+{"_e":"metro:bundling:progress","_t":1791524923736,"id":"1","progress":0.7430020087123549,"total":828,"current":675}
+{"_e":"metro:bundling:progress","_t":1791524923837,"id":"1","progress":0.7430020087123549,"total":829,"current":679}
+{"_e":"metro:bundling:progress","_t":1791524923938,"id":"1","progress":0.7430020087123549,"total":837,"current":684}
+{"_e":"metro:bundling:progress","_t":1791524924038,"id":"1","progress":0.7430020087123549,"total":839,"current":691}
+{"_e":"metro:bundling:progress","_t":1791524924140,"id":"1","progress":0.7430020087123549,"total":858,"current":696}
+{"_e":"metro:bundling:progress","_t":1791524924240,"id":"1","progress":0.7430020087123549,"total":863,"current":704}
+{"_e":"metro:bundling:progress","_t":1791524924345,"id":"1","progress":0.7430020087123549,"total":869,"current":711}
+{"_e":"metro:bundling:progress","_t":1791524924444,"id":"1","progress":0.7430020087123549,"total":872,"current":723}
+{"_e":"metro:bundling:progress","_t":1791524924574,"id":"1","progress":0.7430020087123549,"total":872,"current":728}
+{"_e":"metro:bundling:progress","_t":1791524924674,"id":"1","progress":0.7430020087123549,"total":872,"current":740}
+{"_e":"metro:bundling:progress","_t":1791524924774,"id":"1","progress":0.7618710218348862,"total":873,"current":762}
+{"_e":"metro:bundling:progress","_t":1791524924880,"id":"1","progress":0.7854113359244462,"total":879,"current":779}
+{"_e":"metro:bundling:progress","_t":1791524924981,"id":"1","progress":0.7921199776792742,"total":891,"current":793}
+{"_e":"metro:bundling:progress","_t":1791524925092,"id":"1","progress":0.8106048161073623,"total":893,"current":804}
+{"_e":"metro:bundling:progress","_t":1791524925193,"id":"1","progress":0.8106048161073623,"total":914,"current":814}
+{"_e":"metro:bundling:progress","_t":1791524925316,"id":"1","progress":0.8106048161073623,"total":924,"current":821}
+{"_e":"metro:bundling:progress","_t":1791524925418,"id":"1","progress":0.8106048161073623,"total":925,"current":828}
+{"_e":"metro:bundling:progress","_t":1791524925518,"id":"1","progress":0.8106048161073623,"total":932,"current":838}
+{"_e":"metro:bundling:progress","_t":1791524925621,"id":"1","progress":0.8106048161073623,"total":956,"current":853}
+{"_e":"metro:bundling:progress","_t":1791524925722,"id":"1","progress":0.8106048161073623,"total":970,"current":862}
+{"_e":"metro:bundling:progress","_t":1791524925823,"id":"1","progress":0.8106048161073623,"total":974,"current":874}
+{"_e":"metro:bundling:progress","_t":1791524925930,"id":"1","progress":0.8106048161073623,"total":989,"current":883}
+{"_e":"metro:bundling:progress","_t":1791524926033,"id":"1","progress":0.8106048161073623,"total":1070,"current":893}
+{"_e":"metro:bundling:progress","_t":1791524926140,"id":"1","progress":0.8106048161073623,"total":1080,"current":902}
+{"_e":"metro:bundling:progress","_t":1791524926249,"id":"1","progress":0.8106048161073623,"total":1085,"current":915}
+{"_e":"metro:bundling:progress","_t":1791524926352,"id":"1","progress":0.8106048161073623,"total":1087,"current":926}
+{"_e":"metro:bundling:progress","_t":1791524926463,"id":"1","progress":0.8106048161073623,"total":1094,"current":934}
+{"_e":"metro:bundling:progress","_t":1791524926569,"id":"1","progress":0.8106048161073623,"total":1101,"current":942}
+{"_e":"metro:bundling:progress","_t":1791524926670,"id":"1","progress":0.8106048161073623,"total":1106,"current":947}
+{"_e":"metro:bundling:progress","_t":1791524926769,"id":"1","progress":0.8106048161073623,"total":1112,"current":959}
+{"_e":"metro:bundling:progress","_t":1791524926947,"id":"1","progress":0.8106048161073623,"total":1117,"current":968}
+{"_e":"metro:bundling:progress","_t":1791524927056,"id":"1","progress":0.8106048161073623,"total":1122,"current":984}
+{"_e":"metro:bundling:progress","_t":1791524927178,"id":"1","progress":0.8106048161073623,"total":1123,"current":991}
+{"_e":"metro:bundling:progress","_t":1791524927280,"id":"1","progress":0.8106048161073623,"total":1123,"current":997}
+{"_e":"metro:bundling:progress","_t":1791524927389,"id":"1","progress":0.8106048161073623,"total":1123,"current":1002}
+{"_e":"metro:bundling:progress","_t":1791524927492,"id":"1","progress":0.8106048161073623,"total":1123,"current":1010}
+{"_e":"metro:bundling:progress","_t":1791524927596,"id":"1","progress":0.8218938779904004,"total":1124,"current":1019}
+{"_e":"metro:bundling:progress","_t":1791524927705,"id":"1","progress":0.8325957404892738,"total":1131,"current":1032}
+{"_e":"metro:bundling:progress","_t":1791524927808,"id":"1","progress":0.8511969269065085,"total":1137,"current":1049}
+{"_e":"metro:bundling:progress","_t":1791524927928,"id":"1","progress":0.8773609206285113,"total":1137,"current":1065}
+{"_e":"metro:bundling:progress","_t":1791524928043,"id":"1","progress":0.8846520612254877,"total":1144,"current":1076}
+{"_e":"metro:bundling:progress","_t":1791524928143,"id":"1","progress":0.8846520612254877,"total":1153,"current":1084}
+{"_e":"metro:bundling:progress","_t":1791524928256,"id":"1","progress":0.8846520612254877,"total":1156,"current":1087}
+{"_e":"metro:bundling:progress","_t":1791524928356,"id":"1","progress":0.8959601664684897,"total":1160,"current":1098}
+{"_e":"metro:bundling:progress","_t":1791524928456,"id":"1","progress":0.9063301047295338,"total":1167,"current":1111}
+{"_e":"metro:bundling:progress","_t":1791524928556,"id":"1","progress":0.9101971933001358,"total":1175,"current":1121}
+{"_e":"metro:bundling:progress","_t":1791524928657,"id":"1","progress":0.9187409169026091,"total":1181,"current":1132}
+{"_e":"metro:bundling:progress","_t":1791524928757,"id":"1","progress":0.9383741171148732,"total":1182,"current":1145}
+{"_e":"metro:bundling:progress","_t":1791524928858,"id":"1","progress":0.9501326395265788,"total":1188,"current":1158}
+{"_e":"metro:bundling:progress","_t":1791524928959,"id":"1","progress":0.9666133841218015,"total":1188,"current":1168}
+{"_e":"metro:bundling:progress","_t":1791524929077,"id":"1","progress":0.9766089965397925,"total":1190,"current":1176}
+{"_e":"metro:bundling:progress","_t":1791524929184,"id":"1","progress":0.9849311489301603,"total":1190,"current":1181}
+{"_e":"metro:bundling:progress","_t":1791524929295,"id":"1","progress":0.9966499186017346,"total":1193,"current":1191}
+{"_e":"metro:bundling:progress","_t":1791524929403,"id":"1","progress":0.9983242566831243,"total":1193,"current":1192}
+{"_e":"metro:bundling:progress","_t":1791524929883,"id":"1","progress":0.999,"total":1193,"current":1193}
+{"_e":"metro:bundling:progress","_t":1791524929989,"id":"1","progress":0.999,"total":1202,"current":1195}
+{"_e":"metro:bundling:progress","_t":1791524930104,"id":"1","progress":0.999,"total":1204,"current":1203}
+{"_e":"metro:bundling:progress","_t":1791524930204,"id":"1","progress":0.999,"total":1204,"current":1204}
+{"_e":"metro:bundling:done","_t":1791524930672,"id":"1","total":1204,"ms":18062.8937}
+{"_e":"metro:client_log","_t":1791524938247,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791524938546,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791524938625,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:bundling:started","_t":1791525075617,"id":"7","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791525075617,"id":"7","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791525075671,"id":"7","total":1,"ms":53.7467}
+{"_e":"metro:client_log","_t":1791525082572,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525082759,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525083092,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525089023,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525093655,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525094085,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525094564,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525094616,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525094833,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525094990,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525095583,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525095697,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525099781,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525099924,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525100595,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525100650,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525100650,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525100884,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525101251,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525101629,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525102033,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525102141,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525102631,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525102681,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525103190,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525103681,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525106678,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525106725,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525106725,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525126797,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525128417,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525128900,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525129677,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525129939,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525130803,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525130846,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525132337,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525132929,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525133369,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525133676,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525134601,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525137819,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525138199,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525138382,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525138656,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525139222,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525139223,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525139413,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525140199,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525140747,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525140883,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525141344,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525141399,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525143190,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525143549,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525143801,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525144022,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525144318,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525144545,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525144735,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525145392,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525145767,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525146036,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525146425,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525146540,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525147255,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525148298,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:bundling:started","_t":1791525179889,"id":"9","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791525179889,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791525179951,"id":"9","total":1,"ms":62.6917}
+{"_e":"metro:client_log","_t":1791525188090,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525188311,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525188364,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:bundling:started","_t":1791525194346,"id":"b","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791525194346,"id":"b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791525194413,"id":"b","total":1,"ms":66.5448}
+{"_e":"metro:client_log","_t":1791525201518,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525201753,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525201800,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525214571,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525214623,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525214624,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525216411,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525216468,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525216468,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525216724,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525216934,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525218674,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525218893,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525218944,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525219284,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525219683,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525220614,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525221024,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525221540,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525221594,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525221923,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525224341,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525224676,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525224774,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525225374,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525225735,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525226271,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525226325,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525226745,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525228187,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525228719,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525228983,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525229357,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525229728,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525229986,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525230251,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525230720,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525231157,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"metro:client_log","_t":1791525232215,"level":"warn","data":["Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/"]}
+{"_e":"root:init","_t":1791526136508,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791526136511,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791526136517,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791526137262,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791526138042,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791526138602,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791526144561,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791526224572,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791526224572,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791526224578,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791526224686,"id":"1","progress":0.004371286114336453,"total":121,"current":8}
+{"_e":"metro:bundling:progress","_t":1791526224787,"id":"1","progress":0.0524023806067644,"total":166,"current":38}
+{"_e":"metro:bundling:progress","_t":1791526224886,"id":"1","progress":0.21130332986472422,"total":248,"current":114}
+{"_e":"metro:bundling:progress","_t":1791526224986,"id":"1","progress":0.2136617957119778,"total":331,"current":153}
+{"_e":"metro:bundling:progress","_t":1791526225086,"id":"1","progress":0.2885938345051379,"total":430,"current":231}
+{"_e":"metro:bundling:progress","_t":1791526225187,"id":"1","progress":0.2885938345051379,"total":522,"current":277}
+{"_e":"metro:bundling:progress","_t":1791526225286,"id":"1","progress":0.37502075338710944,"total":565,"current":346}
+{"_e":"metro:bundling:progress","_t":1791526225387,"id":"1","progress":0.5177270966357396,"total":599,"current":431}
+{"_e":"metro:bundling:progress","_t":1791526225493,"id":"1","progress":0.5800184202447262,"total":604,"current":460}
+{"_e":"metro:bundling:progress","_t":1791526225572,"id":"1","progress":0.5825429805710275,"total":604,"current":461}
+{"_e":"metro:bundling:progress","_t":1791526225674,"id":"1","progress":0.5825429805710275,"total":644,"current":491}
+{"_e":"metro:bundling:progress","_t":1791526225774,"id":"1","progress":0.613075222951299,"total":682,"current":534}
+{"_e":"metro:bundling:progress","_t":1791526225874,"id":"1","progress":0.6501498158434972,"total":728,"current":587}
+{"_e":"metro:bundling:progress","_t":1791526225975,"id":"1","progress":0.6734018996561971,"total":786,"current":645}
+{"_e":"metro:bundling:progress","_t":1791526226109,"id":"1","progress":0.6734018996561971,"total":838,"current":676}
+{"_e":"metro:bundling:progress","_t":1791526226208,"id":"1","progress":0.6734018996561971,"total":887,"current":702}
+{"_e":"metro:bundling:progress","_t":1791526226313,"id":"1","progress":0.6734018996561971,"total":930,"current":759}
+{"_e":"metro:bundling:progress","_t":1791526226414,"id":"1","progress":0.7676580816455636,"total":969,"current":849}
+{"_e":"metro:bundling:progress","_t":1791526226514,"id":"1","progress":0.8277717760169638,"total":998,"current":908}
+{"_e":"metro:bundling:progress","_t":1791526226620,"id":"1","progress":0.8277717760169638,"total":1086,"current":948}
+{"_e":"metro:bundling:progress","_t":1791526226722,"id":"1","progress":0.8277717760169638,"total":1099,"current":960}
+{"_e":"metro:bundling:progress","_t":1791526226822,"id":"1","progress":0.8688081085200428,"total":1134,"current":1057}
+{"_e":"metro:bundling:progress","_t":1791526226923,"id":"1","progress":0.9775190926275993,"total":1150,"current":1137}
+{"_e":"metro:bundling:progress","_t":1791526227029,"id":"1","progress":0.9965517267049857,"total":1159,"current":1157}
+{"_e":"metro:bundling:progress","_t":1791526227298,"id":"1","progress":0.9982751189066175,"total":1159,"current":1158}
+{"_e":"metro:bundling:progress","_t":1791526227398,"id":"1","progress":0.999,"total":1160,"current":1160}
+{"_e":"metro:bundling:done","_t":1791526227499,"id":"1","total":1160,"ms":2926.8727}
+{"_e":"metro:bundling:started","_t":1791526288788,"id":"2","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791526288789,"id":"2","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791526288852,"id":"2","total":1,"ms":63.3803}
+{"_e":"root:init","_t":1791526945101,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791526945104,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791526945112,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791526945892,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791526946857,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791526947705,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791526954288,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791526981857,"id":"2","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791526981858,"id":"2","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791526981938,"id":"2","total":1,"ms":80.8529}
+{"_e":"root:init","_t":1791528617903,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791528617907,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791528617918,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791528619191,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791528620457,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791528622392,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791528633873,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791528672451,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791528672452,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791528672464,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791528672628,"id":"1","progress":0.08506944444444446,"total":24,"current":7}
+{"_e":"metro:bundling:progress","_t":1791528672729,"id":"1","progress":0.08506944444444446,"total":129,"current":10}
+{"_e":"metro:bundling:progress","_t":1791528672834,"id":"1","progress":0.08506944444444446,"total":157,"current":32}
+{"_e":"metro:bundling:progress","_t":1791528672940,"id":"1","progress":0.08506944444444446,"total":173,"current":45}
+{"_e":"metro:bundling:progress","_t":1791528673040,"id":"1","progress":0.135013520822066,"total":215,"current":79}
+{"_e":"metro:bundling:progress","_t":1791528673141,"id":"1","progress":0.20761251300728406,"total":248,"current":113}
+{"_e":"metro:bundling:progress","_t":1791528673243,"id":"1","progress":0.20761251300728406,"total":300,"current":130}
+{"_e":"metro:bundling:progress","_t":1791528673342,"id":"1","progress":0.21904576798269335,"total":344,"current":161}
+{"_e":"metro:bundling:progress","_t":1791528673442,"id":"1","progress":0.2591735537190082,"total":385,"current":196}
+{"_e":"metro:bundling:progress","_t":1791528673542,"id":"1","progress":0.29149860036588865,"total":426,"current":230}
+{"_e":"metro:bundling:progress","_t":1791528673656,"id":"1","progress":0.29149860036588865,"total":495,"current":265}
+{"_e":"metro:bundling:progress","_t":1791528673881,"id":"1","progress":0.29149860036588865,"total":495,"current":266}
+{"_e":"metro:bundling:progress","_t":1791528673983,"id":"1","progress":0.29149860036588865,"total":522,"current":276}
+{"_e":"metro:bundling:progress","_t":1791528674082,"id":"1","progress":0.34027777777777785,"total":540,"current":315}
+{"_e":"metro:bundling:progress","_t":1791528674182,"id":"1","progress":0.38735390483642235,"total":572,"current":356}
+{"_e":"metro:bundling:progress","_t":1791528674282,"id":"1","progress":0.49141994612856094,"total":592,"current":415}
+{"_e":"metro:bundling:progress","_t":1791528674382,"id":"1","progress":0.5856432419019655,"total":622,"current":476}
+{"_e":"metro:bundling:progress","_t":1791528674483,"id":"1","progress":0.5856432419019655,"total":676,"current":507}
+{"_e":"metro:bundling:progress","_t":1791528674585,"id":"1","progress":0.5978318631097885,"total":679,"current":525}
+{"_e":"metro:bundling:progress","_t":1791528674686,"id":"1","progress":0.5978318631097885,"total":702,"current":537}
+{"_e":"metro:bundling:progress","_t":1791528674786,"id":"1","progress":0.6244315125434007,"total":715,"current":565}
+{"_e":"metro:bundling:progress","_t":1791528674885,"id":"1","progress":0.6400000000000001,"total":730,"current":584}
+{"_e":"metro:bundling:progress","_t":1791528674986,"id":"1","progress":0.6906957633308983,"total":740,"current":615}
+{"_e":"metro:bundling:progress","_t":1791528675096,"id":"1","progress":0.6906957633308983,"total":774,"current":641}
+{"_e":"metro:bundling:progress","_t":1791528675196,"id":"1","progress":0.6906957633308983,"total":816,"current":662}
+{"_e":"metro:bundling:progress","_t":1791528675387,"id":"1","progress":0.6906957633308983,"total":839,"current":678}
+{"_e":"metro:bundling:progress","_t":1791528675490,"id":"1","progress":0.6906957633308983,"total":881,"current":705}
+{"_e":"metro:bundling:progress","_t":1791528675591,"id":"1","progress":0.6906957633308983,"total":908,"current":729}
+{"_e":"metro:bundling:progress","_t":1791528675693,"id":"1","progress":0.7123140543402091,"total":923,"current":779}
+{"_e":"metro:bundling:progress","_t":1791528675832,"id":"1","progress":0.7123140543402091,"total":934,"current":781}
+{"_e":"metro:bundling:progress","_t":1791528675934,"id":"1","progress":0.7123140543402091,"total":941,"current":786}
+{"_e":"metro:bundling:progress","_t":1791528676035,"id":"1","progress":0.7727722547852114,"total":951,"current":836}
+{"_e":"metro:bundling:progress","_t":1791528676139,"id":"1","progress":0.7864697115954546,"total":972,"current":862}
+{"_e":"metro:bundling:progress","_t":1791528676250,"id":"1","progress":0.7947378923591538,"total":986,"current":879}
+{"_e":"metro:bundling:progress","_t":1791528676350,"id":"1","progress":0.8716045186974318,"total":1009,"current":942}
+{"_e":"metro:bundling:progress","_t":1791528676457,"id":"1","progress":0.8716045186974318,"total":1051,"current":957}
+{"_e":"metro:bundling:progress","_t":1791528676617,"id":"1","progress":0.8716045186974318,"total":1097,"current":958}
+{"_e":"metro:bundling:progress","_t":1791528676732,"id":"1","progress":0.8716045186974318,"total":1116,"current":990}
+{"_e":"metro:bundling:progress","_t":1791528676870,"id":"1","progress":0.8716045186974318,"total":1117,"current":1005}
+{"_e":"metro:bundling:progress","_t":1791528676972,"id":"1","progress":0.8871782632414204,"total":1136,"current":1070}
+{"_e":"metro:bundling:progress","_t":1791528677072,"id":"1","progress":0.9276731301939058,"total":1140,"current":1098}
+{"_e":"metro:bundling:progress","_t":1791528677173,"id":"1","progress":0.9481058560651856,"total":1141,"current":1111}
+{"_e":"metro:bundling:progress","_t":1791528677321,"id":"1","progress":0.999,"total":1160,"current":1160}
+{"_e":"metro:bundling:done","_t":1791528677488,"id":"1","total":1160,"ms":5036.8483}
+{"_e":"metro:bundling:started","_t":1791529139309,"id":"3","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791529139309,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791529139446,"id":"3","total":1,"ms":136.6975}
+{"_e":"metro:bundling:started","_t":1791529372560,"id":"6","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791529372560,"id":"6","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791529372622,"id":"6","total":1,"ms":62.2754}
+{"_e":"metro:bundling:started","_t":1791529400065,"id":"7","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791529400065,"id":"7","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791529400117,"id":"7","total":1,"ms":52.4558}
+{"_e":"root:init","_t":1791537526856,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791537526858,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791537526865,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791537528209,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791537529690,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791537531096,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791537539522,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791537555975,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791537555975,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791537555979,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791537556093,"id":"1","progress":0.07438016528925619,"total":22,"current":6}
+{"_e":"metro:bundling:progress","_t":1791537556193,"id":"1","progress":0.07438016528925619,"total":138,"current":25}
+{"_e":"metro:bundling:progress","_t":1791537556293,"id":"1","progress":0.11553301463272585,"total":203,"current":69}
+{"_e":"metro:bundling:progress","_t":1791537556393,"id":"1","progress":0.238144,"total":250,"current":122}
+{"_e":"metro:bundling:progress","_t":1791537556494,"id":"1","progress":0.238144,"total":308,"current":145}
+{"_e":"metro:bundling:progress","_t":1791537556599,"id":"1","progress":0.24694192479957847,"total":326,"current":162}
+{"_e":"metro:bundling:progress","_t":1791537556698,"id":"1","progress":0.29374745061476604,"total":393,"current":213}
+{"_e":"metro:bundling:progress","_t":1791537556798,"id":"1","progress":0.3304983601467135,"total":454,"current":261}
+{"_e":"metro:bundling:progress","_t":1791537556898,"id":"1","progress":0.4311583684134126,"total":498,"current":327}
+{"_e":"metro:bundling:progress","_t":1791537557005,"id":"1","progress":0.6479030360422406,"total":528,"current":425}
+{"_e":"metro:bundling:progress","_t":1791537557115,"id":"1","progress":0.6479030360422406,"total":571,"current":442}
+{"_e":"metro:bundling:progress","_t":1791537557180,"id":"1","progress":0.6479030360422406,"total":571,"current":443}
+{"_e":"metro:bundling:progress","_t":1791537557279,"id":"1","progress":0.6765127674483439,"total":631,"current":519}
+{"_e":"metro:bundling:progress","_t":1791537557388,"id":"1","progress":0.6765127674483439,"total":681,"current":560}
+{"_e":"metro:bundling:progress","_t":1791537557487,"id":"1","progress":0.6765127674483439,"total":739,"current":595}
+{"_e":"metro:bundling:progress","_t":1791537557595,"id":"1","progress":0.6765127674483439,"total":781,"current":634}
+{"_e":"metro:bundling:progress","_t":1791537557697,"id":"1","progress":0.755218438056657,"total":817,"current":710}
+{"_e":"metro:bundling:progress","_t":1791537557797,"id":"1","progress":0.8026959662095648,"total":836,"current":749}
+{"_e":"metro:bundling:progress","_t":1791537557905,"id":"1","progress":0.8026959662095648,"total":899,"current":772}
+{"_e":"metro:bundling:progress","_t":1791537558005,"id":"1","progress":0.8026959662095648,"total":963,"current":850}
+{"_e":"metro:bundling:progress","_t":1791537558106,"id":"1","progress":0.8203235584386056,"total":997,"current":903}
+{"_e":"metro:bundling:progress","_t":1791537558206,"id":"1","progress":0.9003528027466211,"total":1017,"current":965}
+{"_e":"metro:bundling:progress","_t":1791537558306,"id":"1","progress":0.9335982737804,"total":1066,"current":1030}
+{"_e":"metro:bundling:progress","_t":1791537558406,"id":"1","progress":0.9335982737804,"total":1138,"current":1062}
+{"_e":"metro:bundling:progress","_t":1791537558512,"id":"1","progress":0.9948253644393138,"total":1158,"current":1155}
+{"_e":"metro:bundling:progress","_t":1791537558934,"id":"1","progress":0.9965487514951931,"total":1158,"current":1156}
+{"_e":"metro:bundling:progress","_t":1791537559048,"id":"1","progress":0.9965487514951931,"total":1159,"current":1156}
+{"_e":"metro:bundling:progress","_t":1791537559097,"id":"1","progress":0.9965517267049857,"total":1159,"current":1157}
+{"_e":"metro:bundling:progress","_t":1791537559306,"id":"1","progress":0.9982751189066175,"total":1159,"current":1158}
+{"_e":"metro:bundling:done","_t":1791537559512,"id":"1","total":1159,"ms":3537.398}
+{"_e":"root:init","_t":1791538347348,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791538347350,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791538347354,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791538348004,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791538348855,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791538349300,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791538353752,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791538385343,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791538385343,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791538385347,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791538385447,"id":"1","progress":0.011080332409972297,"total":133,"current":14}
+{"_e":"metro:bundling:progress","_t":1791538385547,"id":"1","progress":0.1640762698285531,"total":237,"current":96}
+{"_e":"metro:bundling:progress","_t":1791538385647,"id":"1","progress":0.23474707399325534,"total":355,"current":172}
+{"_e":"metro:bundling:progress","_t":1791538385750,"id":"1","progress":0.3083890419242139,"total":488,"current":271}
+{"_e":"metro:bundling:progress","_t":1791538385849,"id":"1","progress":0.41390777055112715,"total":572,"current":368}
+{"_e":"metro:bundling:progress","_t":1791538385949,"id":"1","progress":0.580384420185294,"total":634,"current":483}
+{"_e":"metro:bundling:progress","_t":1791538386050,"id":"1","progress":0.6284003797597469,"total":714,"current":566}
+{"_e":"metro:bundling:progress","_t":1791538386156,"id":"1","progress":0.6476876187744272,"total":835,"current":672}
+{"_e":"metro:bundling:progress","_t":1791538386255,"id":"1","progress":0.6760493827160493,"total":945,"current":777}
+{"_e":"metro:bundling:progress","_t":1791538386355,"id":"1","progress":0.837069301533766,"total":999,"current":914}
+{"_e":"metro:bundling:progress","_t":1791538386458,"id":"1","progress":0.837069301533766,"total":1096,"current":956}
+{"_e":"metro:bundling:progress","_t":1791538386558,"id":"1","progress":0.9021655239535807,"total":1136,"current":1079}
+{"_e":"metro:bundling:progress","_t":1791538386665,"id":"1","progress":0.9965487514951931,"total":1158,"current":1156}
+{"_e":"metro:bundling:progress","_t":1791538386765,"id":"1","progress":0.9965517267049857,"total":1159,"current":1157}
+{"_e":"metro:bundling:progress","_t":1791538386868,"id":"1","progress":0.9982751189066175,"total":1159,"current":1158}
+{"_e":"metro:bundling:progress","_t":1791538386945,"id":"1","progress":0.999,"total":1159,"current":1159}
+{"_e":"metro:bundling:done","_t":1791538387043,"id":"1","total":1159,"ms":1699.6697}
+{"_e":"metro:bundling:started","_t":1791538991359,"id":"3","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791538991362,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791538991468,"id":"3","total":1,"ms":107.7202}
+{"_e":"metro:bundling:started","_t":1791539234654,"id":"4","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791539234654,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791539234718,"id":"4","total":1,"ms":63.8751}
+{"_e":"root:init","_t":1791539918094,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791539918096,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791539918099,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791539918753,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791539919403,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791539919852,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791539924767,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791539961458,"id":"2","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791539961458,"id":"2","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791539961511,"id":"2","total":1,"ms":52.7638}
+{"_e":"metro:bundling:started","_t":1791540411963,"id":"4","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791540411964,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791540412748,"id":"4","total":1,"ms":784.7701}
+{"_e":"root:init","_t":1791607019932,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791607019984,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791607020027,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791607031012,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791607045145,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791607051158,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791607064548,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791607077632,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791607077632,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791607077643,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791607077755,"id":"1","progress":0.12755102040816327,"total":14,"current":5}
+{"_e":"metro:bundling:progress","_t":1791607077854,"id":"1","progress":0.12755102040816327,"total":135,"current":16}
+{"_e":"metro:bundling:progress","_t":1791607077954,"id":"1","progress":0.12755102040816327,"total":209,"current":66}
+{"_e":"metro:bundling:progress","_t":1791607078054,"id":"1","progress":0.24415224913494812,"total":255,"current":126}
+{"_e":"metro:bundling:progress","_t":1791607078154,"id":"1","progress":0.24415224913494812,"total":356,"current":173}
+{"_e":"metro:bundling:progress","_t":1791607078254,"id":"1","progress":0.30372345679012347,"total":450,"current":248}
+{"_e":"metro:bundling:progress","_t":1791607078354,"id":"1","progress":0.3516511841654542,"total":543,"current":322}
+{"_e":"metro:bundling:progress","_t":1791607078454,"id":"1","progress":0.5424123447772097,"total":592,"current":436}
+{"_e":"metro:bundling:progress","_t":1791607078554,"id":"1","progress":0.5636835872583069,"total":634,"current":476}
+{"_e":"metro:bundling:progress","_t":1791607078655,"id":"1","progress":0.6537401228957945,"total":679,"current":549}
+{"_e":"metro:bundling:progress","_t":1791607078765,"id":"1","progress":0.6684167275383491,"total":740,"current":605}
+{"_e":"metro:bundling:progress","_t":1791607078865,"id":"1","progress":0.6708206699521264,"total":851,"current":697}
+{"_e":"metro:bundling:progress","_t":1791607078965,"id":"1","progress":0.7310158163553737,"total":931,"current":796}
+{"_e":"metro:bundling:progress","_t":1791607079065,"id":"1","progress":0.791751737567628,"total":971,"current":864}
+{"_e":"metro:bundling:progress","_t":1791607079166,"id":"1","progress":0.8334099865631397,"total":999,"current":912}
+{"_e":"metro:bundling:progress","_t":1791607079267,"id":"1","progress":0.8334099865631397,"total":1116,"current":999}
+{"_e":"metro:bundling:progress","_t":1791607079367,"id":"1","progress":0.9502011342155009,"total":1150,"current":1121}
+{"_e":"metro:bundling:progress","_t":1791607079534,"id":"1","progress":0.999,"total":1160,"current":1160}
+{"_e":"metro:bundling:done","_t":1791607079756,"id":"1","total":1160,"ms":2124.1051}
+{"_e":"root:init","_t":1791615624947,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791615624949,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791615624952,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791615625852,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791615626404,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791615629053,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791615634233,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791615648578,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791615648579,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791615648583,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791615648685,"id":"1","progress":0.01373291015625,"total":128,"current":15}
+{"_e":"metro:bundling:progress","_t":1791615648785,"id":"1","progress":0.16349716446124762,"total":230,"current":93}
+{"_e":"metro:bundling:progress","_t":1791615648886,"id":"1","progress":0.2700230921587061,"total":331,"current":172}
+{"_e":"metro:bundling:progress","_t":1791615648987,"id":"1","progress":0.3075206611570248,"total":440,"current":244}
+{"_e":"metro:bundling:progress","_t":1791615649087,"id":"1","progress":0.49196589571929433,"total":499,"current":350}
+{"_e":"metro:bundling:progress","_t":1791615649187,"id":"1","progress":0.6717238813901584,"total":582,"current":477}
+{"_e":"metro:bundling:progress","_t":1791615649309,"id":"1","progress":0.6753499146496732,"total":679,"current":558}
+{"_e":"metro:bundling:progress","_t":1791615649408,"id":"1","progress":0.6801767042769375,"total":736,"current":607}
+{"_e":"metro:bundling:progress","_t":1791615649508,"id":"1","progress":0.7629133853419454,"total":806,"current":704}
+{"_e":"metro:bundling:progress","_t":1791615649615,"id":"1","progress":0.7629133853419454,"total":883,"current":761}
+{"_e":"metro:bundling:progress","_t":1791615649718,"id":"1","progress":0.8000416784578023,"total":919,"current":822}
+{"_e":"metro:bundling:progress","_t":1791615649818,"id":"1","progress":0.810724508013878,"total":994,"current":895}
+{"_e":"metro:bundling:progress","_t":1791615649918,"id":"1","progress":0.9209361426471442,"total":1041,"current":999}
+{"_e":"metro:bundling:progress","_t":1791615650020,"id":"1","progress":0.9209361426471442,"total":1137,"current":1048}
+{"_e":"metro:bundling:progress","_t":1791615650120,"id":"1","progress":0.9965487514951931,"total":1158,"current":1156}
+{"_e":"metro:bundling:progress","_t":1791615650232,"id":"1","progress":0.9982751189066175,"total":1159,"current":1158}
+{"_e":"metro:bundling:progress","_t":1791615650436,"id":"1","progress":0.999,"total":1159,"current":1159}
+{"_e":"metro:bundling:done","_t":1791615650531,"id":"1","total":1159,"ms":1952.7307}
+{"_e":"metro:bundling:started","_t":1791616406600,"id":"3","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791616406601,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791616406617,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791616406819,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791616406939,"id":"3","total":1,"ms":338.9145}
+{"_e":"metro:bundling:started","_t":1791616459407,"id":"4","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791616459407,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791616459455,"id":"4","total":1,"ms":47.7682}
+{"_e":"metro:bundling:started","_t":1791616540067,"id":"5","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791616540067,"id":"5","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791616540068,"id":"5","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791616540165,"id":"5","total":1,"ms":98.5955}
+{"_e":"metro:bundling:started","_t":1791616605477,"id":"6","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791616605477,"id":"6","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791616606239,"id":"6","total":1,"ms":761.892}
+{"_e":"metro:bundling:started","_t":1791618072588,"id":"7","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791618072589,"id":"7","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791618072618,"id":"7","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791618072741,"id":"7","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791618072894,"id":"7","total":1,"ms":304.9397}
+{"_e":"metro:bundling:started","_t":1791623202191,"id":"9","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791623202191,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623202196,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623202298,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623202572,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623202672,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623202772,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623202872,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623202972,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623203088,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791623203212,"id":"9","total":1,"ms":1020.5697}
+{"_e":"metro:bundling:started","_t":1791623226429,"id":"b","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791623226429,"id":"b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791623226479,"id":"b","total":1,"ms":50.5684}
+{"_e":"metro:bundling:started","_t":1791623259313,"id":"c","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791623259313,"id":"c","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791623259355,"id":"c","total":1,"ms":42.1716}
+{"_e":"metro:bundling:started","_t":1791623963194,"id":"d","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791623963195,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623963234,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623963355,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623963601,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623963701,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623963801,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623963901,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623964001,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623964192,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623964298,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623964573,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791623965049,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791623965124,"id":"d","total":1,"ms":1928.6648}
+{"_e":"metro:bundling:started","_t":1791624272054,"id":"h","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791624272054,"id":"h","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791624272062,"id":"h","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791624272171,"id":"h","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791624272191,"id":"h","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791624272283,"id":"h","total":1,"ms":228.9898}
+{"_e":"metro:bundling:started","_t":1791624303664,"id":"i","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791624303664,"id":"i","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791624303707,"id":"i","total":1,"ms":43.1059}
+{"_e":"metro:bundling:started","_t":1791624333234,"id":"j","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791624333234,"id":"j","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791624333279,"id":"j","total":1,"ms":45.5274}
+{"_e":"metro:bundling:started","_t":1791624501590,"id":"k","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791624501590,"id":"k","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791624501592,"id":"k","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791624501705,"id":"k","total":1,"ms":115.2946}
+{"_e":"metro:bundling:started","_t":1791624725014,"id":"l","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791624725016,"id":"l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791624725033,"id":"l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791624725175,"id":"l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791624725251,"id":"l","total":1,"ms":235.4083}
+{"_e":"metro:bundling:started","_t":1791624784568,"id":"m","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791624784568,"id":"m","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791624784616,"id":"m","total":1,"ms":47.5574}
+{"_e":"metro:bundling:started","_t":1791625202887,"id":"o","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791625202888,"id":"o","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791625202893,"id":"o","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791625203004,"id":"o","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791625203041,"id":"o","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791625203142,"id":"o","total":1,"ms":254.0116}
+{"_e":"metro:bundling:started","_t":1791625740679,"id":"r","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791625740680,"id":"r","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791625740705,"id":"r","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791625740812,"id":"r","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791625740850,"id":"r","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791625741105,"id":"r","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791625741217,"id":"r","total":1,"ms":536.943}
+{"_e":"metro:bundling:failed","_t":1791625813703,"id":null,"message":"Unable to resolve \"../assets/leaf.jpeg\" from \"screens\\HomeScreen.js\"\n  160 |           accessibilityLabel=\"Open LittleLeaf chatbot\"\n  161 |         >\n> 162 |           <Image source={require('../assets/leaf.jpeg')} style={styles.farmerImage} resizeMode=\"contain\" />\n      |                                   ^\n  163 |         </TouchableOpacity>\n  164 |       </Animated.View>\n  165 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39mscreens\\HomeScreen.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../assets/leaf.jpeg\"\u001b[39m\n\n\u001b[90m \u001b[39mnavigation\\AppNavigator.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../screens/HomeScreen\"\u001b[39m\n\n\u001b[90m \u001b[39mnavigation\\RootNavigator.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"./AppNavigator\"\u001b[39m\n\n\u001b[90m \u001b[39mApp.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"./navigation/RootNavigator\"\u001b[39m\n\u001b[90m\u001b[39m\n\u001b[90m\u001b[90m \u001b[39m\u001b[90mnode_modules\\expo\\AppEntry.js\u001b[39m\n\u001b[90m\u001b[90m |\u001b[39m\u001b[90m \u001b[36mimport\u001b[39m\u001b[90m \u001b[32m\"../../App\"\u001b[39m\u001b[90m\u001b[39m\n\u001b[90m\u001b[39m\n\u001b[90m\u001b[90m \u001b[39m\u001b[90m\u001b[39m\n\u001b[90m\u001b[90m |\u001b[39m\u001b[90m \u001b[36mimport\u001b[39m\u001b[90m \u001b[32m\"./node_modules/\u001b[1mexpo\u001b[22m/AppEntry\"\u001b[39m\u001b[90m\u001b[39m\n","filename":null,"targetModuleName":"../assets/leaf.jpeg","originModulePath":"screens\\HomeScreen.js"}
+{"_e":"metro:bundling:failed","_t":1791625813916,"id":null,"message":"Unable to resolve \"../assets/leaf.jpeg\" from \"screens\\HomeScreen.js\"\n  160 |           accessibilityLabel=\"Open LittleLeaf chatbot\"\n  161 |         >\n> 162 |           <Image source={require('../assets/leaf.jpeg')} style={styles.farmerImage} resizeMode=\"contain\" />\n      |                                   ^\n  163 |         </TouchableOpacity>\n  164 |       </Animated.View>\n  165 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39mscreens\\HomeScreen.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../assets/leaf.jpeg\"\u001b[39m\n\n\u001b[90m \u001b[39mnavigation\\AppNavigator.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../screens/HomeScreen\"\u001b[39m\n\n\u001b[90m \u001b[39mnavigation\\RootNavigator.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"./AppNavigator\"\u001b[39m\n\n\u001b[90m \u001b[39mApp.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"./navigation/RootNavigator\"\u001b[39m\n\u001b[90m\u001b[39m\n\u001b[90m\u001b[90m \u001b[39m\u001b[90mnode_modules\\expo\\AppEntry.js\u001b[39m\n\u001b[90m\u001b[90m |\u001b[39m\u001b[90m \u001b[36mimport\u001b[39m\u001b[90m \u001b[32m\"../../App\"\u001b[39m\u001b[90m\u001b[39m\n\u001b[90m\u001b[39m\n\u001b[90m\u001b[90m \u001b[39m\u001b[90m\u001b[39m\n\u001b[90m\u001b[90m |\u001b[39m\u001b[90m \u001b[36mimport\u001b[39m\u001b[90m \u001b[32m\"./node_modules/\u001b[1mexpo\u001b[22m/AppEntry\"\u001b[39m\u001b[90m\u001b[39m\n","filename":null,"targetModuleName":"../assets/leaf.jpeg","originModulePath":"screens\\HomeScreen.js"}
+{"_e":"root:init","_t":1791626294069,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791626294072,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791626294076,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791626294765,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791626295621,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791626296220,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791626300431,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791626306232,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791626306232,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626306236,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626306337,"id":"1","progress":0.012530630429939854,"total":134,"current":15}
+{"_e":"metro:bundling:progress","_t":1791626306436,"id":"1","progress":0.1936,"total":275,"current":121}
+{"_e":"metro:bundling:progress","_t":1791626306536,"id":"1","progress":0.2646861870724847,"total":449,"current":231}
+{"_e":"metro:bundling:progress","_t":1791626306636,"id":"1","progress":0.3222407887299582,"total":569,"current":323}
+{"_e":"metro:bundling:progress","_t":1791626306736,"id":"1","progress":0.4622341612135634,"total":656,"current":446}
+{"_e":"metro:bundling:progress","_t":1791626306836,"id":"1","progress":0.6604489697613967,"total":694,"current":564}
+{"_e":"metro:bundling:progress","_t":1791626306936,"id":"1","progress":0.6656674790496423,"total":831,"current":678}
+{"_e":"metro:bundling:progress","_t":1791626307036,"id":"1","progress":0.7947238747671415,"total":903,"current":805}
+{"_e":"metro:bundling:progress","_t":1791626307140,"id":"1","progress":0.7947238747671415,"total":1071,"current":917}
+{"_e":"metro:bundling:progress","_t":1791626307240,"id":"1","progress":0.9032711294832588,"total":1109,"current":1054}
+{"_e":"metro:bundling:progress","_t":1791626307342,"id":"1","progress":0.9089811281972225,"total":1116,"current":1064}
+{"_e":"metro:bundling:progress","_t":1791626307445,"id":"1","progress":0.9982585985018635,"total":1148,"current":1147}
+{"_e":"metro:bundling:progress","_t":1791626307953,"id":"1","progress":0.999,"total":1148,"current":1148}
+{"_e":"metro:bundling:done","_t":1791626308075,"id":"1","total":1148,"ms":1842.7355}
+{"_e":"metro:bundling:started","_t":1791626868227,"id":"3","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791626868228,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626868232,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626868332,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626868556,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626868656,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626868758,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626868858,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626868958,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626869061,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626869170,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791626869213,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791626869290,"id":"3","total":1,"ms":1061.9204}
+{"_e":"metro:bundling:started","_t":1791628104081,"id":"6","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791628104081,"id":"6","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791628104186,"id":"6","total":1,"ms":104.3016}
+{"_e":"metro:bundling:started","_t":1791628330924,"id":"8","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791628330926,"id":"8","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791628331025,"id":"8","total":1,"ms":100.2882}
+{"_e":"metro:bundling:started","_t":1791628791551,"id":"a","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791628791552,"id":"a","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791628791553,"id":"a","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791628791660,"id":"a","total":1,"ms":108.5834}
+{"_e":"metro:bundling:started","_t":1791629256664,"id":"b","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791629256665,"id":"b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791629256736,"id":"b","total":1,"ms":71.3503}
+{"_e":"metro:bundling:started","_t":1791630141121,"id":"c","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791630141124,"id":"c","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630141153,"id":"c","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630141255,"id":"c","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630141301,"id":"c","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630141410,"id":"c","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630142471,"id":"c","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791630142555,"id":"c","total":1,"ms":1432.6325}
+{"_e":"metro:bundling:started","_t":1791630933262,"id":"e","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791630933262,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630933266,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630933365,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630933612,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630933713,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630933813,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630933913,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630934013,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630934118,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791630934294,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791630934404,"id":"e","total":1,"ms":1141.2294}
+{"_e":"metro:bundling:started","_t":1791631312424,"id":"g","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791631312425,"id":"g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791631312450,"id":"g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791631312634,"id":"g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791631312859,"id":"g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791631312959,"id":"g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791631313059,"id":"g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791631313159,"id":"g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791631313266,"id":"g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791631313484,"id":"g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791631313549,"id":"g","total":1,"ms":1124.1987}
+{"_e":"root:init","_t":1791644346678,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791644346686,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791644346696,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791644357406,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791644373493,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791644380131,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791644396934,"atlas":false,"workers":8,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791644414943,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791644414943,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791644414952,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791644415052,"id":"1","progress":0.16000000000000003,"total":10,"current":4}
+{"_e":"metro:bundling:progress","_t":1791644415159,"id":"1","progress":0.16000000000000003,"total":21,"current":6}
+{"_e":"metro:bundling:progress","_t":1791644415261,"id":"1","progress":0.16000000000000003,"total":124,"current":10}
+{"_e":"metro:bundling:progress","_t":1791644415945,"id":"1","progress":0.16000000000000003,"total":124,"current":11}
+{"_e":"metro:bundling:progress","_t":1791644416045,"id":"1","progress":0.16000000000000003,"total":128,"current":16}
+{"_e":"metro:bundling:progress","_t":1791644416067,"id":"1","progress":0.16000000000000003,"total":128,"current":17}
+{"_e":"metro:bundling:progress","_t":1791644416167,"id":"1","progress":0.16000000000000003,"total":193,"current":41}
+{"_e":"metro:bundling:progress","_t":1791644416269,"id":"1","progress":0.16000000000000003,"total":244,"current":90}
+{"_e":"metro:bundling:progress","_t":1791644416373,"id":"1","progress":0.2009512485136742,"total":261,"current":117}
+{"_e":"metro:bundling:progress","_t":1791644416419,"id":"1","progress":0.2044009923518445,"total":261,"current":118}
+{"_e":"metro:bundling:progress","_t":1791644416530,"id":"1","progress":0.2044009923518445,"total":262,"current":118}
+{"_e":"metro:bundling:progress","_t":1791644416841,"id":"1","progress":0.20629625313210184,"total":262,"current":119}
+{"_e":"metro:bundling:progress","_t":1791644416955,"id":"1","progress":0.20629625313210184,"total":285,"current":127}
+{"_e":"metro:bundling:progress","_t":1791644417040,"id":"1","progress":0.20629625313210184,"total":285,"current":128}
+{"_e":"metro:bundling:progress","_t":1791644417141,"id":"1","progress":0.312598883320234,"total":313,"current":175}
+{"_e":"metro:bundling:progress","_t":1791644417242,"id":"1","progress":0.34602076124567477,"total":374,"current":220}
+{"_e":"metro:bundling:progress","_t":1791644417342,"id":"1","progress":0.3715192743764173,"total":420,"current":256}
+{"_e":"metro:bundling:progress","_t":1791644418093,"id":"1","progress":0.3744274376417234,"total":420,"current":257}
+{"_e":"metro:bundling:progress","_t":1791644418197,"id":"1","progress":0.40042882515774253,"total":433,"current":274}
+{"_e":"metro:bundling:progress","_t":1791644418314,"id":"1","progress":0.4204249285878109,"total":438,"current":284}
+{"_e":"metro:bundling:progress","_t":1791644418369,"id":"1","progress":0.42339088009007325,"total":438,"current":285}
+{"_e":"metro:bundling:progress","_t":1791644418469,"id":"1","progress":0.5444131069284716,"total":473,"current":349}
+{"_e":"metro:bundling:progress","_t":1791644418571,"id":"1","progress":0.6972418009060399,"total":497,"current":415}
+{"_e":"metro:bundling:progress","_t":1791644418842,"id":"1","progress":0.7006060507916716,"total":497,"current":416}
+{"_e":"metro:bundling:progress","_t":1791644418950,"id":"1","progress":0.7006060507916716,"total":526,"current":437}
+{"_e":"metro:bundling:progress","_t":1791644419079,"id":"1","progress":0.7006060507916716,"total":526,"current":438}
+{"_e":"metro:bundling:progress","_t":1791644419187,"id":"1","progress":0.7766808136224832,"total":556,"current":490}
+{"_e":"metro:bundling:progress","_t":1791644419303,"id":"1","progress":0.779854174214585,"total":556,"current":491}
+{"_e":"metro:bundling:progress","_t":1791644419404,"id":"1","progress":0.779854174214585,"total":580,"current":509}
+{"_e":"metro:bundling:progress","_t":1791644419504,"id":"1","progress":0.779854174214585,"total":611,"current":524}
+{"_e":"metro:bundling:progress","_t":1791644419727,"id":"1","progress":0.779854174214585,"total":611,"current":525}
+{"_e":"metro:bundling:progress","_t":1791644419834,"id":"1","progress":0.779854174214585,"total":628,"current":551}
+{"_e":"metro:bundling:progress","_t":1791644419933,"id":"1","progress":0.8284944742113889,"total":646,"current":588}
+{"_e":"metro:bundling:progress","_t":1791644420035,"id":"1","progress":0.8409692221243991,"total":663,"current":608}
+{"_e":"metro:bundling:progress","_t":1791644420192,"id":"1","progress":0.8437378432055035,"total":663,"current":609}
+{"_e":"metro:bundling:progress","_t":1791644420292,"id":"1","progress":0.8703694243749458,"total":671,"current":626}
+{"_e":"metro:bundling:progress","_t":1791644420392,"id":"1","progress":0.9149338374291116,"total":690,"current":660}
+{"_e":"metro:bundling:progress","_t":1791644420457,"id":"1","progress":0.9177084646082755,"total":690,"current":661}
+{"_e":"metro:bundling:progress","_t":1791644420558,"id":"1","progress":0.9745233399079554,"total":702,"current":693}
+{"_e":"metro:bundling:progress","_t":1791644420706,"id":"1","progress":0.9971611086002066,"total":704,"current":703}
+{"_e":"metro:bundling:progress","_t":1791644427412,"id":"1","progress":0.999,"total":704,"current":704}
+{"_e":"metro:bundling:progress","_t":1791644427512,"id":"1","progress":0.999,"total":714,"current":707}
+{"_e":"metro:bundling:progress","_t":1791644427619,"id":"1","progress":0.999,"total":723,"current":716}
+{"_e":"metro:bundling:progress","_t":1791644427720,"id":"1","progress":0.999,"total":775,"current":733}
+{"_e":"metro:bundling:progress","_t":1791644427843,"id":"1","progress":0.999,"total":797,"current":756}
+{"_e":"metro:bundling:progress","_t":1791644427942,"id":"1","progress":0.999,"total":826,"current":791}
+{"_e":"metro:bundling:progress","_t":1791644428046,"id":"1","progress":0.999,"total":838,"current":811}
+{"_e":"metro:bundling:progress","_t":1791644428148,"id":"1","progress":0.999,"total":853,"current":815}
+{"_e":"metro:bundling:progress","_t":1791644428249,"id":"1","progress":0.999,"total":875,"current":830}
+{"_e":"metro:bundling:progress","_t":1791644428349,"id":"1","progress":0.999,"total":900,"current":868}
+{"_e":"metro:bundling:progress","_t":1791644428455,"id":"1","progress":0.999,"total":922,"current":891}
+{"_e":"metro:bundling:progress","_t":1791644428582,"id":"1","progress":0.999,"total":922,"current":892}
+{"_e":"metro:bundling:progress","_t":1791644428704,"id":"1","progress":0.999,"total":968,"current":914}
+{"_e":"metro:bundling:progress","_t":1791644428837,"id":"1","progress":0.999,"total":972,"current":919}
+{"_e":"metro:bundling:progress","_t":1791644428939,"id":"1","progress":0.999,"total":980,"current":966}
+{"_e":"metro:bundling:progress","_t":1791644429039,"id":"1","progress":0.999,"total":986,"current":973}
+{"_e":"metro:bundling:progress","_t":1791644429150,"id":"1","progress":0.999,"total":987,"current":981}
+{"_e":"metro:bundling:progress","_t":1791644430427,"id":"1","progress":0.999,"total":987,"current":982}
+{"_e":"metro:bundling:progress","_t":1791644430530,"id":"1","progress":0.999,"total":988,"current":982}
+{"_e":"metro:bundling:progress","_t":1791644430548,"id":"1","progress":0.999,"total":988,"current":983}
+{"_e":"metro:bundling:progress","_t":1791644430648,"id":"1","progress":0.999,"total":993,"current":986}
+{"_e":"metro:bundling:progress","_t":1791644430758,"id":"1","progress":0.999,"total":1001,"current":988}
+{"_e":"metro:bundling:progress","_t":1791644430859,"id":"1","progress":0.999,"total":1015,"current":993}
+{"_e":"metro:bundling:progress","_t":1791644430943,"id":"1","progress":0.999,"total":1015,"current":994}
+{"_e":"metro:bundling:progress","_t":1791644431043,"id":"1","progress":0.999,"total":1024,"current":1013}
+{"_e":"metro:bundling:progress","_t":1791644431155,"id":"1","progress":0.999,"total":1069,"current":1030}
+{"_e":"metro:bundling:progress","_t":1791644431255,"id":"1","progress":0.999,"total":1122,"current":1033}
+{"_e":"metro:bundling:progress","_t":1791644431378,"id":"1","progress":0.999,"total":1122,"current":1034}
+{"_e":"metro:bundling:progress","_t":1791644431481,"id":"1","progress":0.999,"total":1146,"current":1120}
+{"_e":"metro:bundling:progress","_t":1791644431581,"id":"1","progress":0.999,"total":1151,"current":1124}
+{"_e":"metro:bundling:progress","_t":1791644431683,"id":"1","progress":0.999,"total":1165,"current":1160}
+{"_e":"metro:bundling:progress","_t":1791644431791,"id":"1","progress":0.999,"total":1165,"current":1165}
+{"_e":"metro:bundling:done","_t":1791644432113,"id":"1","total":1165,"ms":17170.6927}
+{"_e":"root:init","_t":1791780048567,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791780048604,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791780048638,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791780059729,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791780073745,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791780079408,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791780094652,"atlas":false,"workers":8,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791780106628,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791780106628,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791780106638,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791780106739,"id":"1","progress":0.09182736455463729,"total":33,"current":10}
+{"_e":"metro:bundling:progress","_t":1791780106838,"id":"1","progress":0.20661157024793386,"total":88,"current":40}
+{"_e":"metro:bundling:progress","_t":1791780106941,"id":"1","progress":0.20661157024793386,"total":242,"current":58}
+{"_e":"metro:bundling:progress","_t":1791780107040,"id":"1","progress":0.20661157024793386,"total":244,"current":60}
+{"_e":"metro:bundling:progress","_t":1791780107567,"id":"1","progress":0.20661157024793386,"total":244,"current":61}
+{"_e":"metro:bundling:progress","_t":1791780107693,"id":"1","progress":0.20661157024793386,"total":269,"current":84}
+{"_e":"metro:bundling:progress","_t":1791780107813,"id":"1","progress":0.20661157024793386,"total":300,"current":129}
+{"_e":"metro:bundling:progress","_t":1791780107915,"id":"1","progress":0.26386489407895347,"total":329,"current":169}
+{"_e":"metro:bundling:progress","_t":1791780108015,"id":"1","progress":0.26386489407895347,"total":408,"current":205}
+{"_e":"metro:bundling:progress","_t":1791780108116,"id":"1","progress":0.29752066115702475,"total":473,"current":258}
+{"_e":"metro:bundling:progress","_t":1791780108216,"id":"1","progress":0.30936016465356647,"total":516,"current":287}
+{"_e":"metro:bundling:progress","_t":1791780108405,"id":"1","progress":0.31151974040021635,"total":516,"current":288}
+{"_e":"metro:bundling:progress","_t":1791780108512,"id":"1","progress":0.31151974040021635,"total":517,"current":288}
+{"_e":"metro:bundling:progress","_t":1791780108710,"id":"1","progress":0.3124745126062053,"total":517,"current":289}
+{"_e":"metro:bundling:progress","_t":1791780108894,"id":"1","progress":0.3489824090373729,"total":562,"current":332}
+{"_e":"metro:bundling:progress","_t":1791780108995,"id":"1","progress":0.35108787882625603,"total":562,"current":333}
+{"_e":"metro:bundling:progress","_t":1791780109097,"id":"1","progress":0.3876824492702029,"total":583,"current":363}
+{"_e":"metro:bundling:progress","_t":1791780109198,"id":"1","progress":0.41472854417243826,"total":691,"current":445}
+{"_e":"metro:bundling:progress","_t":1791780109308,"id":"1","progress":0.460710354640393,"total":772,"current":524}
+{"_e":"metro:bundling:progress","_t":1791780109490,"id":"1","progress":0.4624704690058793,"total":772,"current":525}
+{"_e":"metro:bundling:progress","_t":1791780109591,"id":"1","progress":0.4642339391661521,"total":772,"current":526}
+{"_e":"metro:bundling:progress","_t":1791780109967,"id":"1","progress":0.4660007651212113,"total":772,"current":527}
+{"_e":"metro:bundling:progress","_t":1791780110067,"id":"1","progress":0.5170647784036561,"total":776,"current":558}
+{"_e":"metro:bundling:progress","_t":1791780110179,"id":"1","progress":0.5539449915506088,"total":786,"current":585}
+{"_e":"metro:bundling:progress","_t":1791780110304,"id":"1","progress":0.5615462061910405,"total":786,"current":589}
+{"_e":"metro:bundling:progress","_t":1791780110307,"id":"1","progress":0.5634546031376053,"total":786,"current":590}
+{"_e":"metro:bundling:progress","_t":1791780110409,"id":"1","progress":0.5634546031376053,"total":909,"current":648}
+{"_e":"metro:bundling:progress","_t":1791780110509,"id":"1","progress":0.6173469387755102,"total":952,"current":748}
+{"_e":"metro:bundling:progress","_t":1791780110610,"id":"1","progress":0.6467191140593734,"total":955,"current":768}
+{"_e":"metro:bundling:progress","_t":1791780110716,"id":"1","progress":0.6484043748800745,"total":955,"current":769}
+{"_e":"metro:bundling:progress","_t":1791780110878,"id":"1","progress":0.6500918286231189,"total":955,"current":770}
+{"_e":"metro:bundling:progress","_t":1791780111017,"id":"1","progress":0.7289458056799696,"total":978,"current":835}
+{"_e":"metro:bundling:progress","_t":1791780111114,"id":"1","progress":0.7306928291534411,"total":978,"current":836}
+{"_e":"metro:bundling:progress","_t":1791780111214,"id":"1","progress":0.7982257846951071,"total":1051,"current":939}
+{"_e":"metro:bundling:progress","_t":1791780111316,"id":"1","progress":0.8084738580873946,"total":1061,"current":954}
+{"_e":"metro:bundling:progress","_t":1791780111642,"id":"1","progress":0.8101696601555803,"total":1061,"current":955}
+{"_e":"metro:bundling:progress","_t":1791780111778,"id":"1","progress":0.83387080322325,"total":1071,"current":978}
+{"_e":"metro:bundling:progress","_t":1791780111879,"id":"1","progress":0.8355769322979736,"total":1071,"current":979}
+{"_e":"metro:bundling:progress","_t":1791780111979,"id":"1","progress":0.8866092063976415,"total":1113,"current":1048}
+{"_e":"metro:bundling:progress","_t":1791780112093,"id":"1","progress":0.8908533272326918,"total":1122,"current":1059}
+{"_e":"metro:bundling:progress","_t":1791780112208,"id":"1","progress":0.8925365641314053,"total":1122,"current":1060}
+{"_e":"metro:bundling:progress","_t":1791780112336,"id":"1","progress":0.9079173579361963,"total":1124,"current":1071}
+{"_e":"metro:bundling:progress","_t":1791780112457,"id":"1","progress":0.9451691235136448,"total":1151,"current":1119}
+{"_e":"metro:bundling:progress","_t":1791780112517,"id":"1","progress":0.9468591886630521,"total":1151,"current":1120}
+{"_e":"metro:bundling:progress","_t":1791780112619,"id":"1","progress":0.9845694555946924,"total":1162,"current":1153}
+{"_e":"metro:bundling:progress","_t":1791780112758,"id":"1","progress":0.999,"total":1165,"current":1165}
+{"_e":"metro:bundling:done","_t":1791780113039,"id":"1","total":1165,"ms":6411.2729}
+{"_e":"metro:bundling:started","_t":1791781434015,"id":"4","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791781434015,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781434020,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781434149,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781434788,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781434887,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781434987,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781435087,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781435187,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781435292,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781435417,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791781435517,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791781435718,"id":"4","total":1,"ms":1702.2313}
+{"_e":"metro:bundling:started","_t":1791783427643,"id":"6","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791783427645,"id":"6","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791783427756,"id":"6","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791783427868,"id":"6","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791783447107,"id":"6","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791783447218,"id":"6","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791783447437,"id":"6","total":1,"ms":19792.918}
+{"_e":"root:init","_t":1791785604056,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791785604097,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791785604136,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791785613784,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791785619031,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791785624450,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791785641016,"atlas":false,"workers":8,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791787674693,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791787674697,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791787674873,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791787675024,"id":"1","progress":0.010000000000000002,"total":1,"current":1}
+{"_e":"metro:bundling:progress","_t":1791787675136,"id":"1","progress":0.010000000000000002,"total":3,"current":1}
+{"_e":"metro:bundling:progress","_t":1791787675176,"id":"1","progress":0.04000000000000001,"total":3,"current":2}
+{"_e":"metro:bundling:progress","_t":1791787675295,"id":"1","progress":0.053254437869822494,"total":13,"current":3}
+{"_e":"metro:bundling:progress","_t":1791787675359,"id":"1","progress":0.09467455621301776,"total":13,"current":4}
+{"_e":"metro:bundling:progress","_t":1791787675476,"id":"1","progress":0.09467455621301776,"total":136,"current":13}
+{"_e":"metro:bundling:progress","_t":1791787675667,"id":"1","progress":0.09467455621301776,"total":136,"current":14}
+{"_e":"metro:bundling:progress","_t":1791787675767,"id":"1","progress":0.09467455621301776,"total":217,"current":62}
+{"_e":"metro:bundling:progress","_t":1791787675872,"id":"1","progress":0.21033293697978594,"total":290,"current":133}
+{"_e":"metro:bundling:progress","_t":1791787675986,"id":"1","progress":0.2266020829423907,"total":292,"current":139}
+{"_e":"metro:bundling:progress","_t":1791787676136,"id":"1","progress":0.2298742728466879,"total":292,"current":140}
+{"_e":"metro:bundling:progress","_t":1791787676236,"id":"1","progress":0.2298742728466879,"total":415,"current":192}
+{"_e":"metro:bundling:progress","_t":1791787676336,"id":"1","progress":0.28401878876976583,"total":501,"current":267}
+{"_e":"metro:bundling:progress","_t":1791787676490,"id":"1","progress":0.2958546597956153,"total":535,"current":291}
+{"_e":"metro:bundling:progress","_t":1791787676522,"id":"1","progress":0.29789151890994847,"total":535,"current":292}
+{"_e":"metro:bundling:progress","_t":1791787676643,"id":"1","progress":0.30291058699042106,"total":536,"current":295}
+{"_e":"metro:bundling:progress","_t":1791787677100,"id":"1","progress":0.3049676988193362,"total":536,"current":296}
+{"_e":"metro:bundling:progress","_t":1791787677200,"id":"1","progress":0.3827204826199368,"total":590,"current":365}
+{"_e":"metro:bundling:progress","_t":1791787677301,"id":"1","progress":0.4155289940828402,"total":650,"current":419}
+{"_e":"metro:bundling:progress","_t":1791787677400,"id":"1","progress":0.5323908193618171,"total":688,"current":502}
+{"_e":"metro:bundling:progress","_t":1791787677538,"id":"1","progress":0.5864566818602193,"total":696,"current":533}
+{"_e":"metro:bundling:progress","_t":1791787677638,"id":"1","progress":0.5963025755125163,"total":698,"current":539}
+{"_e":"metro:bundling:progress","_t":1791787677802,"id":"1","progress":0.5985172535529265,"total":698,"current":540}
+{"_e":"metro:bundling:progress","_t":1791787677906,"id":"1","progress":0.5985172535529265,"total":819,"current":628}
+{"_e":"metro:bundling:progress","_t":1791787678015,"id":"1","progress":0.6634982036192113,"total":852,"current":694}
+{"_e":"metro:bundling:progress","_t":1791787678143,"id":"1","progress":0.6928285184196368,"total":859,"current":715}
+{"_e":"metro:bundling:progress","_t":1791787678243,"id":"1","progress":0.6928285184196368,"total":890,"current":740}
+{"_e":"metro:bundling:progress","_t":1791787678361,"id":"1","progress":0.7447671380809912,"total":927,"current":800}
+{"_e":"metro:bundling:progress","_t":1791787678475,"id":"1","progress":0.773815877825795,"total":964,"current":848}
+{"_e":"metro:bundling:progress","_t":1791787678589,"id":"1","progress":0.773815877825795,"total":972,"current":852}
+{"_e":"metro:bundling:progress","_t":1791787679326,"id":"1","progress":0.773815877825795,"total":972,"current":853}
+{"_e":"metro:bundling:progress","_t":1791787679440,"id":"1","progress":0.773815877825795,"total":1055,"current":860}
+{"_e":"metro:bundling:progress","_t":1791787679539,"id":"1","progress":0.773815877825795,"total":1076,"current":890}
+{"_e":"metro:bundling:progress","_t":1791787679639,"id":"1","progress":0.773815877825795,"total":1101,"current":965}
+{"_e":"metro:bundling:progress","_t":1791787679740,"id":"1","progress":0.7817440265350831,"total":1105,"current":977}
+{"_e":"metro:bundling:progress","_t":1791787679875,"id":"1","progress":0.8838352256618758,"total":1119,"current":1052}
+{"_e":"metro:bundling:progress","_t":1791787679974,"id":"1","progress":0.9033409037512725,"total":1130,"current":1074}
+{"_e":"metro:bundling:progress","_t":1791787680083,"id":"1","progress":0.926364256584097,"total":1146,"current":1103}
+{"_e":"metro:bundling:progress","_t":1791787680192,"id":"1","progress":0.9452628950157551,"total":1153,"current":1121}
+{"_e":"metro:bundling:progress","_t":1791787680299,"id":"1","progress":0.9710036785111184,"total":1164,"current":1147}
+{"_e":"metro:bundling:progress","_t":1791787680413,"id":"1","progress":0.9948652202932837,"total":1167,"current":1164}
+{"_e":"metro:bundling:progress","_t":1791787680518,"id":"1","progress":0.9982869382159631,"total":1167,"current":1166}
+{"_e":"metro:bundling:progress","_t":1791787680575,"id":"1","progress":0.999,"total":1167,"current":1167}
+{"_e":"metro:bundling:done","_t":1791787680902,"id":"1","total":1167,"ms":6206.4157}
+{"_e":"root:init","_t":1791787845418,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791787845420,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791787845427,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791787846443,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791787847498,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791787848294,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791787859088,"atlas":false,"workers":8,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791787870770,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791787870771,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791787870780,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791787870929,"id":"1","progress":0.10518626734842952,"total":37,"current":12}
+{"_e":"metro:bundling:progress","_t":1791787871032,"id":"1","progress":0.10518626734842952,"total":179,"current":40}
+{"_e":"metro:bundling:progress","_t":1791787871131,"id":"1","progress":0.10518626734842952,"total":231,"current":72}
+{"_e":"metro:bundling:progress","_t":1791787871231,"id":"1","progress":0.20689863040123457,"total":288,"current":131}
+{"_e":"metro:bundling:progress","_t":1791787871333,"id":"1","progress":0.21639341718329314,"total":359,"current":167}
+{"_e":"metro:bundling:progress","_t":1791787871437,"id":"1","progress":0.2257324788599742,"total":442,"current":210}
+{"_e":"metro:bundling:progress","_t":1791787871537,"id":"1","progress":0.27773096275952,"total":537,"current":283}
+{"_e":"metro:bundling:progress","_t":1791787871640,"id":"1","progress":0.33617332809897194,"total":614,"current":356}
+{"_e":"metro:bundling:progress","_t":1791787871742,"id":"1","progress":0.423595655814019,"total":653,"current":425}
+{"_e":"metro:bundling:progress","_t":1791787871841,"id":"1","progress":0.5302506544194547,"total":699,"current":509}
+{"_e":"metro:bundling:progress","_t":1791787871941,"id":"1","progress":0.620626332416326,"total":754,"current":594}
+{"_e":"metro:bundling:progress","_t":1791787872041,"id":"1","progress":0.6278387568993113,"total":838,"current":664}
+{"_e":"metro:bundling:progress","_t":1791787872141,"id":"1","progress":0.6953800380661584,"total":891,"current":743}
+{"_e":"metro:bundling:progress","_t":1791787872269,"id":"1","progress":0.6953800380661584,"total":983,"current":805}
+{"_e":"metro:bundling:progress","_t":1791787872368,"id":"1","progress":0.6953800380661584,"total":1048,"current":855}
+{"_e":"metro:bundling:progress","_t":1791787872468,"id":"1","progress":0.7915886830991178,"total":1079,"current":960}
+{"_e":"metro:bundling:progress","_t":1791787872568,"id":"1","progress":0.8746959267118678,"total":1112,"current":1040}
+{"_e":"metro:bundling:progress","_t":1791787872696,"id":"1","progress":0.9069494246659433,"total":1133,"current":1079}
+{"_e":"metro:bundling:progress","_t":1791787872821,"id":"1","progress":0.999,"total":1167,"current":1167}
+{"_e":"metro:bundling:done","_t":1791787872944,"id":"1","total":1167,"ms":2173.7826}
+{"_e":"root:init","_t":1791788736614,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791788736616,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791788736624,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791788737893,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791788739288,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791788740150,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791788750687,"atlas":false,"workers":8,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791789209212,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791789209213,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791789209223,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791789209325,"id":"1","progress":0.08650519031141869,"total":17,"current":5}
+{"_e":"metro:bundling:progress","_t":1791789209435,"id":"1","progress":0.08650519031141869,"total":127,"current":12}
+{"_e":"metro:bundling:progress","_t":1791789209536,"id":"1","progress":0.08650519031141869,"total":174,"current":34}
+{"_e":"metro:bundling:progress","_t":1791789209636,"id":"1","progress":0.09182736455463729,"total":231,"current":70}
+{"_e":"metro:bundling:progress","_t":1791789209737,"id":"1","progress":0.19963784517881392,"total":282,"current":126}
+{"_e":"metro:bundling:progress","_t":1791789209839,"id":"1","progress":0.22215911395999838,"total":314,"current":148}
+{"_e":"metro:bundling:progress","_t":1791789209938,"id":"1","progress":0.2577116305705956,"total":392,"current":199}
+{"_e":"metro:bundling:progress","_t":1791789210038,"id":"1","progress":0.3011890589635848,"total":461,"current":253}
+{"_e":"metro:bundling:progress","_t":1791789210141,"id":"1","progress":0.30792876474322556,"total":519,"current":288}
+{"_e":"metro:bundling:progress","_t":1791789210240,"id":"1","progress":0.30792876474322556,"total":568,"current":313}
+{"_e":"metro:bundling:progress","_t":1791789210340,"id":"1","progress":0.34590986604207763,"total":624,"current":367}
+{"_e":"metro:bundling:progress","_t":1791789210440,"id":"1","progress":0.37180249851279,"total":656,"current":400}
+{"_e":"metro:bundling:progress","_t":1791789210540,"id":"1","progress":0.4266090414739063,"total":666,"current":435}
+{"_e":"metro:bundling:progress","_t":1791789210640,"id":"1","progress":0.5414738341046635,"total":689,"current":507}
+{"_e":"metro:bundling:progress","_t":1791789210764,"id":"1","progress":0.5937291848903369,"total":706,"current":544}
+{"_e":"metro:bundling:progress","_t":1791789210863,"id":"1","progress":0.5937291848903369,"total":806,"current":619}
+{"_e":"metro:bundling:progress","_t":1791789210963,"id":"1","progress":0.6444885894051187,"total":857,"current":688}
+{"_e":"metro:bundling:progress","_t":1791789211063,"id":"1","progress":0.6600393823303905,"total":869,"current":706}
+{"_e":"metro:bundling:progress","_t":1791789211167,"id":"1","progress":0.7242320121219222,"total":933,"current":794}
+{"_e":"metro:bundling:progress","_t":1791789211267,"id":"1","progress":0.7242320121219222,"total":1025,"current":846}
+{"_e":"metro:bundling:progress","_t":1791789211367,"id":"1","progress":0.7242320121219222,"total":1065,"current":906}
+{"_e":"metro:bundling:progress","_t":1791789211471,"id":"1","progress":0.8533755621158577,"total":1089,"current":1006}
+{"_e":"metro:bundling:progress","_t":1791789211572,"id":"1","progress":0.8856154336734694,"total":1120,"current":1054}
+{"_e":"metro:bundling:progress","_t":1791789211671,"id":"1","progress":0.8944956049382717,"total":1125,"current":1064}
+{"_e":"metro:bundling:progress","_t":1791789211771,"id":"1","progress":0.9452628950157551,"total":1153,"current":1121}
+{"_e":"metro:bundling:progress","_t":1791789211886,"id":"1","progress":0.9982869382159631,"total":1167,"current":1166}
+{"_e":"metro:bundling:progress","_t":1791789212532,"id":"1","progress":0.999,"total":1167,"current":1167}
+{"_e":"metro:bundling:done","_t":1791789212751,"id":"1","total":1167,"ms":3538.18}
+{"_e":"root:init","_t":1791799744515,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791799744518,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791799744528,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791799745952,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791799747588,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791799748543,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791799760165,"atlas":false,"workers":8,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791799761687,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791799761688,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791799761705,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791799761831,"id":"1","progress":0.051652892561983466,"total":22,"current":5}
+{"_e":"metro:bundling:progress","_t":1791799761947,"id":"1","progress":0.051652892561983466,"total":121,"current":6}
+{"_e":"metro:bundling:progress","_t":1791799761994,"id":"1","progress":0.051652892561983466,"total":121,"current":7}
+{"_e":"metro:bundling:progress","_t":1791799762095,"id":"1","progress":0.051652892561983466,"total":161,"current":34}
+{"_e":"metro:bundling:progress","_t":1791799762195,"id":"1","progress":0.1111111111111111,"total":213,"current":71}
+{"_e":"metro:bundling:progress","_t":1791799762297,"id":"1","progress":0.2234039306640625,"total":256,"current":121}
+{"_e":"metro:bundling:progress","_t":1791799762396,"id":"1","progress":0.2234039306640625,"total":347,"current":151}
+{"_e":"metro:bundling:progress","_t":1791799762496,"id":"1","progress":0.26112349878348406,"total":409,"current":209}
+{"_e":"metro:bundling:progress","_t":1791799762596,"id":"1","progress":0.2966772295156179,"total":470,"current":256}
+{"_e":"metro:bundling:progress","_t":1791799762697,"id":"1","progress":0.3037055783472748,"total":548,"current":302}
+{"_e":"metro:bundling:progress","_t":1791799762797,"id":"1","progress":0.3973079412251248,"total":587,"current":370}
+{"_e":"metro:bundling:progress","_t":1791799762896,"id":"1","progress":0.5072218917311124,"total":615,"current":438}
+{"_e":"metro:bundling:progress","_t":1791799762997,"id":"1","progress":0.5601290858836725,"total":632,"current":473}
+{"_e":"metro:bundling:progress","_t":1791799763097,"id":"1","progress":0.5945976369266539,"total":699,"current":539}
+{"_e":"metro:bundling:progress","_t":1791799763197,"id":"1","progress":0.661482796937739,"total":766,"current":623}
+{"_e":"metro:bundling:progress","_t":1791799763298,"id":"1","progress":0.661482796937739,"total":821,"current":643}
+{"_e":"metro:bundling:progress","_t":1791799763398,"id":"1","progress":0.661482796937739,"total":912,"current":726}
+{"_e":"metro:bundling:progress","_t":1791799763498,"id":"1","progress":0.6629155207656872,"total":958,"current":780}
+{"_e":"metro:bundling:progress","_t":1791799763598,"id":"1","progress":0.6818755739210285,"total":1056,"current":872}
+{"_e":"metro:bundling:progress","_t":1791799763731,"id":"1","progress":0.7340236893281474,"total":1096,"current":939}
+{"_e":"metro:bundling:progress","_t":1791799763831,"id":"1","progress":0.9105460226145605,"total":1136,"current":1084}
+{"_e":"metro:bundling:progress","_t":1791799763931,"id":"1","progress":0.9759252164126389,"total":1156,"current":1142}
+{"_e":"metro:bundling:done","_t":1791799764113,"id":"1","total":1156,"ms":2425.9759}
+{"_e":"root:init","_t":1791819657793,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791819657796,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791819657804,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791819659315,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791819661174,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791819662228,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791819674468,"atlas":false,"workers":8,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791819856426,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791819856427,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791819856441,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791819856584,"id":"1","progress":0.1111111111111111,"total":15,"current":5}
+{"_e":"metro:bundling:progress","_t":1791819856685,"id":"1","progress":0.1111111111111111,"total":129,"current":10}
+{"_e":"metro:bundling:progress","_t":1791819856784,"id":"1","progress":0.1111111111111111,"total":175,"current":34}
+{"_e":"metro:bundling:progress","_t":1791819856884,"id":"1","progress":0.1270790466392318,"total":216,"current":77}
+{"_e":"metro:bundling:progress","_t":1791819856984,"id":"1","progress":0.24424203574782727,"total":259,"current":128}
+{"_e":"metro:bundling:progress","_t":1791819857084,"id":"1","progress":0.27829447595043055,"total":345,"current":182}
+{"_e":"metro:bundling:progress","_t":1791819857186,"id":"1","progress":0.3372390767890841,"total":415,"current":241}
+{"_e":"metro:bundling:progress","_t":1791819857286,"id":"1","progress":0.36560302866414274,"total":473,"current":286}
+{"_e":"metro:bundling:progress","_t":1791819857387,"id":"1","progress":0.48560047120094235,"total":508,"current":354}
+{"_e":"metro:bundling:progress","_t":1791819857486,"id":"1","progress":0.5982723360092793,"total":543,"current":420}
+{"_e":"metro:bundling:progress","_t":1791819857588,"id":"1","progress":0.6493010108280198,"total":587,"current":473}
+{"_e":"metro:bundling:progress","_t":1791819857687,"id":"1","progress":0.6881456611570249,"total":616,"current":511}
+{"_e":"metro:bundling:progress","_t":1791819857787,"id":"1","progress":0.6881456611570249,"total":696,"current":572}
+{"_e":"metro:bundling:progress","_t":1791819857887,"id":"1","progress":0.6881456611570249,"total":709,"current":586}
+{"_e":"metro:bundling:progress","_t":1791819857988,"id":"1","progress":0.6881456611570249,"total":764,"current":631}
+{"_e":"metro:bundling:progress","_t":1791819858088,"id":"1","progress":0.7295119433336859,"total":802,"current":685}
+{"_e":"metro:bundling:progress","_t":1791819858188,"id":"1","progress":0.7295119433336859,"total":855,"current":728}
+{"_e":"metro:bundling:progress","_t":1791819858288,"id":"1","progress":0.7295119433336859,"total":909,"current":771}
+{"_e":"metro:bundling:progress","_t":1791819858418,"id":"1","progress":0.7517358655953251,"total":925,"current":802}
+{"_e":"metro:bundling:progress","_t":1791819858517,"id":"1","progress":0.7950398997664114,"total":1006,"current":897}
+{"_e":"metro:bundling:progress","_t":1791819858617,"id":"1","progress":0.7950398997664114,"total":1111,"current":937}
+{"_e":"metro:bundling:progress","_t":1791819858717,"id":"1","progress":0.887753380709788,"total":1142,"current":1076}
+{"_e":"metro:bundling:progress","_t":1791819858817,"id":"1","progress":0.9778447435877666,"total":1167,"current":1154}
+{"_e":"metro:bundling:progress","_t":1791819858919,"id":"1","progress":0.9982869382159631,"total":1167,"current":1166}
+{"_e":"metro:bundling:progress","_t":1791819860310,"id":"1","progress":0.999,"total":1167,"current":1167}
+{"_e":"metro:bundling:done","_t":1791819860498,"id":"1","total":1167,"ms":4071.5901}
+{"_e":"root:init","_t":1791820655155,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791820655157,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791820655165,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791820656211,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791820657345,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791820658219,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791820669467,"atlas":false,"workers":8,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791820685820,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791820685821,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791820685832,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791820685934,"id":"1","progress":0.1111111111111111,"total":15,"current":5}
+{"_e":"metro:bundling:progress","_t":1791820686035,"id":"1","progress":0.12755102040816327,"total":56,"current":20}
+{"_e":"metro:bundling:progress","_t":1791820686158,"id":"1","progress":0.14155474953435937,"total":101,"current":38}
+{"_e":"metro:bundling:progress","_t":1791820686261,"id":"1","progress":0.14155474953435937,"total":199,"current":40}
+{"_e":"metro:bundling:progress","_t":1791820686918,"id":"1","progress":0.14155474953435937,"total":199,"current":41}
+{"_e":"metro:bundling:progress","_t":1791820687018,"id":"1","progress":0.14155474953435937,"total":218,"current":75}
+{"_e":"metro:bundling:progress","_t":1791820687129,"id":"1","progress":0.14155474953435937,"total":225,"current":81}
+{"_e":"metro:bundling:progress","_t":1791820687231,"id":"1","progress":0.14155474953435937,"total":278,"current":101}
+{"_e":"metro:bundling:progress","_t":1791820687330,"id":"1","progress":0.15641897829840468,"total":311,"current":123}
+{"_e":"metro:bundling:progress","_t":1791820687433,"id":"1","progress":0.18367346938775508,"total":343,"current":147}
+{"_e":"metro:bundling:progress","_t":1791820687532,"id":"1","progress":0.2461390541433808,"total":387,"current":192}
+{"_e":"metro:bundling:progress","_t":1791820687641,"id":"1","progress":0.260361604207758,"total":390,"current":199}
+{"_e":"metro:bundling:progress","_t":1791820687884,"id":"1","progress":0.2629848783694937,"total":390,"current":200}
+{"_e":"metro:bundling:progress","_t":1791820687983,"id":"1","progress":0.2629848783694937,"total":424,"current":216}
+{"_e":"metro:bundling:progress","_t":1791820688084,"id":"1","progress":0.2629848783694937,"total":462,"current":226}
+{"_e":"metro:bundling:progress","_t":1791820688183,"id":"1","progress":0.27510120190644954,"total":551,"current":289}
+{"_e":"metro:bundling:progress","_t":1791820688285,"id":"1","progress":0.3035865001731302,"total":608,"current":335}
+{"_e":"metro:bundling:progress","_t":1791820688389,"id":"1","progress":0.3295285822504516,"total":655,"current":376}
+{"_e":"metro:bundling:progress","_t":1791820688492,"id":"1","progress":0.3295285822504516,"total":676,"current":388}
+{"_e":"metro:bundling:progress","_t":1791820688983,"id":"1","progress":0.33113555197647143,"total":676,"current":389}
+{"_e":"metro:bundling:progress","_t":1791820689082,"id":"1","progress":0.38997332487363645,"total":719,"current":449}
+{"_e":"metro:bundling:progress","_t":1791820689183,"id":"1","progress":0.44083841922430056,"total":738,"current":490}
+{"_e":"metro:bundling:progress","_t":1791820689283,"id":"1","progress":0.44083841922430056,"total":832,"current":550}
+{"_e":"metro:bundling:progress","_t":1791820689383,"id":"1","progress":0.4783099233143661,"total":869,"current":601}
+{"_e":"metro:bundling:progress","_t":1791820689483,"id":"1","progress":0.573921028466483,"total":891,"current":675}
+{"_e":"metro:bundling:progress","_t":1791820689588,"id":"1","progress":0.5794418246898189,"total":892,"current":679}
+{"_e":"metro:bundling:progress","_t":1791820689682,"id":"1","progress":0.5811498320899274,"total":892,"current":680}
+{"_e":"metro:bundling:progress","_t":1791820689782,"id":"1","progress":0.6145470450025405,"total":921,"current":722}
+{"_e":"metro:bundling:progress","_t":1791820689886,"id":"1","progress":0.6145470450025405,"total":946,"current":737}
+{"_e":"metro:bundling:progress","_t":1791820689948,"id":"1","progress":0.6145470450025405,"total":946,"current":738}
+{"_e":"metro:bundling:progress","_t":1791820690049,"id":"1","progress":0.7324092646476472,"total":964,"current":825}
+{"_e":"metro:bundling:progress","_t":1791820690151,"id":"1","progress":0.7950843503429044,"total":997,"current":889}
+{"_e":"metro:bundling:progress","_t":1791820690251,"id":"1","progress":0.822480137795453,"total":999,"current":906}
+{"_e":"metro:bundling:progress","_t":1791820690355,"id":"1","progress":0.822480137795453,"total":1054,"current":945}
+{"_e":"metro:bundling:progress","_t":1791820690568,"id":"1","progress":0.822480137795453,"total":1054,"current":946}
+{"_e":"metro:bundling:progress","_t":1791820690705,"id":"1","progress":0.8241155288330919,"total":1063,"current":965}
+{"_e":"metro:bundling:progress","_t":1791820690806,"id":"1","progress":0.8476225813918655,"total":1084,"current":998}
+{"_e":"metro:bundling:progress","_t":1791820690906,"id":"1","progress":0.8722376691713929,"total":1105,"current":1032}
+{"_e":"metro:bundling:progress","_t":1791820691011,"id":"1","progress":0.880477829927621,"total":1119,"current":1050}
+{"_e":"metro:bundling:progress","_t":1791820691111,"id":"1","progress":0.9116186622906292,"total":1128,"current":1077}
+{"_e":"metro:bundling:progress","_t":1791820691214,"id":"1","progress":0.9239040838100215,"total":1134,"current":1090}
+{"_e":"metro:bundling:progress","_t":1791820691313,"id":"1","progress":0.9520618510252936,"total":1154,"current":1126}
+{"_e":"metro:bundling:progress","_t":1791820691429,"id":"1","progress":0.999,"total":1167,"current":1167}
+{"_e":"metro:bundling:done","_t":1791820691658,"id":"1","total":1167,"ms":5837.616}
+{"_e":"root:init","_t":1791820983951,"format":"v0-jsonl","version":"57.0.28"}
+{"_e":"env:mode","_t":1791820983953,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1791820983962,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1791820984845,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1791820985940,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1791820986756,"plugins":[]}
+{"_e":"metro:instantiate","_t":1791820997094,"atlas":false,"workers":8,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1791821002198,"id":"1","platform":"android","environment":null,"entry":"node_modules\\expo\\AppEntry.js"}
+{"_e":"metro:bundling:progress","_t":1791821002199,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791821002208,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1791821002324,"id":"1","progress":0.08506944444444446,"total":24,"current":7}
+{"_e":"metro:bundling:progress","_t":1791821002424,"id":"1","progress":0.08506944444444446,"total":144,"current":23}
+{"_e":"metro:bundling:progress","_t":1791821002524,"id":"1","progress":0.08506944444444446,"total":195,"current":55}
+{"_e":"metro:bundling:progress","_t":1791821002625,"id":"1","progress":0.1841695487551017,"total":247,"current":106}
+{"_e":"metro:bundling:progress","_t":1791821002729,"id":"1","progress":0.21467777777777777,"total":300,"current":139}
+{"_e":"metro:bundling:progress","_t":1791821002832,"id":"1","progress":0.24248163452708907,"total":396,"current":195}
+{"_e":"metro:bundling:progress","_t":1791821002932,"id":"1","progress":0.2911838744732655,"total":467,"current":252}
+{"_e":"metro:bundling:progress","_t":1791821003032,"id":"1","progress":0.2911838744732655,"total":534,"current":288}
+{"_e":"metro:bundling:progress","_t":1791821003133,"id":"1","progress":0.3755817177854938,"total":576,"current":353}
+{"_e":"metro:bundling:progress","_t":1791821003234,"id":"1","progress":0.4927854041489409,"total":604,"current":424}
+{"_e":"metro:bundling:progress","_t":1791821003333,"id":"1","progress":0.561332382255607,"total":642,"current":481}
+{"_e":"metro:bundling:progress","_t":1791821003433,"id":"1","progress":0.5995183673469388,"total":700,"current":542}
+{"_e":"metro:bundling:progress","_t":1791821003533,"id":"1","progress":0.6592149467128634,"total":755,"current":613}
+{"_e":"metro:bundling:progress","_t":1791821003665,"id":"1","progress":0.6687174818808865,"total":845,"current":691}
+{"_e":"metro:bundling:progress","_t":1791821003765,"id":"1","progress":0.6703962548387712,"total":916,"current":750}
+{"_e":"metro:bundling:progress","_t":1791821003865,"id":"1","progress":0.7459494694760596,"total":961,"current":830}
+{"_e":"metro:bundling:progress","_t":1791821003965,"id":"1","progress":0.8241292203645769,"total":998,"current":906}
+{"_e":"metro:bundling:progress","_t":1791821004080,"id":"1","progress":0.8241292203645769,"total":1088,"current":952}
+{"_e":"metro:bundling:progress","_t":1791821004182,"id":"1","progress":0.8241292203645769,"total":1110,"current":999}
+{"_e":"metro:bundling:progress","_t":1791821004282,"id":"1","progress":0.9356973179837431,"total":1132,"current":1095}
+{"_e":"metro:bundling:progress","_t":1791821004382,"id":"1","progress":0.9671728745037574,"total":1148,"current":1129}
+{"_e":"metro:bundling:progress","_t":1791821004497,"id":"1","progress":0.9947894139886578,"total":1150,"current":1147}
+{"_e":"metro:bundling:progress","_t":1791821004695,"id":"1","progress":0.996524763705104,"total":1150,"current":1148}
+{"_e":"metro:bundling:progress","_t":1791821005385,"id":"1","progress":0.9982616257088847,"total":1150,"current":1149}
+{"_e":"metro:bundling:progress","_t":1791821005486,"id":"1","progress":0.9982616257088847,"total":1167,"current":1163}
+{"_e":"metro:bundling:progress","_t":1791821005592,"id":"1","progress":0.9982869382159631,"total":1167,"current":1166}
+{"_e":"metro:bundling:done","_t":1791821005755,"id":"1","total":1167,"ms":3557.0986}
