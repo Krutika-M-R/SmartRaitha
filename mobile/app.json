@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "SmartRaitha",
+    "slug": "smartraitha",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#2E7D32"
+    },
+    "android": {
+      "package": "com.smartraitha.app"
+    },
+    "ios": {
+      "bundleIdentifier": "com.smartraitha.app"
+    },
+    "plugins": [
+      "expo-web-browser",
+      "expo-status-bar"
+    ]
+  }
+}

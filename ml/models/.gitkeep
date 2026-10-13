@@ -1,0 +1,2 @@
+Trained model files (price_model.pkl) are saved here by train.py.
+This file just keeps the folder in git before a model exists.
