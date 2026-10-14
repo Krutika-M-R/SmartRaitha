@@ -4,6 +4,7 @@ const {
   getLiveMarketPrices,
 } = require('./liveMarketPriceService');
 const { estimateTransportation } = require('./transportEstimateService');
+const { resolveMandiCoordinates } = require('./mandiCoordinateService');
 
 function roundCurrency(amount) {
   return Math.round((amount + Number.EPSILON) * 100) / 100;
@@ -25,10 +26,12 @@ async function calculateProfit({ cropName, mandiName, state, quantityKg, originL
   const latestDate = Math.max(...matchingPrices.map((price) => price.date.getTime()));
   const latestPrice = matchingPrices.find((price) => price.date.getTime() === latestDate);
   const modalPrice = latestPrice.modalPrice;
+  const destinationCoordinates = await resolveMandiCoordinates(mandiName, latestPrice.district, state);
   const transport = await estimateTransportation({
     originLatitude: Number(originLatitude),
     originLongitude: Number(originLongitude),
     destination: [mandiName, state, 'India'].filter(Boolean).join(', '),
+    destinationCoordinates,
   });
   const transportCost = transport.transportationCost;
 

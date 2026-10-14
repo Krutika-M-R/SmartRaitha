@@ -4,6 +4,7 @@ const { calculateProfit } = require('../services/profitService');
 const { fetchAgmarknetPage, normalizeRecord } = require('../services/importService');
 const { normalizeMandiName } = require('../services/marketUtils');
 const { estimateTransportation } = require('../services/transportEstimateService');
+const { resolveMandiCoordinates } = require('../services/mandiCoordinateService');
 const { predictTwoDayPrices } = require('../services/agmarknetForecastService');
 const {
   getAgmarknetCsvCrops,
@@ -253,7 +254,7 @@ function buildScopedReply(message, language, context) {
 
   if (isPredictionQuestion(message)) {
     if (!crop || !requestedMandi) return 'Which crop and mandi should I check for a two-day price forecast?';
-    if (predictionError) return `I could not generate a live Agmarknet forecast: ${predictionError}`;
+    if (predictionError) return `I could not generate an Agmarknet forecast: ${predictionError}`;
     if (!prediction) return `Agmarknet does not have enough recent reports to forecast ${crop.name} at ${requestedMandi.name}.`;
     const date = new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(prediction.predictedDate));
     return `Based on recent Agmarknet reports, the backend estimates ${crop.name} at ${requestedMandi.name} at ₹${prediction.predictedPrice} per kg for ${date}. This is an estimate, not a guaranteed market price.`;
@@ -404,6 +405,11 @@ async function askAssistant(req, res) {
           originLongitude: location.longitude,
           destination: [requestedMandi.name, requestedMandi.district, requestedMandi.state, 'India']
             .filter(Boolean).join(', '),
+          destinationCoordinates: await resolveMandiCoordinates(
+            requestedMandi.name,
+            requestedMandi.district,
+            requestedMandi.state,
+          ),
         });
       } catch (error) {
         transportError = error.message;

@@ -55,7 +55,12 @@ async function geocodeDestination(destination) {
   throw new Error(`Could not find valid map coordinates for ${destination}.`);
 }
 
-async function estimateTransportation({ originLatitude, originLongitude, destination }) {
+async function estimateTransportation({
+  originLatitude,
+  originLongitude,
+  destination,
+  destinationCoordinates,
+}) {
   const hasLatitude = originLatitude !== null && originLatitude !== undefined && String(originLatitude).trim() !== '';
   const hasLongitude = originLongitude !== null && originLongitude !== undefined && String(originLongitude).trim() !== '';
   const latitude = Number(originLatitude);
@@ -68,11 +73,25 @@ async function estimateTransportation({ originLatitude, originLongitude, destina
     throw new Error('A destination mandi is required for transportation estimates.');
   }
 
-  const destinationCoordinates = await geocodeDestination(destination.trim());
+  let resolvedDestinationCoordinates = destinationCoordinates;
+  if (resolvedDestinationCoordinates !== undefined && resolvedDestinationCoordinates !== null) {
+    const destinationLat = Number(resolvedDestinationCoordinates.latitude);
+    const destinationLon = Number(resolvedDestinationCoordinates.longitude);
+    if (!Number.isFinite(destinationLat) || destinationLat < -90 || destinationLat > 90
+      || !Number.isFinite(destinationLon) || destinationLon < -180 || destinationLon > 180) {
+      throw new Error('A valid destination latitude and longitude are required for transportation estimates.');
+    }
+    resolvedDestinationCoordinates = {
+      latitude: destinationLat,
+      longitude: destinationLon,
+    };
+  } else {
+    resolvedDestinationCoordinates = await geocodeDestination(destination.trim());
+  }
   let response;
   try {
     response = await axios.get(
-      `${OSRM_ROUTE_URL}/${longitude},${latitude};${destinationCoordinates.longitude},${destinationCoordinates.latitude}`,
+      `${OSRM_ROUTE_URL}/${longitude},${latitude};${resolvedDestinationCoordinates.longitude},${resolvedDestinationCoordinates.latitude}`,
       {
         params: {
           overview: 'full',

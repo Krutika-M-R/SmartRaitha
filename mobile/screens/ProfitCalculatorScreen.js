@@ -34,7 +34,12 @@ export default function ProfitCalculatorScreen({ route }) {
     try {
       if (!state) throw new Error('Could not identify your state. Allow location access and reopen the profit calculator.');
       const result = await priceService.getLivePricesForCrop(crop.name, state);
-      const distanceSortedMandis = result.records.slice().sort((a, b) => {
+      const pricedMandis = result.records.filter((market) => (
+        market.hasPrice
+        && Number.isFinite(Number(market.modalPrice))
+        && Number(market.modalPrice) > 0
+      ));
+      const distanceSortedMandis = pricedMandis.sort((a, b) => {
         const aDistance = getMarketDistanceKm(location, a.mandi);
         const bDistance = getMarketDistanceKm(location, b.mandi);
         if (aDistance != null && bDistance != null) return aDistance - bDistance;
@@ -42,9 +47,9 @@ export default function ProfitCalculatorScreen({ route }) {
           || a.mandi.name.localeCompare(b.mandi.name);
       });
       setMandis(distanceSortedMandis);
-      const recommendedMarket = result.records.find((market) => market.id === recommendedMandiId);
-      const bestAvailableMarket = result.records.reduce((best, market) => (
-        market.hasPrice && (!best || market.modalPrice > best.modalPrice) ? market : best
+      const recommendedMarket = pricedMandis.find((market) => market.id === recommendedMandiId);
+      const bestAvailableMarket = pricedMandis.reduce((best, market) => (
+        !best || market.modalPrice > best.modalPrice ? market : best
       ), null);
       if (recommendedMarket || bestAvailableMarket) {
         setSelectedMarketId((recommendedMarket || bestAvailableMarket).id);

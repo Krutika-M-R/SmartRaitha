@@ -1,5 +1,6 @@
 const { fetchAllAgmarknetRecords, normalizeRecord } = require('./importService');
 const { normalizeMandiName } = require('./marketUtils');
+const { getAgmarknetCsvPriceHistory } = require('./liveMarketPriceService');
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -14,7 +15,7 @@ function parseTargetDate(targetDate) {
   return parsed;
 }
 
-function buildTwoDayForecast(rawRecords, { mandiNames, targetDate }) {
+function buildTwoDayForecast(rawRecords, { mandiNames, targetDate, dataFreshness = 'live' }) {
   const target = parseTargetDate(targetDate);
   const requestedMarkets = new Map(
     mandiNames.map((name) => [normalizeMandiName(name), name]),
@@ -22,7 +23,9 @@ function buildTwoDayForecast(rawRecords, { mandiNames, targetDate }) {
   const dailyPrices = new Map();
 
   for (const record of rawRecords) {
-    const price = normalizeRecord(record);
+    const price = record.date instanceof Date && typeof record.mandiName === 'string'
+      ? record
+      : normalizeRecord(record);
     const requestedName = requestedMarkets.get(normalizeMandiName(price.mandiName));
     if (!requestedName || !price.date || price.modalPrice == null || price.modalPrice <= 0) continue;
 
@@ -74,6 +77,10 @@ function buildTwoDayForecast(rawRecords, { mandiNames, targetDate }) {
       predictedPrice: Number(Math.max(0, predictedPrice).toFixed(2)),
       sampleCount: observations.length,
       modelVersion,
+      dataFreshness,
+      latestPriceDate: new Date(observations[observations.length - 1].time)
+        .toISOString()
+        .slice(0, 10),
     });
   }
 
@@ -89,19 +96,47 @@ async function predictTwoDayPrices({ cropName, state, mandiNames, targetDate }) 
   }
   parseTargetDate(targetDate);
 
-  const records = await fetchAllAgmarknetRecords({
-    filters: {
-      'state.keyword': state.trim(),
-      'commodity.keyword': cropName.trim(),
-    },
+  let liveRecords = [];
+  try {
+    liveRecords = await fetchAllAgmarknetRecords({
+      filters: {
+        'state.keyword': state.trim(),
+        'commodity.keyword': cropName.trim(),
+      },
+    });
+  } catch (error) {
+    console.warn('Live Agmarknet forecast request failed; checking saved price history:', error.message);
+  }
+
+  const livePredictions = buildTwoDayForecast(liveRecords, {
+    mandiNames,
+    targetDate,
+    dataFreshness: 'live',
   });
-  const predictions = buildTwoDayForecast(records, { mandiNames, targetDate });
+  const predictedMarkets = new Set(
+    livePredictions.map((prediction) => normalizeMandiName(prediction.mandiName)),
+  );
+  const missingMandis = mandiNames.filter(
+    (name) => !predictedMarkets.has(normalizeMandiName(name)),
+  );
+  let cachedPredictions = [];
+  if (missingMandis.length > 0) {
+    const savedRecords = await getAgmarknetCsvPriceHistory({ cropName, state });
+    cachedPredictions = buildTwoDayForecast(savedRecords, {
+      mandiNames: missingMandis,
+      targetDate,
+      dataFreshness: 'cached',
+    });
+  }
+  const predictions = [...livePredictions, ...cachedPredictions];
   if (predictions.length === 0) {
     throw new Error('No Agmarknet price history was found for the selected mandis and crop.');
   }
 
+  const freshnessValues = new Set(predictions.map((prediction) => prediction.dataFreshness));
   return {
     dataSource: 'Agmarknet',
+    dataFreshness: freshnessValues.size > 1 ? 'mixed' : predictions[0].dataFreshness,
     predictions,
   };
 }

@@ -5,6 +5,7 @@ const {
   getAgmarknetCsvMandis,
   getAgmarknetCsvPrices,
 } = require('../services/liveMarketPriceService');
+const { resolveMandiCoordinates } = require('../services/mandiCoordinateService');
 
 // GET /api/prices?cropName=Tomato&state=Karnataka
 async function getPricesForCrop(req, res) {
@@ -36,10 +37,15 @@ async function getLivePrices(req, res) {
       cropName: commodity,
       state,
     });
-    const liveRecords = getLatestPricesByMarket(livePrices)
+    const liveRecords = await Promise.all(getLatestPricesByMarket(livePrices)
       .sort((a, b) => b.modalPrice - a.modalPrice)
-      .map((price) => {
+      .map(async (price) => {
         const marketId = [price.state, price.district || '', price.mandiName].join('|');
+        const coordinates = await resolveMandiCoordinates(
+          price.mandiName,
+          price.district,
+          price.state,
+        );
 
         return {
           id: marketId,
@@ -58,11 +64,12 @@ async function getLivePrices(req, res) {
             name: price.mandiName,
             district: price.district,
             state: price.state,
-            latitude: null,
-            longitude: null,
+            latitude: coordinates?.latitude ?? null,
+            longitude: coordinates?.longitude ?? null,
+            coordinatePrecision: coordinates?.coordinatePrecision ?? null,
           },
         };
-      });
+      }));
     const liveByName = new Map(
       liveRecords.map((record) => [normalizeMandiName(record.mandi.name), record]),
     );
@@ -71,6 +78,13 @@ async function getLivePrices(req, res) {
 
     for (const mandi of mandis) {
       const key = normalizeMandiName(mandi.name);
+      const coordinates = mandi.latitude == null || mandi.longitude == null
+        ? await resolveMandiCoordinates(mandi.name, mandi.district, mandi.state)
+        : {
+          latitude: mandi.latitude,
+          longitude: mandi.longitude,
+          coordinatePrecision: mandi.coordinatePrecision,
+        };
       const liveRecord = liveByName.get(key);
       const record = liveRecord
         ? {
@@ -78,8 +92,9 @@ async function getLivePrices(req, res) {
           mandi: {
             ...liveRecord.mandi,
             district: liveRecord.mandi.district || mandi.district,
-            latitude: null,
-            longitude: null,
+            latitude: coordinates.latitude,
+            longitude: coordinates.longitude,
+            coordinatePrecision: coordinates.coordinatePrecision,
           },
         }
         : {
@@ -99,8 +114,9 @@ async function getLivePrices(req, res) {
             name: mandi.name,
             district: mandi.district,
             state: mandi.state,
-            latitude: mandi.latitude,
-            longitude: mandi.longitude,
+            latitude: coordinates.latitude,
+            longitude: coordinates.longitude,
+            coordinatePrecision: coordinates.coordinatePrecision,
           },
         };
       const existing = recordsByMandi.get(key);

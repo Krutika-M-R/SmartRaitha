@@ -101,13 +101,14 @@ export default function HomeScreen({ navigation }) {
         ? stateCropResult.value
         : [];
       const availableCropNames = new Set(stateCrops.map((crop) => crop.name.toLocaleLowerCase()));
-      const marketCrops = marketCropResult.value
+      const cropOptions = state && stateCrops.length > 0
+        ? stateCrops
+        : marketCropResult.value;
+      const marketCrops = cropOptions
         .map((crop) => ({
           ...crop,
           hasLocalPrices: availableCropNames.has(crop.name.toLocaleLowerCase()),
-        }))
-        .sort((a, b) => Number(b.hasLocalPrices) - Number(a.hasLocalPrices)
-          || a.name.localeCompare(b.name));
+        }));
       setCrops(marketCrops);
       setSelectedCrop(stateCrops.length > 0
         ? marketCrops.find((crop) => crop.name.toLocaleLowerCase()

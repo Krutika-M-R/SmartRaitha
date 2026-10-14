@@ -6,10 +6,17 @@ const {
   normalizeRecord,
 } = require('./importService');
 const { normalizeMandiName } = require('./marketUtils');
+const { getMandiCoordinates } = require('./mandiCoordinateService');
+const {
+  normalizeCropName,
+  selectSellingCrops,
+} = require('./sellingCropService');
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const AGMARKNET_CSV_PATH = process.env.AGMARKNET_CSV_PATH
   || path.join(__dirname, '..', 'data', 'agmarknet_current_prices.csv');
+const KARNATAKA_SELLING_CSV_PATH = process.env.AGMARKNET_KARNATAKA_CSV_PATH
+  || path.join(__dirname, '..', 'data', 'agmarknet_karnataka_updated_prices.csv');
 const AGMARKNET_CSV_HEADERS = [
   'state',
   'district',
@@ -29,7 +36,12 @@ const AGMARKNET_CSV_HEADERS = [
   'source',
   'retrieved_at_utc',
 ];
-const MAX_CSV_REFRESH_INTERVAL_MS = 6 * 60 * 60 * 1000;
+const KARNATAKA_SELLING_CSV_HEADERS = [
+  ...AGMARKNET_CSV_HEADERS,
+  'quote_status',
+  'snapshot_generated_at_utc',
+];
+const MAX_CSV_REFRESH_INTERVAL_MS = DAY_MS;
 let csvWriteQueue = Promise.resolve();
 let csvRefreshPromise = null;
 
@@ -74,13 +86,6 @@ function parseCsvObjects(csvText) {
 function serializeCsvValue(value) {
   const text = value == null ? '' : String(value);
   return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
-}
-
-function normalizeCropName(name) {
-  return String(name || '')
-    .normalize('NFKC')
-    .toLocaleLowerCase()
-    .replace(/[^\p{L}\p{N}]/gu, '');
 }
 
 function makeCsvRow(rawRecord, retrievedAt) {
@@ -140,6 +145,111 @@ async function writeAgmarknetCsvRows(rows) {
   await fs.rename(tempPath, AGMARKNET_CSV_PATH);
 }
 
+async function writeKarnatakaSellingPriceSnapshot() {
+  const csvText = await fs.readFile(AGMARKNET_CSV_PATH, 'utf8');
+  const sourceRows = parseCsvObjects(csvText);
+  const crops = selectSellingCrops(await getAgmarknetCsvCrops({ state: 'Karnataka' }));
+  const mandis = await getAgmarknetCsvMandis({ state: 'Karnataka' });
+  if (crops.length === 0 || mandis.length === 0) {
+    throw new Error('Cannot create the Karnataka selling-price grid without saved crops and mandis.');
+  }
+
+  const pricesByPair = new Map();
+  const sourceRetrievedAtByPair = new Map();
+  sourceRows.forEach((row) => {
+    if (
+      String(row.state || '').trim().toLocaleLowerCase() !== 'karnataka'
+      || String(row.source || '').trim() !== 'Agmarknet'
+      || !String(row.price_date || '').trim()
+      || !Number.isFinite(Number(row.modal_price_per_kg))
+      || Number(row.modal_price_per_kg) <= 0
+    ) {
+      return;
+    }
+    const key = [
+      normalizeCropName(row.crop_name),
+      normalizeMandiName(row.mandi_name),
+    ].join('|');
+    const current = sourceRetrievedAtByPair.get(key);
+    if (!current
+      || String(row.price_date) > current.priceDate
+      || (String(row.price_date) === current.priceDate
+        && Date.parse(row.retrieved_at_utc || '') > Date.parse(current.retrievedAt || ''))) {
+      sourceRetrievedAtByPair.set(key, {
+        priceDate: String(row.price_date),
+        retrievedAt: String(row.retrieved_at_utc || ''),
+      });
+    }
+  });
+  for (const crop of crops) {
+    const latestByMarket = getLatestPricesByMarket(parseAgmarknetCsv(csvText, {
+      cropName: crop.name,
+      state: 'Karnataka',
+    }));
+    for (const price of latestByMarket) {
+      const key = [
+        normalizeCropName(price.cropName),
+        normalizeMandiName(price.mandiName),
+      ].join('|');
+      pricesByPair.set(key, price);
+    }
+  }
+
+  const retrievedAt = new Date().toISOString();
+  const rows = [];
+  for (const mandi of mandis) {
+    for (const crop of crops) {
+      const key = [
+        normalizeCropName(crop.name),
+        normalizeMandiName(mandi.name),
+      ].join('|');
+      const price = pricesByPair.get(key);
+      rows.push({
+        state: 'Karnataka',
+        district: price?.district || mandi.district || '',
+        mandi_name: mandi.name,
+        crop_name: crop.name,
+        variety: '',
+        grade: '',
+        arrival_date: price?.date.toISOString().slice(0, 10) || '',
+        price_date: price?.date.toISOString().slice(0, 10) || '',
+        min_price_rupees_per_quintal: price ? price.minPrice * 100 : '',
+        max_price_rupees_per_quintal: price ? price.maxPrice * 100 : '',
+        modal_price_rupees_per_quintal: price ? price.modalPrice * 100 : '',
+        min_price_per_kg: price?.minPrice ?? '',
+        max_price_per_kg: price?.maxPrice ?? '',
+        modal_price_per_kg: price?.modalPrice ?? '',
+        price_unit: 'KG',
+        source: price ? 'Agmarknet' : '',
+        retrieved_at_utc: price
+          ? sourceRetrievedAtByPair.get(key)?.retrievedAt || ''
+          : '',
+        quote_status: price ? 'reported' : 'not_reported',
+        snapshot_generated_at_utc: retrievedAt,
+      });
+    }
+  }
+
+  const snapshot = [
+    KARNATAKA_SELLING_CSV_HEADERS.join(','),
+    ...rows.map((row) => KARNATAKA_SELLING_CSV_HEADERS
+      .map((header) => serializeCsvValue(row[header]))
+      .join(',')),
+    '',
+  ].join('\n');
+  await fs.mkdir(path.dirname(KARNATAKA_SELLING_CSV_PATH), { recursive: true });
+  const tempPath = `${KARNATAKA_SELLING_CSV_PATH}.${process.pid}.${Date.now()}.tmp`;
+  await fs.writeFile(tempPath, snapshot, 'utf8');
+  await fs.rename(tempPath, KARNATAKA_SELLING_CSV_PATH);
+
+  return {
+    crops: crops.length,
+    mandis: mandis.length,
+    rows: rows.length,
+    reportedPrices: rows.filter((row) => row.quote_status === 'reported').length,
+  };
+}
+
 function csvRecordKey(row) {
   return [
     String(row.state || '').trim().toLocaleLowerCase(),
@@ -183,10 +293,30 @@ async function getAgmarknetCsvCrops({ state } = {}) {
       && (!state || rowState.toLocaleLowerCase() === state.trim().toLocaleLowerCase())
     ) {
       const key = cropName.toLocaleLowerCase();
-      if (!names.has(key)) names.set(key, { id: cropName, name: cropName });
+      if (!names.has(key)) {
+        names.set(key, {
+          id: cropName,
+          name: cropName,
+          markets: new Set(),
+          latestPriceDate: '',
+        });
+      }
+      const crop = names.get(key);
+      crop.markets.add([
+        rowState.toLocaleLowerCase(),
+        String(row.district || '').trim().toLocaleLowerCase(),
+        normalizeMandiName(row.mandi_name),
+      ].join('|'));
+      const priceDate = String(row.price_date || '').trim();
+      if (priceDate > crop.latestPriceDate) crop.latestPriceDate = priceDate;
     }
   });
-  return [...names.values()].sort((a, b) => a.name.localeCompare(b.name));
+  return [...names.values()]
+    .map(({ markets, ...crop }) => ({
+      ...crop,
+      marketCount: markets.size,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 async function getAgmarknetCsvMandis({ state } = {}) {
@@ -206,13 +336,15 @@ async function getAgmarknetCsvMandis({ state } = {}) {
     const key = [rowState.toLocaleLowerCase(), normalizeMandiName(name)].join('|');
     const current = mandis.get(key);
     if (!current || (!current.district && district)) {
+      const coordinates = getMandiCoordinates(name, rowState);
       mandis.set(key, {
         id: key,
         name,
         district: district || null,
         state: rowState,
-        latitude: null,
-        longitude: null,
+        latitude: coordinates?.latitude ?? null,
+        longitude: coordinates?.longitude ?? null,
+        coordinatePrecision: coordinates?.coordinatePrecision ?? null,
       });
     }
   });
@@ -290,7 +422,13 @@ async function refreshAgmarknetCsv() {
       });
       await writeAgmarknetCsvRows([...fetchedRowsByKey.values()]);
     });
-    return { rows: rows.length, states: states.length, refreshedAt: retrievedAt };
+    const karnatakaSnapshot = await writeKarnatakaSellingPriceSnapshot();
+    return {
+      rows: rows.length,
+      states: states.length,
+      refreshedAt: retrievedAt,
+      karnatakaSnapshot,
+    };
   })();
 
   try {
@@ -306,6 +444,9 @@ function startAgmarknetCsvRefreshScheduler() {
       const result = await refreshAgmarknetCsv();
       console.info(
         `Agmarknet CSV refreshed: ${result.rows} price records across ${result.states} states.`,
+      );
+      console.info(
+        `Karnataka selling CSV refreshed: ${result.karnatakaSnapshot.reportedPrices} reported crop prices across ${result.karnatakaSnapshot.crops} crops and ${result.karnatakaSnapshot.mandis} mandis; other combinations marked not_reported.`,
       );
     } catch (error) {
       console.error('Agmarknet CSV refresh failed; keeping the previous snapshot:', error.message);
@@ -384,18 +525,66 @@ function parseAgmarknetCsv(csvText, { cropName, state, now = Date.now() }) {
 }
 
 async function getCsvCachedPrices({ cropName, state }) {
-  let csvText;
-  try {
-    csvText = await fs.readFile(AGMARKNET_CSV_PATH, 'utf8');
-  } catch (error) {
-    if (error.code === 'ENOENT') return [];
-    throw error;
+  const sources = [{ path: AGMARKNET_CSV_PATH, priority: 0 }];
+  if (state.trim().toLocaleLowerCase() === 'karnataka'
+    && path.resolve(KARNATAKA_SELLING_CSV_PATH) !== path.resolve(AGMARKNET_CSV_PATH)) {
+    sources.unshift({ path: KARNATAKA_SELLING_CSV_PATH, priority: 1 });
   }
-  return parseAgmarknetCsv(csvText, { cropName, state });
+  const pricesByMarket = new Map();
+
+  for (const source of sources) {
+    let csvText;
+    try {
+      csvText = await fs.readFile(source.path, 'utf8');
+    } catch (error) {
+      if (error.code === 'ENOENT') continue;
+      throw error;
+    }
+
+    for (const price of getLatestPricesByMarket(parseAgmarknetCsv(csvText, {
+      cropName,
+      state,
+    }))) {
+      const key = [
+        normalizeMandiName(price.mandiName),
+        normalizeMandiName(price.state),
+      ].join('|');
+      const existing = pricesByMarket.get(key);
+      if (!existing
+        || price.date > existing.price.date
+        || (price.date.getTime() === existing.price.date.getTime()
+          && source.priority > existing.priority)) {
+        pricesByMarket.set(key, { price, priority: source.priority });
+      }
+    }
+  }
+
+  return [...pricesByMarket.values()].map(({ price }) => price);
 }
 
 async function getAgmarknetCsvPrices({ cropName, state }) {
   return getCsvCachedPrices({ cropName, state });
+}
+
+async function getAgmarknetCsvPriceHistory({ cropName, state }) {
+  const sources = [AGMARKNET_CSV_PATH];
+  if (state.trim().toLocaleLowerCase() === 'karnataka'
+    && path.resolve(KARNATAKA_SELLING_CSV_PATH) !== path.resolve(AGMARKNET_CSV_PATH)) {
+    sources.push(KARNATAKA_SELLING_CSV_PATH);
+  }
+
+  for (const sourcePath of sources) {
+    let csvText;
+    try {
+      csvText = await fs.readFile(sourcePath, 'utf8');
+    } catch (error) {
+      if (error.code === 'ENOENT') continue;
+      throw error;
+    }
+    const prices = parseAgmarknetCsv(csvText, { cropName, state });
+    if (prices.length > 0) return prices;
+  }
+  return [];
 }
 
 function isUsablePrice(price) {
@@ -517,13 +706,13 @@ async function getLiveMarketPrices({ cropName, state }) {
       }
     }
   }
-  if (liveFetchError && latestByMarket.size === 0) throw liveFetchError;
   const marketPrices = [...latestByMarket.values()].flatMap((market) => market.prices)
     .map(({ cacheSourcePriority, ...price }) => price);
 
   return {
     prices: marketPrices,
     marketScope: 'state',
+    ...(liveFetchError ? { liveUnavailable: true } : {}),
   };
 }
 
@@ -535,6 +724,8 @@ module.exports = {
   getAgmarknetCsvCrops,
   getAgmarknetCsvMandis,
   getAgmarknetCsvPrices,
+  getAgmarknetCsvPriceHistory,
   refreshAgmarknetCsv,
+  writeKarnatakaSellingPriceSnapshot,
   startAgmarknetCsvRefreshScheduler,
 };

@@ -33,14 +33,17 @@ export default function MarketsScreen({ route }) {
         throw new Error('Could not identify your state. Allow location access and reopen market comparison.');
       }
       const result = await priceService.getLivePricesForCrop(crop.name, state);
-      result.records.sort((a, b) => {
+      const pricedRecords = result.records.filter((item) => (
+        item.hasPrice && Number.isFinite(Number(item.modalPrice)) && Number(item.modalPrice) > 0
+      ));
+      pricedRecords.sort((a, b) => {
         const aDistance = getMarketDistanceKm(location, a.mandi);
         const bDistance = getMarketDistanceKm(location, b.mandi);
         if (aDistance != null && bDistance != null) return aDistance - bDistance;
         return Number(b.hasLivePrice) - Number(a.hasLivePrice)
           || a.mandi.name.localeCompare(b.mandi.name);
       });
-      setPrices(result.records);
+      setPrices(pricedRecords);
       setMarketScope(result.marketScope);
     } catch (e) {
       setPrices([]);
@@ -111,6 +114,11 @@ export default function MarketsScreen({ route }) {
                   <View style={styles.predictionMandi}>
                     <Text style={styles.predictionMandiName}>{prediction.mandiName}</Text>
                     <Text style={styles.predictionDate}>{t('predictedOn')}: {prediction.predictedDate}</Text>
+                    {prediction.dataFreshness === 'cached' && (
+                      <Text style={styles.predictionDate}>
+                        Saved Agmarknet report through {prediction.latestPriceDate}
+                      </Text>
+                    )}
                     <Text style={styles.predictionDate}>{prediction.modelVersion}</Text>
                   </View>
                   <Text style={styles.predictionPrice}>₹{Number(prediction.predictedPrice).toFixed(2)}</Text>
@@ -127,7 +135,8 @@ export default function MarketsScreen({ route }) {
       )}
       ListEmptyComponent={(
         <Text style={styles.empty}>
-          {marketScope === 'state' ? `${t('noPriceDataForState')} (${state}).` : t('noPriceData')}
+          No Agmarknet price is currently available for {crop.name}
+          {marketScope === 'state' ? ` in ${state}.` : '.'}
         </Text>
       )}
       renderItem={({ item }) => (

@@ -5,6 +5,7 @@ const {
 } = require('./liveMarketPriceService');
 const { normalizeMandiName } = require('./marketUtils');
 const { estimateTransportation } = require('./transportEstimateService');
+const { resolveMandiCoordinates } = require('./mandiCoordinateService');
 
 function dateValue(date) {
   return date ? date.getTime() : 0;
@@ -30,7 +31,7 @@ async function recommendBestMandi({
   if (!state || !state.trim()) {
     throw new Error('Could not identify your state from your location. Allow location access and try again.');
   }
-  const { prices: livePrices, marketScope } = await getLiveMarketPrices({
+  const { prices: livePrices, marketScope, liveUnavailable } = await getLiveMarketPrices({
     cropName,
     state,
   });
@@ -40,24 +41,27 @@ async function recommendBestMandi({
   if (markets.length === 0) {
     return {
       recommended: null,
-      reason: `No Agmarknet price report was found in the latest data or saved snapshot for ${cropName.trim()} in ${state.trim()}.`,
+      reason: liveUnavailable
+        ? `Live Agmarknet is temporarily unreachable, and the saved snapshot has no price report for ${cropName.trim()} in ${state.trim()}. Try again after the data source is available.`
+        : `No Agmarknet price report was found in the latest data or saved snapshot for ${cropName.trim()} in ${state.trim()}.`,
       dataSource: 'Agmarknet',
       retrievedAt: new Date().toISOString(),
       allOptions: [],
       marketScope,
     };
   }
-  const latestPrices = markets.map((price) => ({
+  const latestPrices = await Promise.all(markets.map(async (price) => ({
     mandiName: price.mandiName,
     district: price.district,
     state: price.state,
+    coordinates: await resolveMandiCoordinates(price.mandiName, price.district, price.state),
     modalPrice: price.modalPrice,
     priceUnit: price.priceUnit,
     arrivalDate: price.arrivalDate,
     date: price.date,
     dataFreshness: price.dataFreshness,
     ageDays: price.ageDays,
-  }));
+  })));
   const hasOrigin = originLatitude !== undefined && originLongitude !== undefined;
   const pricedOptions = hasOrigin
     ? await Promise.all(latestPrices.map(async (price) => {
@@ -67,6 +71,7 @@ async function recommendBestMandi({
         destination: [price.mandiName, price.district, price.state, 'India']
           .filter(Boolean)
           .join(', '),
+        destinationCoordinates: price.coordinates,
       });
       const grossRevenue = Number((quantityKg * price.modalPrice).toFixed(2));
       return {
@@ -94,6 +99,9 @@ async function recommendBestMandi({
         name: price.mandiName,
         district: price.district,
         state: price.state,
+        latitude: price.coordinates?.latitude ?? null,
+        longitude: price.coordinates?.longitude ?? null,
+        coordinatePrecision: price.coordinates?.coordinatePrecision ?? null,
       },
       modalPrice: price.modalPrice,
       priceUnit: price.priceUnit,

@@ -5,7 +5,9 @@ const os = require('node:os');
 const path = require('node:path');
 const axios = require('axios');
 const testCsvPath = path.join(os.tmpdir(), `smartraitha-agmarknet-test-${process.pid}.csv`);
+const testKarnatakaCsvPath = path.join(os.tmpdir(), `smartraitha-agmarknet-karnataka-test-${process.pid}.csv`);
 process.env.AGMARKNET_CSV_PATH = testCsvPath;
+process.env.AGMARKNET_KARNATAKA_CSV_PATH = testKarnatakaCsvPath;
 const prisma = { crop: {}, mandi: {}, price: {} };
 const { buildTwoDayForecast } = require('../services/agmarknetForecastService');
 const {
@@ -21,6 +23,10 @@ const {
 const { rankMarketPrices, recommendBestMandi } = require('../services/recommendationService');
 const { predictTwoDayPrices } = require('../services/agmarknetForecastService');
 const { calculateProfit } = require('../services/profitService');
+const {
+  getMandiCoordinates,
+  resolveMandiCoordinates,
+} = require('../services/mandiCoordinateService');
 const priceController = require('../controllers/priceController');
 const cropController = require('../controllers/cropController');
 const {
@@ -38,6 +44,7 @@ prisma.price.findMany = async () => [];
 
 test.after(async () => {
   await fs.rm(testCsvPath, { force: true });
+  await fs.rm(testKarnatakaCsvPath, { force: true });
 });
 
 test('prefers MANDI_API_KEY when both supported API key names are set', () => {
@@ -176,6 +183,31 @@ test('matches saved CSV prices when crop punctuation differs from the selected c
   assert.equal(prices[0].dataFreshness, 'cached');
 });
 
+test('uses only reported quotes from the Karnataka seller-price grid for CSV fallback', async () => {
+  const {
+    getAgmarknetCsvPrices,
+  } = require('../services/liveMarketPriceService');
+  await fs.writeFile(testCsvPath, [
+    'state,district,mandi_name,crop_name,variety,grade,arrival_date,price_date,min_price_rupees_per_quintal,max_price_rupees_per_quintal,modal_price_rupees_per_quintal,min_price_per_kg,max_price_per_kg,modal_price_per_kg,price_unit,source,retrieved_at_utc,quote_status',
+    'Karnataka,Mysuru,Mysuru APMC,Tomato,,,,,,,,,,,,,not_reported',
+    'Karnataka,Kolar,Kolar APMC,Tomato,,,2026-10-13,2026-10-13,2000,2200,2100,20,22,21,KG,Agmarknet,2026-10-13T00:00:00.000Z,reported',
+  ].join('\n'));
+  await fs.writeFile(testKarnatakaCsvPath, [
+    'state,district,mandi_name,crop_name,variety,grade,arrival_date,price_date,min_price_rupees_per_quintal,max_price_rupees_per_quintal,modal_price_rupees_per_quintal,min_price_per_kg,max_price_per_kg,modal_price_per_kg,price_unit,source,retrieved_at_utc,quote_status',
+    'Karnataka,Mysuru,Mysuru APMC,Tomato,,,,,,,,,,,,,,not_reported',
+    'Karnataka,Kolar,Kolar APMC,Tomato,,,2026-10-13,2026-10-13,2500,2700,2600,25,27,26,KG,Agmarknet,2026-10-13T00:00:00.000Z,reported',
+  ].join('\n'));
+
+  const prices = await getAgmarknetCsvPrices({
+    cropName: 'Tomato',
+    state: 'Karnataka',
+  });
+
+  assert.equal(prices.length, 1);
+  assert.equal(prices[0].mandiName, 'Kolar APMC');
+  assert.equal(prices[0].modalPrice, 26);
+});
+
 test('serves crop names from the CSV when the live crop API is unavailable', async () => {
   const originalApiKey = process.env.MANDI_API_KEY;
   const originalGet = axios.get;
@@ -195,12 +227,90 @@ test('serves crop names from the CSV when the live crop API is unavailable', asy
     await cropController.getCrops({ query: { state: 'Karnataka' } }, response);
 
     assert.equal(response.statusCode, undefined);
-    assert.deepEqual(response.body.map((crop) => crop.name), ['Onion', 'Tomato']);
+    assert.deepEqual(response.body.map((crop) => crop.name), ['Tomato', 'Onion']);
   } finally {
     axios.get = originalGet;
     if (originalApiKey === undefined) delete process.env.MANDI_API_KEY;
     else process.env.MANDI_API_KEY = originalApiKey;
   }
+});
+
+test('limits selling crops to the 97 available Agmarknet crops and prioritizes key crops', () => {
+  const candidates = [
+    { id: 'generic-1', name: 'Generic Crop 1', marketCount: 100 },
+    { id: 'alasande', name: 'Alasande Gram', marketCount: 1 },
+    { id: 'tomato', name: 'Tomato', marketCount: 16 },
+    { id: 'generic-2', name: 'Generic Crop 2', marketCount: 99 },
+    { id: 'raddish', name: 'Raddish', marketCount: 10 },
+    { id: 'grapes', name: 'Grapes', marketCount: 2 },
+    ...Array.from({ length: 110 }, (_, index) => ({
+      id: `generic-${index + 3}`,
+      name: `Generic Crop ${index + 3}`,
+      marketCount: 110 - index,
+    })),
+  ];
+  const selected = cropController.selectSellingCrops(candidates);
+
+  assert.equal(selected.length, 97);
+  assert.deepEqual(selected.slice(0, 2).map((crop) => crop.name), ['Tomato', 'Alasande Gram']);
+  assert.equal(selected.some((crop) => crop.name === 'Raddish'), true);
+  assert.equal(selected.some((crop) => crop.name === 'Grapes'), true);
+  assert.equal(selected.some((crop) => crop.name === 'Generic Crop 1'), true);
+  assert.equal(selected.every((crop) => crop.id && crop.name), true);
+});
+
+test('adds 20 newly selected Agmarknet crops to the seller options', () => {
+  const { SELLING_CROP_LIMIT } = require('../services/sellingCropService');
+  const crops = [
+    'Raddish',
+    'Gur(Jaggery)',
+    'Copra',
+    'Apple',
+    'Sesamum(Sesame,Gingelly,Til)',
+    'Mousambi(Sweet Lime)',
+    'Elephant Yam(Suran)/Amorphophallus',
+    'Bengal Gram Dal(Chana Dal)',
+    'Karbuja(Musk Melon)',
+    'Papaya',
+    'Black Gram Dal(Urd Dal)',
+    'Chikoos(Sapota)',
+    'Bunch Beans',
+    'Chilly Capsicum',
+    'Mustard',
+    'Dry Chillies',
+    'Orange',
+    'Lime',
+    'Banana - Green',
+    'Grapes',
+  ].map((name) => ({ id: name, name, marketCount: 1 }));
+
+  const selected = cropController.selectSellingCrops(crops);
+
+  assert.equal(SELLING_CROP_LIMIT, 97);
+  assert.equal(selected.length, 20);
+  assert.deepEqual(selected.map((crop) => crop.name), crops.map((crop) => crop.name));
+});
+
+test('includes all 12 additional crops with saved Karnataka Agmarknet quotes', () => {
+  const crops = [
+    'Cowpea(Lobia/Karamani)',
+    'Cowpea(Veg)',
+    'Dry Grapes',
+    'Ginger(Dry)',
+    'Green Gram Dal(Moong Dal)',
+    'Green Peas',
+    'Guava',
+    'Mataki',
+    'Methi Seeds',
+    'Peas Wet',
+    'Tamarind Fruit',
+    'White Pumpkin',
+  ].map((name) => ({ id: name, name, marketCount: 1 }));
+
+  assert.deepEqual(
+    cropController.selectSellingCrops(crops).map((crop) => crop.name),
+    crops.map((crop) => crop.name),
+  );
 });
 
 test('preserves older report dates when a newer live Agmarknet price is received', async () => {
@@ -280,6 +390,34 @@ test('uses the latest CSV price when the Agmarknet live request fails', async ()
   } finally {
     axios.get = originalGet;
     prisma.price.findMany = originalFindMany;
+    if (originalApiKey === undefined) delete process.env.MANDI_API_KEY;
+    else process.env.MANDI_API_KEY = originalApiKey;
+  }
+});
+
+test('returns an empty recommendation when live prices fail and the saved CSV has no quote', async () => {
+  const originalApiKey = process.env.MANDI_API_KEY;
+  const originalGet = axios.get;
+  process.env.MANDI_API_KEY = 'test-mandi-key';
+  await fs.writeFile(testCsvPath, [
+    'state,district,mandi_name,crop_name,variety,grade,arrival_date,price_date,min_price_rupees_per_quintal,max_price_rupees_per_quintal,modal_price_rupees_per_quintal,min_price_per_kg,max_price_per_kg,modal_price_per_kg,price_unit,source,retrieved_at_utc',
+  ].join('\n'));
+  axios.get = async () => {
+    throw new Error('Network Error');
+  };
+
+  try {
+    const recommendation = await recommendBestMandi({
+      cropName: 'Crop Without Saved Quote',
+      state: 'Karnataka',
+    });
+
+    assert.equal(recommendation.recommended, null);
+    assert.deepEqual(recommendation.allOptions, []);
+    assert.match(recommendation.reason, /Live Agmarknet is temporarily unreachable/);
+    assert.match(recommendation.reason, /saved snapshot has no price report/);
+  } finally {
+    axios.get = originalGet;
     if (originalApiKey === undefined) delete process.env.MANDI_API_KEY;
     else process.env.MANDI_API_KEY = originalApiKey;
   }
@@ -663,9 +801,19 @@ test('refreshes the CSV snapshot from state-specific Agmarknet pages', async () 
     const result = await refreshAgmarknetCsv();
     const crops = await getAgmarknetCsvCrops();
     const csv = await fs.readFile(testCsvPath, 'utf8');
+    const karnatakaCsv = await fs.readFile(testKarnatakaCsvPath, 'utf8');
+    const karnatakaRows = karnatakaCsv.trim().split(/\r?\n/);
 
     assert.equal(result.states, 2);
     assert.equal(result.rows, 3);
+    assert.equal(result.karnatakaSnapshot.crops, 3);
+    assert.equal(result.karnatakaSnapshot.mandis, 2);
+    assert.equal(result.karnatakaSnapshot.rows, 6);
+    assert.equal(result.karnatakaSnapshot.reportedPrices, 3);
+    assert.equal(karnatakaRows.length, 7);
+    assert.match(karnatakaCsv, /quote_status/);
+    assert.match(karnatakaCsv, /not_reported/);
+    assert.match(karnatakaCsv, /,reported,/m);
     assert.deepEqual(crops.map((crop) => crop.name), [
       'Mysuru Snapshot Test Crop',
       'Snapshot Test Crop',
@@ -953,6 +1101,44 @@ test('loads every price-history page before predicting mandi prices', async () =
   }
 });
 
+test('uses saved CSV prices to forecast when Agmarknet is unavailable', async () => {
+  const originalApiKey = process.env.MANDI_API_KEY;
+  const originalGet = axios.get;
+  process.env.MANDI_API_KEY = 'test-mandi-key';
+  await fs.writeFile(testCsvPath, [
+    'state,district,mandi_name,crop_name,price_date,min_price_per_kg,max_price_per_kg,modal_price_per_kg,price_unit,source',
+    'Karnataka,Mysuru,Mysuru APMC,CSV Forecast Test Crop,2026-10-11,18,22,20,KG,Agmarknet',
+    'Karnataka,Mysuru,Mysuru APMC,CSV Forecast Test Crop,2026-10-13,28,32,30,KG,Agmarknet',
+    'Karnataka,Mysuru,Other APMC,CSV Forecast Test Crop,2026-10-13,38,42,40,KG,Agmarknet',
+    'Tamil Nadu,Mysuru,Mysuru APMC,CSV Forecast Test Crop,2026-10-13,98,102,100,KG,Agmarknet',
+    'Karnataka,Mysuru,Mysuru APMC,Other Crop,2026-10-13,98,102,100,KG,Agmarknet',
+  ].join('\n'));
+  axios.get = async () => {
+    throw new Error('Agmarknet is unavailable');
+  };
+
+  try {
+    const result = await predictTwoDayPrices({
+      cropName: 'CSV Forecast Test Crop',
+      state: 'Karnataka',
+      mandiNames: ['Mysuru APMC', 'Other APMC'],
+      targetDate: '2026-10-15',
+    });
+
+    assert.equal(result.dataFreshness, 'cached');
+    assert.deepEqual(result.predictions.map(({ mandiName }) => mandiName), ['Mysuru APMC', 'Other APMC']);
+    assert.equal(result.predictions[0].predictedPrice, 40);
+    assert.equal(result.predictions[0].latestPriceDate, '2026-10-13');
+    assert.equal(result.predictions[0].dataFreshness, 'cached');
+    assert.equal(result.predictions[1].predictedPrice, 40);
+    assert.equal(result.predictions[1].latestPriceDate, '2026-10-13');
+  } finally {
+    axios.get = originalGet;
+    if (originalApiKey === undefined) delete process.env.MANDI_API_KEY;
+    else process.env.MANDI_API_KEY = originalApiKey;
+  }
+});
+
 test('does not recommend a mandi from another state when local Agmarknet prices are missing', async () => {
   const originalApiKey = process.env.MANDI_API_KEY;
   const originalGet = axios.get;
@@ -1062,6 +1248,13 @@ test('includes CSV mandi directory and live prices without reading Neon mandis',
     assert.equal(response.body.records.find((record) => record.mandi.name === 'Mysuru Mandi').modalPrice, null);
     assert.equal(response.body.records.find((record) => record.mandi.name === 'Kolar Mandi').hasLivePrice, false);
     assert.equal(response.body.records.find((record) => record.mandi.name === 'Hungund APMC').modalPrice, 25.5);
+    const kolarRecord = response.body.records.find((record) => record.mandi.name === 'Kolar Mandi');
+    assert.ok(Number.isFinite(kolarRecord.mandi.latitude));
+    assert.ok(Number.isFinite(kolarRecord.mandi.longitude));
+    assert.equal(kolarRecord.mandi.coordinatePrecision, 'town');
+    const liveHungundRecord = response.body.records.find((record) => record.mandi.name === 'Hungund APMC');
+    assert.ok(Number.isFinite(liveHungundRecord.mandi.latitude));
+    assert.ok(Number.isFinite(liveHungundRecord.mandi.longitude));
   } finally {
     axios.get = originalGet;
     if (originalApiKey === undefined) delete process.env.MANDI_API_KEY;
@@ -1206,6 +1399,121 @@ test('estimates road transportation with OSRM at the backend fixed per-kilometre
     assert.equal(requests.length, 2);
     assert.deepEqual(estimate.originCoordinates, { latitude: 12.9, longitude: 77.6 });
     assert.deepEqual(estimate.destinationCoordinates, { latitude: 13.0, longitude: 77.7 });
+  } finally {
+    axios.get = originalGet;
+  }
+});
+
+test('resolves coordinates for every mandi listed in the profit calculator', () => {
+  const mandiNames = [
+    'Gundlupet APMC',
+    'APMC THIRTHAHALLI',
+    'Bagepalli APMC',
+    'Bailahongal APMC',
+    'Bangalore Mandi',
+    'Chamarajanagar APMC',
+    'Channagiri APMC',
+    'Channapatna APMC',
+    'Gangavathi APMC',
+    'Haliyala APMC',
+    'Hanagal APMC',
+    'Harappanahalli APMC',
+    'Honnali APMC',
+    'Kolar Mandi',
+    'Mysuru Mandi',
+    'Tumakuru Mandi',
+    'Mangaluru Mandi',
+    'Hubballi Mandi',
+    'Belagavi Mandi',
+    'Hungund APMC',
+    'Kanakagiri APMC',
+    'Kustagi APMC',
+    'Lingasugur APMC',
+    'Pandavapura APMC',
+    'Ramanagara APMC',
+    'Shikaripura APMC',
+    'Sindhanur APMC',
+    'Sulya APMC',
+    'Yaragatti APMC',
+  ];
+
+  for (const mandiName of mandiNames) {
+    const coordinates = getMandiCoordinates(mandiName);
+    assert.ok(coordinates, `Expected coordinates for ${mandiName}`);
+    assert.ok(coordinates.latitude >= -90 && coordinates.latitude <= 90);
+    assert.ok(coordinates.longitude >= -180 && coordinates.longitude <= 180);
+    assert.ok(['market', 'town'].includes(coordinates.coordinatePrecision));
+  }
+});
+
+test('looks up coordinates for new mandi names and caches the resolved place', async () => {
+  const originalGet = axios.get;
+  const queries = [];
+  axios.get = async (_url, { params }) => {
+    queries.push(params.q);
+    return {
+      data: [{
+        lat: '17.6805',
+        lon: '75.9239',
+        type: 'city',
+      }],
+    };
+  };
+
+  try {
+    const coordinates = await resolveMandiCoordinates(
+      'New Agmarknet Market',
+      'Solapur',
+      'Maharashtra',
+    );
+    const cachedCoordinates = await resolveMandiCoordinates(
+      'New Agmarknet Market',
+      'Solapur',
+      'Maharashtra',
+    );
+
+    assert.deepEqual(coordinates, {
+      latitude: 17.6805,
+      longitude: 75.9239,
+      coordinatePrecision: 'town',
+    });
+    assert.deepEqual(cachedCoordinates, coordinates);
+    assert.equal(queries.length, 1);
+    assert.equal(queries[0], 'New Agmarknet Market, Solapur, Maharashtra, India');
+  } finally {
+    axios.get = originalGet;
+  }
+});
+
+test('uses supplied mandi coordinates without making a geocoding request', async () => {
+  const originalGet = axios.get;
+  const requests = [];
+  axios.get = async (url) => {
+    requests.push(url);
+    assert.equal(
+      url,
+      'https://router.project-osrm.org/route/v1/driving/77.6,12.9;76.6771708,11.8294975',
+    );
+    return {
+      data: {
+        code: 'Ok',
+        routes: [{
+          distance: 1000,
+          geometry: { coordinates: [[77.6, 12.9], [76.6771708, 11.8294975]] },
+        }],
+      },
+    };
+  };
+
+  try {
+    await estimateTransportation({
+      originLatitude: 12.9,
+      originLongitude: 77.6,
+      destination: 'Gundlupet APMC, Karnataka, India',
+      destinationCoordinates: getMandiCoordinates('Gundlupet APMC'),
+    });
+    assert.equal(requests.length, 1);
+    assert.ok(requests[0].startsWith('https://router.project-osrm.org/'));
   } finally {
     axios.get = originalGet;
   }

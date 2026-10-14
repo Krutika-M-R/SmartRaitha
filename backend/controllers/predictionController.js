@@ -15,8 +15,8 @@ async function getLatest(req, res) {
     });
     res.json(forecast.predictions[0] || { message: 'No forecast is available for this mandi.' });
   } catch (err) {
-    console.error('Live Agmarknet prediction failed:', err.message);
-    res.status(502).json({ error: err.message || 'Could not generate a live forecast.' });
+    console.error('Agmarknet prediction failed:', err.message);
+    res.status(502).json({ error: err.message || 'Could not generate an Agmarknet forecast.' });
   }
 }
 
