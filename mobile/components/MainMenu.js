@@ -1,18 +1,21 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
 
 const icons = {
   Home: ['home-outline', 'home'],
+  LittleLeaf: ['chatbubble-ellipses-outline', 'chatbubble-ellipses'],
   Profile: ['person-outline', 'person'],
-  Assistant: ['sparkles-outline', 'sparkles'],
 };
 
 export default function MainMenu({ state, descriptors, navigation }) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.shell}>
+    <View style={[styles.shell, { paddingBottom: Math.max(insets.bottom, spacing.small) }]}>
       <View style={styles.menu}>
         {state.routes.map((route, index) => {
           const focused = state.index === index;
@@ -26,9 +29,24 @@ export default function MainMenu({ state, descriptors, navigation }) {
           }
 
           return (
-            <Pressable key={route.key} style={[styles.item, focused && styles.activeItem]} onPress={onPress}>
-              <Ionicons name={focused ? activeIcon : inactiveIcon} size={21} color={focused ? colors.surface : colors.textSecondary} />
-              <Text style={[styles.label, focused && styles.activeLabel]} numberOfLines={1}>{label}</Text>
+            <Pressable
+              key={route.key}
+              style={styles.item}
+              onPress={onPress}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: focused }}
+              accessibilityLabel={label}
+            >
+              <View style={[styles.tabContent, focused && styles.activeTab]}>
+                <Ionicons
+                  name={focused ? activeIcon : inactiveIcon}
+                  size={21}
+                  color={focused ? colors.surface : colors.textSecondary}
+                />
+                <Text style={[styles.label, focused && styles.activeLabel]} numberOfLines={1}>
+                  {label}
+                </Text>
+              </View>
             </Pressable>
           );
         })}
@@ -38,10 +56,26 @@ export default function MainMenu({ state, descriptors, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  shell: { paddingHorizontal: spacing.medium, paddingBottom: spacing.medium, backgroundColor: colors.background },
-  menu: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: 20, padding: spacing.small, shadowColor: '#173F1A', shadowOffset: { width: 0, height: 5 }, shadowOpacity: 0.18, shadowRadius: 8, elevation: 7 },
-  item: { flex: 1, minHeight: 48, alignItems: 'center', justifyContent: 'center', borderRadius: 14, paddingHorizontal: 4 },
-  activeItem: { backgroundColor: colors.primary, shadowColor: colors.primary, shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 4 },
-  label: { color: colors.textSecondary, fontSize: 11, fontWeight: '700', marginTop: 3 },
-  activeLabel: { color: colors.surface },
+  shell: {
+    paddingHorizontal: spacing.medium,
+    paddingTop: spacing.small,
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  menu: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' },
+  item: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  tabContent: {
+    width: '100%',
+    maxWidth: 78,
+    height: 52,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 18,
+    paddingHorizontal: 3,
+  },
+  activeTab: { backgroundColor: colors.primary },
+  label: { color: colors.textSecondary, fontSize: 9, fontWeight: '700', marginTop: 2 },
+  activeLabel: { color: colors.surface, fontSize: 9 },
 });

@@ -22,15 +22,20 @@ export default function MandiCard({
       onPressIn={() => Animated.spring(pressProgress, { toValue: 1, useNativeDriver: true }).start()}
       onPressOut={() => Animated.spring(pressProgress, { toValue: 0, useNativeDriver: true }).start()}
     >
-      <View>
-        <Text style={styles.name}>{mandiName}</Text>
-        <Text style={styles.sub}>
+      <View style={styles.marketDetails}>
+        <Text style={styles.name} numberOfLines={2} ellipsizeMode="tail">{mandiName}</Text>
+        <Text style={styles.sub} numberOfLines={2} ellipsizeMode="tail">
           {[district, state, arrivalDate].filter(Boolean).join(' · ')}
           {dataFreshness === 'cached' ? ` · saved price ${ageDays} days old` : ''}
           {distanceKm != null ? `${district || state || arrivalDate || dataFreshness ? ' · ' : ''}about ${distanceKm} km away` : ''}
         </Text>
       </View>
-      <Text style={[styles.price, !hasLivePrice && styles.unavailablePrice]}>
+      <Text
+        style={[styles.price, !hasLivePrice && styles.unavailablePrice]}
+        numberOfLines={2}
+        adjustsFontSizeToFit
+        minimumFontScale={0.75}
+      >
         {hasLivePrice
           ? `₹${modalPrice.toFixed(2)}/kg${dataFreshness === 'cached' ? ' · saved' : ''}`
           : 'No price available'}
@@ -57,8 +62,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 4,
   },
+  marketDetails: { flex: 1, minWidth: 0, marginRight: spacing.small },
   name: { fontSize: 15, fontWeight: '600', color: colors.text },
   sub: { fontSize: 12, color: colors.textSecondary, marginTop: 2 },
-  price: { fontSize: 18, fontWeight: '700', color: colors.accent },
+  price: { maxWidth: '48%', flexShrink: 1, textAlign: 'right', fontSize: 18, fontWeight: '700', color: colors.accent },
   unavailablePrice: { color: colors.textSecondary, fontSize: 12 },
 });

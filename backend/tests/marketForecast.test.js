@@ -9,7 +9,7 @@ const testKarnatakaCsvPath = path.join(os.tmpdir(), `smartraitha-agmarknet-karna
 process.env.AGMARKNET_CSV_PATH = testCsvPath;
 process.env.AGMARKNET_KARNATAKA_CSV_PATH = testKarnatakaCsvPath;
 const prisma = { crop: {}, mandi: {}, price: {} };
-const { buildTwoDayForecast } = require('../services/agmarknetForecastService');
+const { buildMandiObservations } = require('../services/agmarknetForecastService');
 const {
   fetchAllAgmarknetRecords,
   getAgmarknetApiKey,
@@ -1066,8 +1066,10 @@ test('ranks location-aware mandi options by estimated net profit after transport
 test('loads every price-history page before predicting mandi prices', async () => {
   const originalApiKey = process.env.MANDI_API_KEY;
   const originalGet = axios.get;
+  const originalPost = axios.post;
   process.env.MANDI_API_KEY = 'test-mandi-key';
   const offsets = [];
+  let forecastRequest;
   axios.get = async (_url, { params }) => {
     offsets.push(params.offset);
     const records = params.offset === 0
@@ -1082,6 +1084,17 @@ test('loads every price-history page before predicting mandi prices', async () =
       : [{ market: 'Bangalore', arrival_date: '04/01/2026', modal_price: '1200' }];
     return { data: { total: 1001, records } };
   };
+  axios.post = async (_url, body) => {
+    forecastRequest = body;
+    return {
+      data: {
+        predictions: [
+          { mandiName: 'Bangalore', predictedDate: '2026-01-05', predictedPrice: 13 },
+          { mandiName: 'Bangalore', predictedDate: '2026-01-06', predictedPrice: 14 },
+        ],
+      },
+    };
+  };
 
   try {
     const result = await predictTwoDayPrices({
@@ -1092,10 +1105,13 @@ test('loads every price-history page before predicting mandi prices', async () =
     });
 
     assert.deepEqual(offsets, [0, 1000]);
-    assert.equal(result.predictions[0].sampleCount, 2);
-    assert.equal(result.predictions[0].predictedPrice, 14);
+    assert.equal(forecastRequest.mandiPrices[0].modalPrice, 12);
+    assert.equal(forecastRequest.mandiPrices[0].sampleCount, 2);
+    assert.equal(result.predictions.length, 2);
+    assert.deepEqual(result.predictions.map(({ predictedPrice }) => predictedPrice), [13, 14]);
   } finally {
     axios.get = originalGet;
+    axios.post = originalPost;
     if (originalApiKey === undefined) delete process.env.MANDI_API_KEY;
     else process.env.MANDI_API_KEY = originalApiKey;
   }
@@ -1104,7 +1120,9 @@ test('loads every price-history page before predicting mandi prices', async () =
 test('uses saved CSV prices to forecast when Agmarknet is unavailable', async () => {
   const originalApiKey = process.env.MANDI_API_KEY;
   const originalGet = axios.get;
+  const originalPost = axios.post;
   process.env.MANDI_API_KEY = 'test-mandi-key';
+  let forecastRequest;
   await fs.writeFile(testCsvPath, [
     'state,district,mandi_name,crop_name,price_date,min_price_per_kg,max_price_per_kg,modal_price_per_kg,price_unit,source',
     'Karnataka,Mysuru,Mysuru APMC,CSV Forecast Test Crop,2026-10-11,18,22,20,KG,Agmarknet',
@@ -1115,6 +1133,20 @@ test('uses saved CSV prices to forecast when Agmarknet is unavailable', async ()
   ].join('\n'));
   axios.get = async () => {
     throw new Error('Agmarknet is unavailable');
+  };
+  axios.post = async (_url, body) => {
+    forecastRequest = body;
+    return {
+      data: {
+        predictions: body.mandiPrices.map((item) => ({
+          mandiName: item.mandiName,
+          predictedDate: '2026-10-15',
+          predictedPrice: item.modalPrice,
+          latestPriceDate: item.latestPriceDate,
+          dataFreshness: item.dataFreshness,
+        })),
+      },
+    };
   };
 
   try {
@@ -1127,13 +1159,15 @@ test('uses saved CSV prices to forecast when Agmarknet is unavailable', async ()
 
     assert.equal(result.dataFreshness, 'cached');
     assert.deepEqual(result.predictions.map(({ mandiName }) => mandiName), ['Mysuru APMC', 'Other APMC']);
-    assert.equal(result.predictions[0].predictedPrice, 40);
+    assert.deepEqual(forecastRequest.mandiPrices.map(({ modalPrice }) => modalPrice), [30, 40]);
+    assert.equal(result.predictions[0].predictedPrice, 30);
     assert.equal(result.predictions[0].latestPriceDate, '2026-10-13');
     assert.equal(result.predictions[0].dataFreshness, 'cached');
     assert.equal(result.predictions[1].predictedPrice, 40);
     assert.equal(result.predictions[1].latestPriceDate, '2026-10-13');
   } finally {
     axios.get = originalGet;
+    axios.post = originalPost;
     if (originalApiKey === undefined) delete process.env.MANDI_API_KEY;
     else process.env.MANDI_API_KEY = originalApiKey;
   }
@@ -1608,19 +1642,19 @@ test('finds locations for common Karnataka APMC aliases', async () => {
   }
 });
 
-test('forecasts two days ahead from the recent Agmarknet price trend', () => {
+test('builds latest per-mandi observations from Agmarknet daily reports', () => {
   const records = [
     { market: 'Bangalore', arrival_date: '01/01/2026', modal_price: '1000' },
     { market: 'Bangalore', arrival_date: '02/01/2026', modal_price: '1200' },
     { market: 'Bangalore', arrival_date: '03/01/2026', modal_price: '1400' },
   ];
 
-  const [forecast] = buildTwoDayForecast(records, {
+  const [observation] = buildMandiObservations(records, {
     mandiNames: ['Bangalore Mandi'],
-    targetDate: '2026-01-05',
   });
 
-  assert.equal(forecast.predictedDate, '2026-01-05');
-  assert.equal(forecast.predictedPrice, 18);
-  assert.equal(forecast.sampleCount, 3);
+  assert.equal(observation.mandiName, 'Bangalore Mandi');
+  assert.equal(observation.modalPrice, 14);
+  assert.equal(observation.latestPriceDate, '2026-01-03');
+  assert.equal(observation.sampleCount, 3);
 });

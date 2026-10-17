@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Image, View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, Animated, Image, View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Defs, Path, Text as SvgText, TextPath } from 'react-native-svg';
 import { colors } from '../constants/colors';
@@ -10,7 +10,6 @@ import ErrorMessage from '../components/ErrorMessage';
 import RecommendationCard from '../components/RecommendationCard';
 import PriceBarChart from '../components/PriceBarChart';
 import FeatureTile from '../components/FeatureTile';
-import SmartCropPlanner from '../components/SmartCropPlanner';
 import cropService from '../services/cropService';
 import recommendationService from '../services/recommendationService';
 import { useAuth } from '../context/AuthContext';
@@ -42,13 +41,12 @@ export default function HomeScreen({ navigation }) {
   const { t } = useLanguage();
   const { location, error: locationError, loading: locationLoading } = useLocation();
   const [crops, setCrops] = useState([]);
-  const [plannerCrops, setPlannerCrops] = useState([]);
+  const [cropSearch, setCropSearch] = useState('');
   const [selectedCrop, setSelectedCrop] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
   const [recommendationError, setRecommendationError] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [plannerCatalogError, setPlannerCatalogError] = useState('');
   const [weather, setWeather] = useState(null);
   const [weatherError, setWeatherError] = useState('');
   const heroProgress = useRef(new Animated.Value(0)).current;
@@ -89,10 +87,9 @@ export default function HomeScreen({ navigation }) {
     setLoading(true);
     setError('');
     try {
-      const [marketCropResult, stateCropResult, plannerCatalogResult] = await Promise.allSettled([
+      const [marketCropResult, stateCropResult] = await Promise.allSettled([
         cropService.getCrops(),
         state ? cropService.getCrops(state) : Promise.resolve([]),
-        cropService.getCropCatalog(),
       ]);
       if (requestId !== cropRequestId.current) return;
       if (marketCropResult.status === 'rejected') throw marketCropResult.reason;
@@ -110,18 +107,7 @@ export default function HomeScreen({ navigation }) {
           hasLocalPrices: availableCropNames.has(crop.name.toLocaleLowerCase()),
         }));
       setCrops(marketCrops);
-      setSelectedCrop(stateCrops.length > 0
-        ? marketCrops.find((crop) => crop.name.toLocaleLowerCase()
-          === stateCrops[0].name.toLocaleLowerCase()) || marketCrops[0] || null
-        : marketCrops[0] || null);
-
-      if (plannerCatalogResult.status === 'fulfilled') {
-        setPlannerCrops(plannerCatalogResult.value);
-        setPlannerCatalogError('');
-      } else {
-        setPlannerCrops([]);
-        setPlannerCatalogError(plannerCatalogResult.reason.message);
-      }
+      setSelectedCrop(null);
     } catch (e) {
       if (requestId === cropRequestId.current) {
         setCrops([]);
@@ -177,6 +163,10 @@ export default function HomeScreen({ navigation }) {
     setSelectedCrop(crop);
   }
 
+  const matchingCrops = cropSearch.trim()
+    ? crops.filter((crop) => crop.name.toLocaleLowerCase().includes(cropSearch.trim().toLocaleLowerCase()))
+    : [];
+
   if (loading || locationLoading) return <LoadingIndicator message={t('loadingMarkets')} />;
 
   return (
@@ -188,7 +178,7 @@ export default function HomeScreen({ navigation }) {
         </View>
         <TouchableOpacity
           style={styles.farmerBadge}
-          onPress={() => navigation.navigate('Assistant')}
+          onPress={() => navigation.navigate('LittleLeaf')}
           accessibilityRole="button"
           accessibilityLabel="Open LittleLeaf chatbot"
         >
@@ -210,32 +200,17 @@ export default function HomeScreen({ navigation }) {
 
       <View style={styles.sectionHeader}>
         <View>
-          <Text style={styles.eyebrow}>01</Text>
-          <Text style={styles.sectionTitle}>{t('whatSelling')}</Text>
-        </View>
-        <Ionicons name="leaf-outline" size={24} color={colors.primary} />
-      </View>
-      <View style={styles.cropPanel}>
-        <View style={styles.chipRow}>
-          {crops.map((crop) => (
-            <CropSelector key={crop.id} crop={crop} selected={selectedCrop?.id === crop.id} onPress={handleSelectCrop} />
-          ))}
-        </View>
-        {!crops.length && !error && (
-          <Text style={styles.cropFallbackNote}>{t('noCropOptions')}</Text>
-        )}
-      </View>
-
-      <View style={styles.sectionHeader}>
-        <View>
-          <Text style={styles.eyebrow}>02</Text>
           <Text style={styles.sectionTitle}>{t('help')}</Text>
         </View>
         <Ionicons name="partly-sunny-outline" size={25} color={colors.accent} />
       </View>
       <Animated.View style={[styles.weatherCard, popStyle(weatherProgress)]}>
         <Text style={styles.cardTitle}>{t('weather')}</Text>
-        {location?.placeName ? <Text style={styles.locationName}>{t('location')}: {location.placeName}</Text> : null}
+        {location ? (
+          <Text style={styles.locationName}>
+            {t('location')}: {location.placeName || `${location.latitude.toFixed(3)}, ${location.longitude.toFixed(3)}`}
+          </Text>
+        ) : null}
         {weather?.current ? (
           <>
             <View style={styles.weatherTop}>
@@ -249,49 +224,61 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.stat}>{t('rain')}: {Number(weather.current.precipitation || 0).toFixed(1)} mm</Text>
               <Text style={styles.stat}>{t('wind')}: {Math.round(weather.current.wind_speed_10m)} km/h</Text>
             </View>
-            <View style={styles.recommendationStrip}>
-              <Ionicons name="bulb-outline" size={20} color={colors.accent} />
-              <View style={styles.recommendationCopy}>
-                <Text style={styles.recommendationLabel}>{t('recommendedCrop')}</Text>
-                <Text style={styles.recommendationCrop}>{weather.seasonalAdvice.crop}</Text>
-                <Text style={styles.recommendationReason}>{weather.seasonalAdvice.reason}</Text>
-              </View>
-            </View>
-            <Text style={styles.forecastTitle}>{t('futureForecast')}</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.forecastRow}>
-              {weather.daily.time.map((date, index) => (
-                <View key={date} style={styles.forecastCard}>
-                  <Text style={styles.forecastDay}>{new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short' })}</Text>
-                  <Text style={styles.forecastIcon}>{getWeatherDescription(weather.daily.weather_code[index]) === 'Rainy' ? '🌧️' : '☀️'}</Text>
-                  <Text style={styles.forecastTemp}>{Math.round(weather.daily.temperature_2m_max[index])}° / {Math.round(weather.daily.temperature_2m_min[index])}°</Text>
-                  <Text style={styles.forecastRain}>{weather.daily.precipitation_probability_max[index]}% rain</Text>
-                </View>
-              ))}
-            </ScrollView>
-            {weather.futureAdvice && (
-              <View style={styles.futureAdvice}>
-                <Text style={styles.futureAdviceTitle}>Plan ahead: {weather.futureAdvice.crop}</Text>
-                <Text style={styles.recommendationReason}>{weather.futureAdvice.note}</Text>
-              </View>
-            )}
           </>
         ) : (
           <Text style={styles.weatherUnavailable}>{weatherError || t('weatherUnavailable')}</Text>
         )}
       </Animated.View>
 
-      <ErrorMessage message={plannerCatalogError} />
-      <SmartCropPlanner location={location} locationError={locationError} crops={plannerCrops} />
-
-      {selectedCrop && (
-        <>
-          <View style={styles.sectionHeader}>
-            <View>
-              <Text style={styles.eyebrow}>03</Text>
-              <Text style={styles.sectionTitle}>{t('recommendedMarket')}</Text>
+      <View style={styles.sectionHeader}>
+        <View>
+          <Text style={styles.sectionTitle}>{t('whatSelling')}</Text>
+        </View>
+        <Ionicons name="leaf-outline" size={24} color={colors.primary} />
+      </View>
+      <View style={styles.cropPanel}>
+        <View style={styles.cropSearchRow}>
+          <Ionicons name="search" size={18} color={colors.textSecondary} />
+          <TextInput
+            style={styles.cropSearchInput}
+            value={cropSearch}
+            onChangeText={(value) => {
+              setCropSearch(value);
+              setSelectedCrop(null);
+            }}
+            placeholder="Search available crops"
+            placeholderTextColor={colors.textSecondary}
+            returnKeyType="search"
+            accessibilityLabel="Search crops available to sell"
+          />
+          {cropSearch ? (
+            <TouchableOpacity onPress={() => setCropSearch('')} accessibilityRole="button" accessibilityLabel="Clear crop search">
+              <Ionicons name="close-circle" size={19} color={colors.textSecondary} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+        {cropSearch.trim() ? (
+          matchingCrops.length ? (
+            <View style={[styles.chipRow, styles.cropSearchResults]}>
+              {matchingCrops.map((crop) => (
+                <CropSelector key={crop.id} crop={crop} selected={selectedCrop?.id === crop.id} onPress={handleSelectCrop} />
+              ))}
             </View>
-            <Ionicons name="sparkles-outline" size={24} color={colors.accent} />
-          </View>
+          ) : (
+            <Text style={styles.cropFallbackNote}>No available crops match “{cropSearch.trim()}”.</Text>
+          )
+        ) : null}
+        {!crops.length && !error && (
+          <Text style={styles.cropFallbackNote}>{t('noCropOptions')}</Text>
+        )}
+      </View>
+
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>{t('recommendedMarket')}</Text>
+        <Ionicons name="sparkles-outline" size={24} color={colors.accent} />
+      </View>
+      {selectedCrop ? (
+        <>
           <ErrorMessage message={recommendationError} />
           <RecommendationCard recommendation={recommendation} />
 
@@ -308,15 +295,61 @@ export default function HomeScreen({ navigation }) {
               />
             </View>
           )}
-
-          <View style={styles.actions}>
-            <Text style={styles.actionHint}>{t('actionHint')}</Text>
-            <FeatureTile icon="analytics-outline" title={t('compareMarkets')} description={t('marketHint')} color="#1565C0" onPress={() => navigation.navigate('Markets', { crop: selectedCrop, state: location?.state, location })} />
-            <View style={{ height: spacing.small }} />
-            <FeatureTile icon="calculator-outline" title={t('calculateProfit')} description={t('profitHint')} color={colors.accent} onPress={() => navigation.navigate('ProfitCalculator', { crop: selectedCrop, state: location?.state, location, recommendedMandiId: recommendation?.recommended?.mandi?.id })} />
-          </View>
         </>
+      ) : (
+        <Text style={styles.cropFallbackNote}>Select the crop for recommended market.</Text>
       )}
+
+      {!selectedCrop ? (
+        <Text style={styles.cropFallbackNote}>Search for and select a crop above to compare markets or calculate profit.</Text>
+      ) : null}
+      <View style={styles.actions}>
+        <FeatureTile
+          icon="analytics-outline"
+          title={t('compareMarkets')}
+          description={t('marketHint')}
+          color="#1565C0"
+          onPress={() => {
+            if (!selectedCrop) {
+              Alert.alert('Select a crop', 'Search for and select a crop above before comparing markets.');
+              return;
+            }
+            navigation.navigate('Markets', {
+              crop: selectedCrop,
+              state: location?.state,
+              location,
+            });
+          }}
+        />
+        <View style={{ height: spacing.small }} />
+        <FeatureTile
+          icon="calculator-outline"
+          title={t('calculateProfit')}
+          description={t('profitHint')}
+          color={colors.accent}
+          onPress={() => {
+            if (!selectedCrop) {
+              Alert.alert('Select a crop', 'Search for and select a crop above before calculating profit.');
+              return;
+            }
+            navigation.navigate('ProfitCalculator', { crop: selectedCrop, state: location?.state, location, recommendedMandiId: recommendation?.recommended?.mandi?.id });
+          }}
+        />
+      </View>
+
+      <View style={styles.sectionHeader}>
+        <View>
+          <Text style={styles.sectionTitle}>Seasonal planning</Text>
+        </View>
+        <Ionicons name="calendar-outline" size={24} color={colors.primary} />
+      </View>
+      <FeatureTile
+        icon="leaf-outline"
+        title="Smart 6-Month Crop Planner"
+        description="Explore suitable crops for your soil, irrigation, and sowing month."
+        onPress={() => navigation.navigate('CropPlanner', { location, locationError })}
+      />
+
     </ScrollView>
   );
 }
@@ -344,9 +377,11 @@ const styles = StyleSheet.create({
   farmerImage: { width: '100%', height: '100%' },
   heroHelpArc: { marginTop: -1, overflow: 'visible' },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.small },
-  eyebrow: { color: colors.accent, fontSize: 11, fontWeight: '800', marginBottom: 2 },
   sectionTitle: { fontSize: 19, fontWeight: '800', color: colors.text, marginBottom: spacing.small },
   cropPanel: { backgroundColor: colors.surface, borderRadius: 16, padding: spacing.medium, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.large },
+  cropSearchRow: { flexDirection: 'row', alignItems: 'center', minHeight: 44, borderRadius: 12, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.background, paddingHorizontal: spacing.medium },
+  cropSearchInput: { flex: 1, color: colors.text, fontSize: 14, paddingVertical: spacing.small, marginLeft: spacing.small },
+  cropSearchResults: { marginTop: spacing.medium },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.small },
   cropFallbackNote: { color: colors.textSecondary, fontSize: 12, marginTop: spacing.small },
   weatherCard: { backgroundColor: colors.surface, borderRadius: 18, padding: spacing.large, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.medium },
@@ -358,21 +393,6 @@ const styles = StyleSheet.create({
   weatherMeta: { color: colors.textSecondary, fontSize: 12, marginTop: 4 },
   weatherStats: { flexDirection: 'row', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: colors.border, marginTop: spacing.medium, paddingTop: spacing.medium },
   stat: { color: colors.textSecondary, fontSize: 12 },
-  recommendationStrip: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: '#FFF7E8', borderRadius: 12, padding: spacing.medium, marginTop: spacing.medium },
-  recommendationCopy: { flex: 1, marginLeft: spacing.small },
-  recommendationLabel: { color: colors.textSecondary, fontSize: 12 },
-  recommendationCrop: { color: colors.primary, fontSize: 20, fontWeight: '800', marginTop: 2 },
-  recommendationReason: { color: colors.textSecondary, fontSize: 12, marginTop: 3, lineHeight: 17 },
   weatherUnavailable: { color: colors.textSecondary, fontSize: 13 },
-  forecastTitle: { color: colors.text, fontSize: 14, fontWeight: '800', marginTop: spacing.large, marginBottom: spacing.small },
-  forecastRow: { gap: spacing.small },
-  forecastCard: { width: 94, backgroundColor: colors.background, borderRadius: 12, padding: spacing.small, alignItems: 'center' },
-  forecastDay: { color: colors.textSecondary, fontSize: 12, fontWeight: '700' },
-  forecastIcon: { fontSize: 24, marginVertical: 4 },
-  forecastTemp: { color: colors.text, fontSize: 11, fontWeight: '700' },
-  forecastRain: { color: colors.primary, fontSize: 10, marginTop: 4 },
-  futureAdvice: { borderLeftWidth: 3, borderLeftColor: colors.accent, paddingLeft: spacing.small, marginTop: spacing.medium },
-  futureAdviceTitle: { color: colors.text, fontSize: 14, fontWeight: '800' },
   actions: { marginTop: spacing.large },
-  actionHint: { color: colors.textSecondary, fontSize: 13, marginBottom: spacing.small },
 });

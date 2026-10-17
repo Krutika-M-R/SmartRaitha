@@ -61,7 +61,7 @@ export default function MarketsScreen({ route }) {
 
   function getTargetDate() {
     const target = new Date();
-    target.setDate(target.getDate() + 2);
+    target.setDate(target.getDate() + 1);
     const month = String(target.getMonth() + 1).padStart(2, '0');
     const day = String(target.getDate()).padStart(2, '0');
     return `${target.getFullYear()}-${month}-${day}`;

@@ -31,16 +31,22 @@ const IRRIGATION = [
   { id: 'drip', label: 'Drip' },
 ];
 
-function getNextSixMonths() {
+function getNextSixMonthPeriods() {
   const now = new Date();
-  return Array.from({ length: 6 }, (_, index) => {
-    const date = new Date(now.getFullYear(), now.getMonth() + index + 1, 1);
+  return Array.from({ length: 2 }, (_, index) => {
+    const startDate = new Date(now.getFullYear(), now.getMonth() + index * 3 + 1, 1);
+    const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 2, 1);
+    const yearLabel = startDate.getFullYear() === endDate.getFullYear()
+      ? String(startDate.getFullYear())
+      : `${startDate.getFullYear()}–${String(endDate.getFullYear()).slice(-2)}`;
     return {
-      month: date.getMonth() + 1,
-      year: date.getFullYear(),
-      date,
-      label: date.toLocaleDateString(undefined, { month: 'short' }),
-      yearLabel: date.getFullYear(),
+      month: startDate.getMonth() + 1,
+      year: startDate.getFullYear(),
+      startDate,
+      endDate,
+      label: `${startDate.toLocaleDateString(undefined, { month: 'short' })}–${endDate.toLocaleDateString(undefined, { month: 'short' })}`,
+      yearLabel,
+      accessibilityLabel: `${startDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })} to ${endDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}`,
     };
   });
 }
@@ -98,6 +104,7 @@ function PriceTrend({ trend }) {
 }
 
 function CropPlanCard({ item, index, farmSizeAcres }) {
+  const [detailsVisible, setDetailsVisible] = useState(false);
   const duration = `${item.durationDays[0]}–${item.durationDays[1]} days`;
   const finance = item.market?.finance;
   const profitRange = finance?.potentialProfitInr;
@@ -124,8 +131,6 @@ function CropPlanCard({ item, index, farmSizeAcres }) {
       <View style={styles.scoreTrack}>
         <View style={[styles.scoreFill, { width: `${item.score}%` }]} />
       </View>
-      <Text style={styles.explanation}>{item.reasons.slice(0, 3).join(' ')}</Text>
-
       <View style={styles.cropFacts}>
         <View style={styles.fact}>
           <Ionicons name="time-outline" size={16} color={colors.primary} />
@@ -157,49 +162,74 @@ function CropPlanCard({ item, index, farmSizeAcres }) {
         </View>
       </View>
 
-      <View style={styles.marketSection}>
-        <View style={styles.marketTitleRow}>
-          <Text style={styles.detailTitle}>Nearby mandi trend</Text>
-          {item.market?.latestPricePerKg != null && (
-            <Text style={styles.latestPrice}>₹{item.market.latestPricePerKg.toFixed(2)}/kg</Text>
-          )}
-        </View>
-        {item.market?.mandi && (
-          <Text style={styles.marketSubtext}>Latest at {item.market.mandi} · {item.market.latestPriceDate}</Text>
-        )}
-        <PriceTrend trend={item.market?.trend} />
-      </View>
+      <TouchableOpacity
+        style={styles.detailsToggle}
+        onPress={() => setDetailsVisible((visible) => !visible)}
+        accessibilityRole="button"
+        accessibilityState={{ expanded: detailsVisible }}
+      >
+        <Text style={styles.detailsToggleText}>{detailsVisible ? 'Hide crop details' : 'View crop details'}</Text>
+        <Ionicons name={detailsVisible ? 'chevron-up' : 'chevron-down'} size={18} color={colors.primary} />
+      </TouchableOpacity>
+      {detailsVisible && (
+        <View style={styles.expandedDetails}>
+          <Text style={styles.detailTitle}>Suitable soil</Text>
+          <Text style={styles.financeNote}>{(item.soilTypes || []).map((soil) => soil[0].toUpperCase() + soil.slice(1)).join(', ') || 'Check with your local agriculture expert.'}</Text>
+          <Text style={[styles.detailTitle, styles.expandedTitle]}>Suitable irrigation</Text>
+          <Text style={styles.financeNote}>{(item.irrigationTypes || []).map((type) => ({
+            rainfed: 'Rain-fed',
+            borewell: 'Borewell',
+            canal: 'Canal',
+            drip: 'Drip',
+          }[type] || type)).join(', ') || 'Choose based on local water availability.'}</Text>
+          <Text style={[styles.detailTitle, styles.expandedTitle]}>Why this crop matches</Text>
+          <Text style={styles.financeNote}>{item.reasons.slice(0, 3).join(' ')}</Text>
 
-      <View style={styles.financeCard}>
-        <View style={styles.financeHeading}>
-          <Ionicons name="calculator-outline" size={17} color={colors.primary} />
-          <Text style={styles.detailTitle}>Planning estimate · {farmSizeAcres} acre{farmSizeAcres === 1 ? '' : 's'}</Text>
-        </View>
-        <Text style={styles.financeRow}>
-          Cultivation cost: {formatMoney(item.cultivationCostInrPerAcre[0] * farmSizeAcres)}–{formatMoney(item.cultivationCostInrPerAcre[1] * farmSizeAcres)}
-        </Text>
-        {finance ? (
-          <>
+          <View style={styles.marketSection}>
+            <View style={styles.marketTitleRow}>
+              <Text style={styles.detailTitle}>Nearby mandi trend</Text>
+              {item.market?.latestPricePerKg != null && (
+                <Text style={styles.latestPrice}>₹{item.market.latestPricePerKg.toFixed(2)}/kg</Text>
+              )}
+            </View>
+            {item.market?.mandi && (
+              <Text style={styles.marketSubtext}>Latest at {item.market.mandi} · {item.market.latestPriceDate}</Text>
+            )}
+            <PriceTrend trend={item.market?.trend} />
+          </View>
+
+          <View style={styles.financeCard}>
+            <View style={styles.financeHeading}>
+              <Ionicons name="calculator-outline" size={17} color={colors.primary} />
+              <Text style={styles.detailTitle}>Planning estimate · {farmSizeAcres} acre{farmSizeAcres === 1 ? '' : 's'}</Text>
+            </View>
             <Text style={styles.financeRow}>
-              Potential profit: {formatMoney(profitRange[0])}–{formatMoney(profitRange[1])}
+              Cultivation cost: {formatMoney(item.cultivationCostInrPerAcre[0] * farmSizeAcres)}–{formatMoney(item.cultivationCostInrPerAcre[1] * farmSizeAcres)}
             </Text>
-            <Text style={styles.financeNote}>
-              Uses a nearby recorded mandi price and the planner’s indicative yield/cost ranges. Actual results vary.
-            </Text>
-          </>
-        ) : (
-          <Text style={styles.financeNote}>
-            Profit needs a nearby mandi record with a verified ₹/kg unit. Import current market data to calculate it.
-          </Text>
-        )}
-      </View>
+            {finance ? (
+              <>
+                <Text style={styles.financeRow}>
+                  Potential profit: {formatMoney(profitRange[0])}–{formatMoney(profitRange[1])}
+                </Text>
+                <Text style={styles.financeNote}>
+                  Uses a nearby recorded mandi price and the planner’s indicative yield/cost ranges. Actual results vary.
+                </Text>
+              </>
+            ) : (
+              <Text style={styles.financeNote}>
+                Profit needs a nearby mandi record with a verified ₹/kg unit. Import current market data to calculate it.
+              </Text>
+            )}
+          </View>
+        </View>
+      )}
     </View>
   );
 }
 
 export default function SmartCropPlanner({ location, locationError, crops = [] }) {
-  const months = useMemo(() => getNextSixMonths(), []);
-  const [selectedMonth, setSelectedMonth] = useState(months[0]);
+  const periods = useMemo(() => getNextSixMonthPeriods(), []);
+  const [selectedPeriod, setSelectedPeriod] = useState(periods[0]);
   const [soilType, setSoilType] = useState('unknown');
   const [irrigation, setIrrigation] = useState('rainfed');
   const [farmSize, setFarmSize] = useState(1);
@@ -242,8 +272,8 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
     setError('');
     cropPlannerService.getPlan({
       location: plannerLocation,
-      month: selectedMonth.month,
-      year: selectedMonth.year,
+      month: selectedPeriod.month,
+      year: selectedPeriod.year,
       soilType,
       irrigation,
       farmSizeAcres: farmSize,
@@ -265,7 +295,7 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
     return () => {
       active = false;
     };
-  }, [farmSize, irrigation, plannerLocation, preferredCropIds, selectedMonth, soilType]);
+  }, [farmSize, irrigation, plannerLocation, preferredCropIds, selectedPeriod, soilType]);
 
   function togglePreferredCrop(cropId) {
     setPreferredCropIds((current) => current.includes(cropId)
@@ -325,24 +355,24 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
 
       <View style={styles.section}>
         <View style={styles.sectionTitleRow}>
-          <Text style={styles.sectionTitle}>Choose a sowing month</Text>
-          <Text style={styles.sectionHint}>Next 6 months</Text>
+          <Text style={styles.sectionTitle}>Choose a planning period</Text>
+          <Text style={styles.sectionHint}>Plan starts in first month</Text>
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.monthRow}>
-          {months.map((month, index) => {
-            const selected = month.month === selectedMonth.month && month.year === selectedMonth.year;
+          {periods.map((period, index) => {
+            const selected = period.month === selectedPeriod.month && period.year === selectedPeriod.year;
             return (
               <TouchableOpacity
-                key={`${month.year}-${month.month}`}
-                onPress={() => setSelectedMonth(month)}
+                key={`${period.year}-${period.month}`}
+                onPress={() => setSelectedPeriod(period)}
                 style={[styles.monthCard, selected && styles.monthCardSelected]}
                 accessibilityRole="button"
                 accessibilityState={{ selected }}
-                accessibilityLabel={`${month.label} ${month.yearLabel}`}
+                accessibilityLabel={period.accessibilityLabel}
               >
                 <Text style={[styles.monthNumber, selected && styles.monthTextSelected]}>{String(index + 1).padStart(2, '0')}</Text>
-                <Text style={[styles.monthLabel, selected && styles.monthTextSelected]}>{month.label}</Text>
-                <Text style={[styles.monthYear, selected && styles.monthTextSelected]}>{month.yearLabel}</Text>
+                <Text style={[styles.monthLabel, selected && styles.monthTextSelected]}>{period.label}</Text>
+                <Text style={[styles.monthYear, selected && styles.monthTextSelected]}>{period.yearLabel}</Text>
                 {selected && <View style={styles.monthSelectedDot} />}
               </TouchableOpacity>
             );
@@ -422,7 +452,9 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
         <View style={styles.climateStrip}>
           <View style={styles.climateIcon}><Ionicons name="partly-sunny-outline" size={20} color={colors.primary} /></View>
           <View style={styles.climateCopy}>
-            <Text style={styles.climateTitle}>{plan.region} · {selectedMonth.label} climate</Text>
+            <Text style={styles.climateTitle}>
+              {plan.region} · {selectedPeriod.startDate.toLocaleDateString(undefined, { month: 'short', year: 'numeric' })} climate
+            </Text>
             <Text style={styles.climateDetail}>
               {Math.round(plan.climate.rainfallMm)} mm average rain · {plan.climate.temperatureC.toFixed(1)}°C mean · {plan.climate.years}-year history
             </Text>
@@ -432,8 +464,8 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
 
       <View style={styles.resultsHeader}>
         <View>
-          <Text style={styles.sectionTitle}>Top 3 crops for {selectedMonth.label}</Text>
-          <Text style={styles.sectionHint}>Ranked against your farm details</Text>
+          <Text style={styles.sectionTitle}>Top 3 crops for {selectedPeriod.label}</Text>
+          <Text style={styles.sectionHint}>Ranked by crop preferences, season and farm details</Text>
         </View>
         {bestScore != null && <Text style={styles.bestFit}>{bestScore}% best fit</Text>}
       </View>
@@ -491,7 +523,7 @@ const styles = StyleSheet.create({
   sectionTitle: { color: colors.text, fontSize: 15, fontWeight: '800' },
   sectionHint: { color: colors.textSecondary, fontSize: 11 },
   monthRow: { gap: spacing.small, paddingVertical: spacing.medium, paddingRight: spacing.small },
-  monthCard: { width: 74, minHeight: 90, alignItems: 'center', justifyContent: 'center', borderRadius: 16, backgroundColor: '#F5F8F3', borderWidth: 1, borderColor: '#E4EAE2', padding: spacing.small },
+  monthCard: { width: 116, minHeight: 90, alignItems: 'center', justifyContent: 'center', borderRadius: 16, backgroundColor: '#F5F8F3', borderWidth: 1, borderColor: '#E4EAE2', padding: spacing.small },
   monthCardSelected: { backgroundColor: colors.primary, borderColor: colors.primary },
   monthNumber: { color: '#9AA79A', fontSize: 10, fontWeight: '900' },
   monthLabel: { color: colors.text, fontSize: 16, fontWeight: '900', marginTop: 3 },
@@ -541,6 +573,10 @@ const styles = StyleSheet.create({
   scoreTrack: { height: 6, backgroundColor: '#E8EEE6', borderRadius: 4, marginTop: spacing.medium, overflow: 'hidden' },
   scoreFill: { height: '100%', borderRadius: 4, backgroundColor: colors.primary },
   explanation: { color: colors.textSecondary, fontSize: 11, lineHeight: 16, marginTop: spacing.small },
+  detailsToggle: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: spacing.medium, paddingVertical: spacing.small, borderTopWidth: 1, borderTopColor: '#E8EEE6' },
+  detailsToggleText: { color: colors.primary, fontSize: 12, fontWeight: '800' },
+  expandedDetails: { paddingTop: spacing.small },
+  expandedTitle: { marginTop: spacing.medium },
   cropFacts: { flexDirection: 'row', justifyContent: 'space-between', gap: 5, backgroundColor: '#F7FAF6', borderRadius: 12, padding: spacing.small, marginTop: spacing.medium },
   fact: { flex: 1, alignItems: 'center' },
   factText: { color: colors.text, textAlign: 'center', fontSize: 9, lineHeight: 13, marginTop: 4 },

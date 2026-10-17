@@ -66,7 +66,7 @@ export default function ProfileScreen({ navigation }) {
         </View>
       </View>
 
-      <Button title={t('assistant')} onPress={() => navigation.navigate('Assistant')} />
+      <Button title={t('assistant')} onPress={() => navigation.navigate('LittleLeaf')} />
       <View style={styles.buttonGap} />
       <Button title={t('logOut')} variant="secondary" onPress={logout} />
       </ScrollView>

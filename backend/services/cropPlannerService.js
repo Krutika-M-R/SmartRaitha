@@ -9,49 +9,141 @@ const cropProfiles = {
     emoji: '🍅', durationDays: [90, 120], water: 'Medium', waterScore: 2,
     soils: ['red', 'loamy', 'alluvial'], months: [1, 2, 3, 6, 7, 8, 9, 10, 11, 12],
     rainfall: [40, 180], temperature: [18, 32], yieldKgPerAcre: [8000, 12000], costInrPerAcre: [70000, 120000],
+    irrigationTypes: ['drip', 'borewell', 'canal'],
     groups: ['vegetable', 'short-duration'],
   },
   onion: {
     emoji: '🧅', durationDays: [100, 130], water: 'Medium', waterScore: 2,
     soils: ['red', 'black', 'loamy', 'alluvial'], months: [1, 6, 7, 8, 9, 10, 11, 12],
     rainfall: [30, 150], temperature: [13, 30], yieldKgPerAcre: [6000, 10000], costInrPerAcre: [45000, 85000],
+    irrigationTypes: ['drip', 'borewell', 'canal'],
     groups: ['vegetable', 'short-duration'],
   },
   potato: {
     emoji: '🥔', durationDays: [90, 120], water: 'Medium', waterScore: 2,
     soils: ['red', 'loamy', 'alluvial'], months: [10, 11, 12, 1, 2],
     rainfall: [25, 100], temperature: [12, 25], yieldKgPerAcre: [6000, 10000], costInrPerAcre: [65000, 110000],
+    irrigationTypes: ['drip', 'borewell', 'canal'],
     groups: ['vegetable', 'short-duration'],
   },
   chilli: {
     emoji: '🌶️', durationDays: [150, 210], water: 'Medium', waterScore: 2,
     soils: ['red', 'black', 'loamy'], months: [6, 7, 8, 9, 10, 11],
     rainfall: [50, 180], temperature: [20, 32], yieldKgPerAcre: [2500, 5000], costInrPerAcre: [60000, 110000],
+    irrigationTypes: ['drip', 'borewell'],
     groups: ['vegetable', 'long-duration'],
   },
   cotton: {
     emoji: '☁️', durationDays: [150, 180], water: 'Medium', waterScore: 2,
     soils: ['black', 'red'], months: [6, 7],
     rainfall: [50, 160], temperature: [21, 35], yieldKgPerAcre: [800, 1400], costInrPerAcre: [25000, 45000],
+    irrigationTypes: ['rainfed', 'borewell', 'canal'],
     groups: ['commercial', 'long-duration'],
   },
   groundnut: {
     emoji: '🥜', durationDays: [100, 125], water: 'Low to medium', waterScore: 1,
     soils: ['red', 'sandy', 'loamy'], months: [1, 2, 6, 7, 8],
     rainfall: [40, 140], temperature: [22, 32], yieldKgPerAcre: [600, 1000], costInrPerAcre: [22000, 40000],
+    irrigationTypes: ['rainfed', 'borewell', 'drip'],
     groups: ['oilseed', 'short-duration'],
   },
   rice: {
     emoji: '🌾', durationDays: [120, 150], water: 'High', waterScore: 3,
     soils: ['clay', 'alluvial', 'loamy'], months: [6, 7, 8, 9, 10, 11],
     rainfall: [100, 300], temperature: [20, 34], yieldKgPerAcre: [1800, 2800], costInrPerAcre: [30000, 55000],
+    irrigationTypes: ['canal', 'borewell'],
     groups: ['cereal', 'water-intensive'],
   },
   maize: {
     emoji: '🌽', durationDays: [90, 115], water: 'Medium', waterScore: 2,
     soils: ['red', 'black', 'loamy', 'alluvial'], months: [1, 2, 6, 7, 8, 9, 10, 11],
     rainfall: [50, 180], temperature: [18, 33], yieldKgPerAcre: [1800, 3000], costInrPerAcre: [22000, 40000],
+    irrigationTypes: ['rainfed', 'borewell', 'canal'],
     groups: ['cereal', 'short-duration'],
+  },
+  ragi: {
+    emoji: '🌾', durationDays: [100, 120], water: 'Low to medium', waterScore: 1,
+    soils: ['red', 'loamy', 'sandy'], months: [6, 7, 8, 9],
+    rainfall: [40, 120], temperature: [20, 32], yieldKgPerAcre: [800, 1400], costInrPerAcre: [18000, 32000],
+    irrigationTypes: ['rainfed', 'borewell'],
+    groups: ['cereal', 'millet', 'drought-tolerant'],
+  },
+  jowar: {
+    emoji: '🌾', durationDays: [100, 130], water: 'Low to medium', waterScore: 1,
+    soils: ['black', 'red', 'loamy'], months: [6, 7, 9, 10],
+    rainfall: [35, 120], temperature: [22, 35], yieldKgPerAcre: [600, 1200], costInrPerAcre: [16000, 30000],
+    irrigationTypes: ['rainfed', 'borewell'],
+    groups: ['cereal', 'millet', 'drought-tolerant'],
+  },
+  bajra: {
+    emoji: '🌾', durationDays: [75, 100], water: 'Low', waterScore: 1,
+    soils: ['sandy', 'red', 'loamy'], months: [6, 7, 8],
+    rainfall: [25, 100], temperature: [25, 35], yieldKgPerAcre: [500, 1000], costInrPerAcre: [14000, 26000],
+    irrigationTypes: ['rainfed', 'borewell'],
+    groups: ['cereal', 'millet', 'drought-tolerant', 'short-duration'],
+  },
+  'foxtail millet': {
+    emoji: '🌾', durationDays: [80, 100], water: 'Low', waterScore: 1,
+    soils: ['red', 'sandy', 'loamy'], months: [6, 7, 8, 9],
+    rainfall: [30, 110], temperature: [20, 32], yieldKgPerAcre: [400, 800], costInrPerAcre: [14000, 26000],
+    irrigationTypes: ['rainfed', 'borewell'],
+    groups: ['cereal', 'millet', 'drought-tolerant', 'short-duration'],
+  },
+  'green gram': {
+    emoji: '🫘', durationDays: [60, 80], water: 'Low', waterScore: 1,
+    soils: ['red', 'sandy', 'loamy'], months: [1, 2, 6, 7, 8, 9],
+    rainfall: [30, 100], temperature: [25, 35], yieldKgPerAcre: [250, 500], costInrPerAcre: [14000, 26000],
+    irrigationTypes: ['rainfed', 'borewell', 'drip'],
+    groups: ['pulse', 'short-duration', 'drought-tolerant'],
+  },
+  'black gram': {
+    emoji: '🫘', durationDays: [70, 90], water: 'Low', waterScore: 1,
+    soils: ['black', 'red', 'loamy'], months: [6, 7, 8, 9],
+    rainfall: [35, 120], temperature: [25, 35], yieldKgPerAcre: [250, 500], costInrPerAcre: [14000, 26000],
+    irrigationTypes: ['rainfed', 'borewell'],
+    groups: ['pulse', 'short-duration'],
+  },
+  chickpea: {
+    emoji: '🫘', durationDays: [100, 120], water: 'Low', waterScore: 1,
+    soils: ['black', 'loamy', 'alluvial'], months: [10, 11, 12],
+    rainfall: [20, 80], temperature: [15, 30], yieldKgPerAcre: [400, 800], costInrPerAcre: [18000, 32000],
+    irrigationTypes: ['rainfed', 'borewell'],
+    groups: ['pulse', 'rabi', 'drought-tolerant'],
+  },
+  'pigeon pea': {
+    emoji: '🫘', durationDays: [150, 210], water: 'Low to medium', waterScore: 1,
+    soils: ['black', 'red', 'loamy'], months: [6, 7],
+    rainfall: [50, 150], temperature: [20, 35], yieldKgPerAcre: [300, 700], costInrPerAcre: [20000, 36000],
+    irrigationTypes: ['rainfed', 'borewell'],
+    groups: ['pulse', 'long-duration', 'drought-tolerant'],
+  },
+  'horse gram': {
+    emoji: '🫘', durationDays: [90, 120], water: 'Low', waterScore: 1,
+    soils: ['red', 'sandy', 'loamy'], months: [8, 9, 10],
+    rainfall: [25, 100], temperature: [20, 32], yieldKgPerAcre: [250, 500], costInrPerAcre: [12000, 22000],
+    irrigationTypes: ['rainfed', 'borewell'],
+    groups: ['pulse', 'drought-tolerant'],
+  },
+  sunflower: {
+    emoji: '🌻', durationDays: [85, 110], water: 'Low to medium', waterScore: 1,
+    soils: ['black', 'red', 'loamy'], months: [1, 2, 6, 7, 8, 9],
+    rainfall: [35, 120], temperature: [20, 32], yieldKgPerAcre: [400, 800], costInrPerAcre: [18000, 32000],
+    irrigationTypes: ['rainfed', 'borewell', 'drip'],
+    groups: ['oilseed', 'short-duration'],
+  },
+  sesame: {
+    emoji: '🌱', durationDays: [80, 100], water: 'Low', waterScore: 1,
+    soils: ['sandy', 'red', 'loamy'], months: [6, 7, 8, 9],
+    rainfall: [25, 100], temperature: [25, 35], yieldKgPerAcre: [150, 350], costInrPerAcre: [14000, 26000],
+    irrigationTypes: ['rainfed', 'borewell'],
+    groups: ['oilseed', 'short-duration', 'drought-tolerant'],
+  },
+  wheat: {
+    emoji: '🌾', durationDays: [110, 140], water: 'Medium', waterScore: 2,
+    soils: ['loamy', 'alluvial', 'black'], months: [10, 11, 12],
+    rainfall: [20, 100], temperature: [10, 25], yieldKgPerAcre: [800, 1400], costInrPerAcre: [22000, 38000],
+    irrigationTypes: ['canal', 'borewell'],
+    groups: ['cereal', 'rabi'],
   },
 };
 
@@ -214,6 +306,7 @@ async function getCropPlan({ latitude, longitude, month, year, soilType = 'unkno
       yieldKgPerAcre: profile.yieldKgPerAcre,
       cultivationCostInrPerAcre: profile.costInrPerAcre,
       soilTypes: profile.soils,
+      irrigationTypes: profile.irrigationTypes,
       market: {
         unit: 'INR_PER_KG',
         latestPricePerKg: null,
@@ -223,7 +316,11 @@ async function getCropPlan({ latitude, longitude, month, year, soilType = 'unkno
         finance: null,
       },
     };
-  }).sort((a, b) => b.score - a.score).slice(0, 3);
+  }).sort((a, b) => {
+    const aPreferred = preferredCropIds.includes(a.cropId);
+    const bPreferred = preferredCropIds.includes(b.cropId);
+    return Number(bPreferred) - Number(aPreferred) || b.score - a.score;
+  }).slice(0, 3);
 
   return {
     month,
@@ -234,7 +331,7 @@ async function getCropPlan({ latitude, longitude, month, year, soilType = 'unkno
       ...climate,
       source: 'Open-Meteo historical weather archive; monthly averages from completed years',
     },
-    estimatesNote: 'Yield and cultivation-cost figures are generic planning ranges, not district-specific official forecasts; validate them with your local KVK. The crop planner does not include market estimates. Historical rainfall is a climate normal, not a six-month weather forecast.',
+    estimatesNote: 'Yield and cultivation-cost figures are generic planning ranges, not district-specific official forecasts. Crop, soil, and irrigation suitability is general guidance; validate it with your local KVK before planting. The crop planner does not include market estimates. Historical rainfall is a climate normal, not a six-month weather forecast.',
     recommendations,
   };
 }
