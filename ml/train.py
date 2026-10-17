@@ -5,9 +5,7 @@ WHAT:  Predicts modal_price for a given crop + mandi + date.
 WHY:   Farmers want to know what tomorrow's / next week's price might be,
        not just today's price, so they can time when they sell.
 HOW:   Simple, explainable features (day of year, days since dataset start,
-       recent average price, crop, mandi) fed into Linear Regression and
-       Random Forest. We keep both models, compare them on held-out data,
-       and save whichever performs better.
+       recent average price, crop, mandi) are fed into a Random Forest.
 
 Run:  python train.py
 """
@@ -17,7 +15,6 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -80,27 +77,14 @@ def main():
     X, y, encoders, feature_cols = build_features(df)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    linreg = LinearRegression()
-    linreg.fit(X_train, y_train)
-    linreg_metrics = evaluate(linreg, X_test, y_test, "Linear Regression")
-
     forest = RandomForestRegressor(n_estimators=200, max_depth=8, random_state=42)
     forest.fit(X_train, y_train)
-    forest_metrics = evaluate(forest, X_test, y_test, "Random Forest")
-
-    # Pick whichever model has the lower RMSE - don't just pick the
-    # fancier-sounding one.
-    if forest_metrics["rmse"] < linreg_metrics["rmse"]:
-        best_model, best_name = forest, "random_forest"
-    else:
-        best_model, best_name = linreg, "linear_regression"
-
-    print(f"\nSelected model: {best_name}")
+    evaluate(forest, X_test, y_test, "Random Forest")
 
     joblib.dump(
         {
-            "model": best_model,
-            "model_name": best_name,
+            "model": forest,
+            "model_name": "random_forest",
             "feature_cols": feature_cols,
             "encoders": encoders,
         },

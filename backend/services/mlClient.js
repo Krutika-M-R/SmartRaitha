@@ -20,4 +20,21 @@ async function getPredictedPrice({ cropId, mandiId, targetDate }) {
   }
 }
 
-module.exports = { getPredictedPrice };
+async function getRandomForestForecast({ cropName, state, targetDate, mandiPrices }) {
+  try {
+    const response = await axios.post(`${ML_SERVICE_URL}/forecast`, {
+      cropName,
+      state,
+      targetDate,
+      mandiPrices,
+    }, { timeout: 30000 });
+    return response.data;
+  } catch (err) {
+    if (err.response) {
+      throw new Error(err.response.data?.error || 'Random Forest forecast service returned an error.');
+    }
+    throw new Error('Could not reach the Random Forest forecast service. Is app.py running?');
+  }
+}
+
+module.exports = { getPredictedPrice, getRandomForestForecast };
