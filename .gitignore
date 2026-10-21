@@ -1,0 +1,35 @@
+node_modules/
+.env    
+__pycache__/
+*.pyc
+ml/venv/
+ml/.venv/
+# Local backups and temporary runtime files
+*.bak
+*.bak*
+*.tmp
+*.log
+mobile/.expo/
+
+# Python virtual environments
+ml/.venv312/
+**/.venv/
+**/.venv*/
+**/venv/
+
+# Dependencies and generated files
+**/node_modules/
+**/__pycache__/
+mobile/.expo/
+
+# Local backups and temporary files
+*.bak
+*.bak*
+*.tmp
+*.log
+
+# Controller backup text files
+backend/controllers/assistantController.js.back*.txt
+
+# Generated Expo export files
+mobile/dist/

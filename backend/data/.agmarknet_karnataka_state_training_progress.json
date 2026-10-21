@@ -1,0 +1,689 @@
+{
+  "version": 1,
+  "completed": {
+    "1": {
+      "crop": "Wheat",
+      "rowCount": 3102,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "2": {
+      "crop": "Paddy(Common)",
+      "rowCount": 3350,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "3": {
+      "crop": "Rice",
+      "rowCount": 3455,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "4": {
+      "crop": "Maize",
+      "rowCount": 3509,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "5": {
+      "crop": "Jowar(Sorghum)",
+      "rowCount": 3259,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-29"
+    },
+    "6": {
+      "crop": "Bengal Gram(Gram)(Whole)",
+      "rowCount": 3211,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "8": {
+      "crop": "Black Gram(Urd Beans)(Whole)",
+      "rowCount": 2780,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-19"
+    },
+    "9": {
+      "crop": "Green Gram(Moong)(Whole)",
+      "rowCount": 3030,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-27"
+    },
+    "10": {
+      "crop": "Groundnut",
+      "rowCount": 3198,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-29"
+    },
+    "11": {
+      "crop": "Sesamum(Sesame,Gingelly,Til)",
+      "rowCount": 2438,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-09-25"
+    },
+    "12": {
+      "crop": "Mustard",
+      "rowCount": 2156,
+      "firstDate": "2015-11-05",
+      "lastDate": "2025-10-29"
+    },
+    "13": {
+      "crop": "Soyabean",
+      "rowCount": 3050,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "14": {
+      "crop": "Sunflower/Sunflower Seed",
+      "rowCount": 2949,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-29"
+    },
+    "15": {
+      "crop": "Cotton",
+      "rowCount": 3067,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "17": {
+      "crop": "Apple",
+      "rowCount": 2597,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "18": {
+      "crop": "Orange",
+      "rowCount": 2433,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "19": {
+      "crop": "Banana",
+      "rowCount": 2594,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "21": {
+      "crop": "Pineapple",
+      "rowCount": 2266,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "22": {
+      "crop": "Grapes",
+      "rowCount": 2247,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "23": {
+      "crop": "Onion",
+      "rowCount": 3458,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "24": {
+      "crop": "Potato",
+      "rowCount": 3505,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "25": {
+      "crop": "Garlic",
+      "rowCount": 3061,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "27": {
+      "crop": "Ginger(Dry)",
+      "rowCount": 1235,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "28": {
+      "crop": "Bajra(Pearl Millet/Cumbu)",
+      "rowCount": 3280,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-29"
+    },
+    "30": {
+      "crop": "Ragi(Finger Millet)",
+      "rowCount": 3249,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-27"
+    },
+    "34": {
+      "crop": "Cauliflower",
+      "rowCount": 3569,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "35": {
+      "crop": "Brinjal",
+      "rowCount": 3580,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "38": {
+      "crop": "Black pepper",
+      "rowCount": 2927,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "39": {
+      "crop": "Turmeric",
+      "rowCount": 1901,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-29"
+    },
+    "43": {
+      "crop": "Coriander(Leaves)",
+      "rowCount": 2294,
+      "firstDate": "2015-10-31",
+      "lastDate": "2025-10-28"
+    },
+    "47": {
+      "crop": "Methi Seeds",
+      "rowCount": 1954,
+      "firstDate": "2015-11-13",
+      "lastDate": "2025-10-30"
+    },
+    "49": {
+      "crop": "Red gram/Arhar/Tur(whole)",
+      "rowCount": 3057,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-15"
+    },
+    "50": {
+      "crop": "Green Peas",
+      "rowCount": 2303,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-28"
+    },
+    "59": {
+      "crop": "Safflower",
+      "rowCount": 2702,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "71": {
+      "crop": "Chikoos(Sapota)",
+      "rowCount": 2169,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "72": {
+      "crop": "Papaya",
+      "rowCount": 2528,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "73": {
+      "crop": "Water Melon",
+      "rowCount": 2266,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "74": {
+      "crop": "Gur(Jaggery)",
+      "rowCount": 3448,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "77": {
+      "crop": "Mousambi(Sweet Lime)",
+      "rowCount": 2581,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "78": {
+      "crop": "Tomato",
+      "rowCount": 3611,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "81": {
+      "crop": "Bitter gourd",
+      "rowCount": 3511,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "82": {
+      "crop": "Bottle gourd",
+      "rowCount": 3461,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "83": {
+      "crop": "Ashgourd",
+      "rowCount": 2907,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "87": {
+      "crop": "Green Chilli",
+      "rowCount": 3590,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "88": {
+      "crop": "Chilly Capsicum",
+      "rowCount": 3558,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "89": {
+      "crop": "Cowpea(Veg)",
+      "rowCount": 486,
+      "firstDate": "2015-11-07",
+      "lastDate": "2024-08-08"
+    },
+    "90": {
+      "crop": "Banana - Green",
+      "rowCount": 2898,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "92": {
+      "crop": "Cowpea(Lobia/Karamani)",
+      "rowCount": 2999,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-27"
+    },
+    "93": {
+      "crop": "Mataki",
+      "rowCount": 655,
+      "firstDate": "2015-11-14",
+      "lastDate": "2025-10-27"
+    },
+    "94": {
+      "crop": "Beans",
+      "rowCount": 3597,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "98": {
+      "crop": "Niger Seed(Ramtil)",
+      "rowCount": 55,
+      "firstDate": "2015-11-03",
+      "lastDate": "2024-09-21"
+    },
+    "103": {
+      "crop": "Ginger(Green)",
+      "rowCount": 3556,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "108": {
+      "crop": "Corriander seed",
+      "rowCount": 2666,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-28"
+    },
+    "114": {
+      "crop": "Kulthi(Horse Gram)",
+      "rowCount": 3076,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "121": {
+      "crop": "Foxtail Millet(Navane)",
+      "rowCount": 2848,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-28"
+    },
+    "129": {
+      "crop": "Copra",
+      "rowCount": 3297,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "132": {
+      "crop": "Dry Chillies",
+      "rowCount": 2870,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-28"
+    },
+    "138": {
+      "crop": "Coconut",
+      "rowCount": 3436,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "140": {
+      "crop": "Arecanut(Betelnut/Supari)",
+      "rowCount": 3457,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "152": {
+      "crop": "Sweet Potato",
+      "rowCount": 3101,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "153": {
+      "crop": "Carrot",
+      "rowCount": 3596,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "154": {
+      "crop": "Cabbage",
+      "rowCount": 3563,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "155": {
+      "crop": "Ladies Finger",
+      "rowCount": 0,
+      "firstDate": null,
+      "lastDate": null
+    },
+    "156": {
+      "crop": "Snakeguard",
+      "rowCount": 3457,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "157": {
+      "crop": "Beetroot",
+      "rowCount": 3594,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "158": {
+      "crop": "White Pumpkin",
+      "rowCount": 2431,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "159": {
+      "crop": "Cucumbar(Kheera)",
+      "rowCount": 3600,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "160": {
+      "crop": "Ridgeguard(Tori)",
+      "rowCount": 3593,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "161": {
+      "crop": "Raddish",
+      "rowCount": 3580,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "162": {
+      "crop": "Thondekai",
+      "rowCount": 3502,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "164": {
+      "crop": "Capsicum",
+      "rowCount": 3569,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "165": {
+      "crop": "Green Avare(W)",
+      "rowCount": 2585,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "166": {
+      "crop": "Alsandikai",
+      "rowCount": 2647,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "168": {
+      "crop": "Drumstick",
+      "rowCount": 3329,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "169": {
+      "crop": "Chapparad Avare",
+      "rowCount": 3168,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "170": {
+      "crop": "Thogrikai",
+      "rowCount": 1009,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "173": {
+      "crop": "Sweet Pumpkin",
+      "rowCount": 3446,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "174": {
+      "crop": "Peas Wet",
+      "rowCount": 2288,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "176": {
+      "crop": "Seemebadnekai",
+      "rowCount": 3484,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "177": {
+      "crop": "Knool Khol",
+      "rowCount": 3540,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "180": {
+      "crop": "Lime",
+      "rowCount": 2294,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "185": {
+      "crop": "Guava",
+      "rowCount": 807,
+      "firstDate": "2015-11-03",
+      "lastDate": "2025-10-30"
+    },
+    "187": {
+      "crop": "Karbuja(Musk Melon)",
+      "rowCount": 2193,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "190": {
+      "crop": "Pomegranate",
+      "rowCount": 2585,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "200": {
+      "crop": "Tender Coconut",
+      "rowCount": 3106,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "224": {
+      "crop": "Bunch Beans",
+      "rowCount": 2944,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "260": {
+      "crop": "Red gram split/Arhar dal/Tur dal",
+      "rowCount": 2299,
+      "firstDate": "2015-12-03",
+      "lastDate": "2025-10-30"
+    },
+    "261": {
+      "crop": "Tamarind Fruit",
+      "rowCount": 2674,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-27"
+    },
+    "263": {
+      "crop": "Bengal Gram Dal(Chana Dal)",
+      "rowCount": 2289,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "264": {
+      "crop": "Black Gram Dal(Urd Dal)",
+      "rowCount": 2273,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "265": {
+      "crop": "Green Gram Dal(Moong Dal)",
+      "rowCount": 2754,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "268": {
+      "crop": "Ground Nut Seed",
+      "rowCount": 2545,
+      "firstDate": "2015-10-31",
+      "lastDate": "2025-10-30"
+    },
+    "269": {
+      "crop": "Avare Dal",
+      "rowCount": 2115,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-21"
+    },
+    "278": {
+      "crop": "Dry Grapes",
+      "rowCount": 1236,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-06-27"
+    },
+    "281": {
+      "crop": "Alasande Gram",
+      "rowCount": 2808,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-30"
+    },
+    "295": {
+      "crop": "Chennangi Dal",
+      "rowCount": 2159,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-06-26"
+    },
+    "296": {
+      "crop": "Elephant Yam(Suran)/Amorphophallus",
+      "rowCount": 2696,
+      "firstDate": "2015-10-30",
+      "lastDate": "2025-10-15"
+    }
+  },
+  "snapshotAt": "2026-10-14T06:44:34.309Z",
+  "parts": {
+    "1": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\1.csv",
+    "2": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\2.csv",
+    "3": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\3.csv",
+    "4": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\4.csv",
+    "5": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\5.csv",
+    "6": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\6.csv",
+    "8": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\8.csv",
+    "9": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\9.csv",
+    "10": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\10.csv",
+    "11": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\11.csv",
+    "12": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\12.csv",
+    "13": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\13.csv",
+    "14": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\14.csv",
+    "15": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\15.csv",
+    "17": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\17.csv",
+    "18": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\18.csv",
+    "19": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\19.csv",
+    "21": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\21.csv",
+    "22": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\22.csv",
+    "23": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\23.csv",
+    "24": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\24.csv",
+    "25": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\25.csv",
+    "27": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\27.csv",
+    "28": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\28.csv",
+    "30": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\30.csv",
+    "34": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\34.csv",
+    "35": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\35.csv",
+    "38": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\38.csv",
+    "39": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\39.csv",
+    "43": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\43.csv",
+    "47": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\47.csv",
+    "49": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\49.csv",
+    "50": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\50.csv",
+    "59": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\59.csv",
+    "71": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\71.csv",
+    "72": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\72.csv",
+    "73": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\73.csv",
+    "74": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\74.csv",
+    "77": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\77.csv",
+    "78": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\78.csv",
+    "81": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\81.csv",
+    "82": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\82.csv",
+    "83": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\83.csv",
+    "87": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\87.csv",
+    "88": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\88.csv",
+    "89": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\89.csv",
+    "90": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\90.csv",
+    "92": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\92.csv",
+    "93": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\93.csv",
+    "94": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\94.csv",
+    "98": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\98.csv",
+    "103": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\103.csv",
+    "108": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\108.csv",
+    "114": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\114.csv",
+    "121": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\121.csv",
+    "129": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\129.csv",
+    "132": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\132.csv",
+    "138": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\138.csv",
+    "140": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\140.csv",
+    "152": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\152.csv",
+    "153": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\153.csv",
+    "154": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\154.csv",
+    "155": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\155.csv",
+    "156": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\156.csv",
+    "157": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\157.csv",
+    "158": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\158.csv",
+    "159": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\159.csv",
+    "160": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\160.csv",
+    "161": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\161.csv",
+    "162": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\162.csv",
+    "164": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\164.csv",
+    "165": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\165.csv",
+    "166": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\166.csv",
+    "168": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\168.csv",
+    "169": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\169.csv",
+    "170": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\170.csv",
+    "173": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\173.csv",
+    "174": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\174.csv",
+    "176": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\176.csv",
+    "177": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\177.csv",
+    "180": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\180.csv",
+    "185": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\185.csv",
+    "187": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\187.csv",
+    "190": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\190.csv",
+    "200": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\200.csv",
+    "224": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\224.csv",
+    "260": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\260.csv",
+    "261": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\261.csv",
+    "263": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\263.csv",
+    "264": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\264.csv",
+    "265": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\265.csv",
+    "268": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\268.csv",
+    "269": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\269.csv",
+    "278": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\278.csv",
+    "281": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\281.csv",
+    "295": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\295.csv",
+    "296": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\.agmarknet_karnataka_state_training_parts\\296.csv"
+  },
+  "finished": true,
+  "output": "C:\\Users\\Kavya\\Downloads\\SmartRaitha-kavya-work\\SmartRaitha-kavya-work\\backend\\data\\agmarknet_karnataka_10yr_state_average_training_prices.csv"
+}
