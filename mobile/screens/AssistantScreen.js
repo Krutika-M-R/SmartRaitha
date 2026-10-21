@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
@@ -16,8 +16,13 @@ export default function AssistantScreen({ navigation }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [speakingMessageIndex, setSpeakingMessageIndex] = useState(null);
-  const glowProgress = React.useRef(new Animated.Value(0)).current;
+  const glowProgress = useRef(new Animated.Value(0)).current;
   const isSpeaking = speakingMessageIndex !== null;
+
+  const dot1Anim = useRef(new Animated.Value(0.3)).current;
+  const dot2Anim = useRef(new Animated.Value(0.3)).current;
+  const dot3Anim = useRef(new Animated.Value(0.3)).current;
+  const scrollViewRef = useRef(null);
 
   const speechLanguage = { en: 'en-IN', kn: 'kn-IN', hi: 'hi-IN', te: 'te-IN' }[language] || 'en-IN';
 
@@ -57,6 +62,40 @@ export default function AssistantScreen({ navigation }) {
     return () => glowAnimation.stop();
   }, [glowProgress, isSpeaking]);
 
+  useEffect(() => {
+    if (!loading) {
+      dot1Anim.setValue(0.3);
+      dot2Anim.setValue(0.3);
+      dot3Anim.setValue(0.3);
+      return undefined;
+    }
+
+    const animateDot = (anim, delay) => Animated.sequence([
+      Animated.delay(delay),
+      Animated.timing(anim, {
+        toValue: 1,
+        duration: 320,
+        useNativeDriver: true,
+      }),
+      Animated.timing(anim, {
+        toValue: 0.3,
+        duration: 320,
+        useNativeDriver: true,
+      }),
+    ]);
+
+    const loop = Animated.loop(
+      Animated.parallel([
+        animateDot(dot1Anim, 0),
+        animateDot(dot2Anim, 180),
+        animateDot(dot3Anim, 360),
+      ]),
+    );
+
+    loop.start();
+    return () => loop.stop();
+  }, [loading, dot1Anim, dot2Anim, dot3Anim]);
+
   useEffect(() => () => Speech.stop(), []);
 
   async function sendMessage() {
@@ -82,7 +121,12 @@ export default function AssistantScreen({ navigation }) {
     <View style={styles.container}>
       <TopHeader navigation={navigation} />
       <KeyboardAvoidingView style={styles.chat} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        ref={scrollViewRef}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+        onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+      >
         <View style={styles.titleRow}>
           <View style={styles.identity}>
             <View style={styles.avatarWrap}>
@@ -122,7 +166,42 @@ export default function AssistantScreen({ navigation }) {
             )}
           </View>
         ))}
-        {loading && <Text style={styles.loading}>...</Text>}
+        {loading && (
+          <View style={[styles.bubble, styles.assistantBubble, styles.thinkingBubble]}>
+            <View style={styles.thinkingContainer}>
+              <View style={styles.dotsRow}>
+                <Animated.View
+                  style={[
+                    styles.dot,
+                    {
+                      opacity: dot1Anim,
+                      transform: [{ scale: dot1Anim.interpolate({ inputRange: [0.3, 1], outputRange: [0.8, 1.25] }) }],
+                    },
+                  ]}
+                />
+                <Animated.View
+                  style={[
+                    styles.dot,
+                    {
+                      opacity: dot2Anim,
+                      transform: [{ scale: dot2Anim.interpolate({ inputRange: [0.3, 1], outputRange: [0.8, 1.25] }) }],
+                    },
+                  ]}
+                />
+                <Animated.View
+                  style={[
+                    styles.dot,
+                    {
+                      opacity: dot3Anim,
+                      transform: [{ scale: dot3Anim.interpolate({ inputRange: [0.3, 1], outputRange: [0.8, 1.25] }) }],
+                    },
+                  ]}
+                />
+              </View>
+              <Text style={styles.thinkingText}>LittleLeaf is thinking...</Text>
+            </View>
+          </View>
+        )}
       </ScrollView>
       <View style={styles.composer}>
         <TextInput
@@ -132,8 +211,15 @@ export default function AssistantScreen({ navigation }) {
           placeholder={t('assistantPlaceholder')}
           placeholderTextColor={colors.textSecondary}
           multiline
+          editable={!loading}
         />
-        <TouchableOpacity style={styles.sendButton} onPress={sendMessage} disabled={loading}>
+        <TouchableOpacity
+          style={[styles.sendButton, loading && styles.sendButtonDisabled]}
+          onPress={sendMessage}
+          disabled={loading}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: loading }}
+        >
           <Text style={styles.sendText}>{t('send')}</Text>
         </TouchableOpacity>
       </View>
@@ -162,9 +248,37 @@ const styles = StyleSheet.create({
   userText: { color: colors.surface },
   speakButton: { flexDirection: 'row', alignItems: 'center', marginTop: spacing.small, gap: 4 },
   speakText: { color: colors.primary, fontSize: 11, fontWeight: '700' },
-  loading: { color: colors.textSecondary, marginBottom: spacing.small },
+  thinkingBubble: {
+    paddingVertical: spacing.small + 2,
+    paddingHorizontal: spacing.medium,
+    borderColor: '#C8E6C9',
+    backgroundColor: '#F9FDF9',
+    alignSelf: 'flex-start',
+  },
+  thinkingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  dotsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  dot: {
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
+    backgroundColor: colors.primary,
+  },
+  thinkingText: {
+    color: colors.textSecondary,
+    fontSize: 13,
+    fontStyle: 'italic',
+  },
   composer: { flexDirection: 'row', alignItems: 'flex-end', padding: spacing.medium, borderTopWidth: 1, borderTopColor: colors.border, backgroundColor: colors.surface },
   input: { flex: 1, maxHeight: 100, borderWidth: 1, borderColor: colors.border, borderRadius: 10, paddingHorizontal: spacing.medium, paddingVertical: spacing.small, color: colors.text, backgroundColor: colors.background },
   sendButton: { marginLeft: spacing.small, paddingHorizontal: spacing.medium, paddingVertical: spacing.medium, borderRadius: 10, backgroundColor: colors.primary },
+  sendButtonDisabled: { opacity: 0.5 },
   sendText: { color: colors.surface, fontWeight: '700' },
 });

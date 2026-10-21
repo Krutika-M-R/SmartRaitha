@@ -1,7 +1,14 @@
 import request from './api';
 
-async function getCrops() {
-  return request('/crops');
+async function getCrops(state) {
+  const params = new URLSearchParams();
+  if (state) params.set('state', state);
+  const query = params.toString();
+  return request(`/crops${query ? `?${query}` : ''}`);
 }
 
-export default { getCrops };
+async function getCropCatalog() {
+  return request('/crops/catalog');
+}
+
+export default { getCrops, getCropCatalog };

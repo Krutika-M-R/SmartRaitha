@@ -12,8 +12,8 @@ export default function PriceBarChart({ prices, recommendedMandiId, title }) {
   const { t } = useLanguage();
   if (!prices || prices.length === 0) return null;
 
-  const chartPrices = prices.slice(0, 6).map((item) => Number(item.modalPrice) || 0);
-  const chartLabels = prices.slice(0, 6).map((item) => item.mandi?.name || 'Market');
+  const chartPrices = prices.map((item) => Number(item.modalPrice) || 0);
+  const chartLabels = prices.map((item) => item.mandi?.name || 'Market');
   const chartWidth = Math.max(screenWidth - spacing.large * 2, chartPrices.length * 110 + 70);
   const chartHeight = 310;
   const leftAxis = 58;
@@ -88,7 +88,7 @@ export default function PriceBarChart({ prices, recommendedMandiId, title }) {
         </View>
       </ScrollView>
       <View style={styles.legend}>
-        {prices.slice(0, 6).map((item, index) => (
+        {prices.map((item, index) => (
           <View key={`legend-${item.id ?? index}`} style={styles.legendItem}>
             <View style={[styles.legendDot, { backgroundColor: mandiColors[index % mandiColors.length] }]} />
             <Text style={styles.legendText} numberOfLines={1}>

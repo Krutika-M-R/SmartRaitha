@@ -56,6 +56,7 @@ Every service file in `services/` matches one group of endpoints in the backend:
 | `profitService.js` | `/profit/calculate` |
 | `recommendationService.js` | `/recommendations` |
 | `predictionService.js` | `/predictions` |
+| `cropPlannerService.js` | `/farm-guidance/planner` |
 
 The JWT returned on login/signup is stored with `AsyncStorage` and attached automatically as an `Authorization: Bearer <token>` header on any request marked `auth: true` in `services/api.js`.
 

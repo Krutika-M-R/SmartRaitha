@@ -10,13 +10,13 @@ export default function TopHeader({ navigation }) {
 
   return (
     <View style={[styles.header, { paddingTop: insets.top + spacing.small }]}>
-      <HamburgerMenu navigation={navigation} />
       <Text style={styles.brand}>SmartRaitha</Text>
+      <HamburgerMenu navigation={navigation} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.large, paddingBottom: spacing.small, backgroundColor: colors.background },
-  brand: { marginLeft: spacing.medium, color: colors.primary, fontSize: 18, fontWeight: '800' },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: spacing.large, paddingBottom: spacing.small, backgroundColor: colors.background },
+  brand: { color: colors.primary, fontSize: 18, fontWeight: '800' },
 });

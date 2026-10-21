@@ -1,23 +1,37 @@
 const { recommendBestMandi } = require('../services/recommendationService');
 
-// GET /api/recommendations?cropId=1&quantityKg=100&latitude=12.97&longitude=77.59
+// GET /api/recommendations?cropName=Tomato&state=Karnataka
 async function getRecommendation(req, res) {
   try {
-    const cropId = Number(req.query.cropId);
-    const quantityKg = Number(req.query.quantityKg) || 1;
-    const latitude = Number(req.query.latitude);
-    const longitude = Number(req.query.longitude);
+    const cropName = typeof req.query.cropName === 'string' ? req.query.cropName.trim() : '';
+    const state = typeof req.query.state === 'string' ? req.query.state.trim() : '';
+    const district = typeof req.query.district === 'string' ? req.query.district.trim() : '';
+    const originLatitude = req.query.latitude === undefined ? undefined : Number(req.query.latitude);
+    const originLongitude = req.query.longitude === undefined ? undefined : Number(req.query.longitude);
+    const quantityKg = req.query.quantityKg === undefined ? 100 : Number(req.query.quantityKg);
 
-    if (!cropId) return res.status(400).json({ error: 'cropId is required.' });
-    if (!latitude || !longitude) {
-      return res.status(400).json({ error: 'latitude and longitude are required.' });
+    if (!cropName) return res.status(400).json({ error: 'cropName is required.' });
+    if (!state) return res.status(400).json({ error: 'state is required to find nearby mandi prices.' });
+    if ((originLatitude === undefined) !== (originLongitude === undefined)
+      || (originLatitude !== undefined
+        && (!Number.isFinite(originLatitude) || originLatitude < -90 || originLatitude > 90
+          || !Number.isFinite(originLongitude) || originLongitude < -180 || originLongitude > 180))
+      || !Number.isFinite(quantityKg) || quantityKg <= 0) {
+      return res.status(400).json({ error: 'Valid location coordinates and a positive quantityKg are required.' });
     }
 
-    const result = await recommendBestMandi({ cropId, quantityKg, latitude, longitude });
+    const result = await recommendBestMandi({
+      cropName,
+      state,
+      district,
+      originLatitude,
+      originLongitude,
+      quantityKg,
+    });
     res.json(result);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Could not generate recommendation.' });
+    console.error('Market recommendation failed:', err.message);
+    res.status(502).json({ error: err.message || 'Could not generate recommendation.' });
   }
 }
 

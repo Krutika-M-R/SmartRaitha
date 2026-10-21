@@ -1,124 +1,73 @@
-# SmartRaitha Backend — PostgreSQL (Neon) + Prisma
+# SmartRaitha Backend
 
-This is the migrated backend: Node.js + Express + PostgreSQL (hosted on Neon) + Prisma ORM,
-replacing the earlier MongoDB/Mongoose version.
+The backend uses Node.js, Express, Prisma, and Neon PostgreSQL for user accounts.
+Agmarknet prices and mandi directory data are loaded from the live API and the local
+CSV snapshot at `data/agmarknet_current_prices.csv`.
 
-## 1. Install dependencies
+## Setup
 
-```bash
-npm install
-```
+1. Run `npm install`.
+2. Copy `.env.example` to `.env` and configure `DATABASE_URL`, `JWT_SECRET`, SMTP
+   settings, and `MANDI_API_KEY` (or `AGMARKNET_API_KEY`).
+3. Apply database migrations and regenerate Prisma Client:
 
-## 2. Set up environment variables
+   ```bash
+   npx prisma migrate deploy
+   npx prisma generate
+   ```
 
-Copy `.env.example` to `.env` and fill in your real Neon connection string and JWT secret:
+4. Start the backend with `npm run dev`.
 
-```bash
-cp .env.example .env
-```
+The application-managed `public` schema retains only the `User` table and Prisma's
+`_prisma_migrations` history table. The cleanup migration drops the app's crop, mandi,
+price, transport, prediction, and Agmarknet tracking tables. Neon-managed `neon_auth`
+tables are preserved. User sign-in and other account features continue to use
+`public.User`.
 
-Signup verification codes are sent to the email address entered during registration using
-the SMTP settings in `.env`.
+## Market data
 
-## 3. Create the database tables
+Live Agmarknet records are preferred. If no live report exists, recommendations,
+comparisons, and profit calculations use the latest verified CSV report for the same
+crop, state, and mandi. Prices are never copied across mandis or crops. The selected
+mandi must have its own report to be eligible for profit calculation.
 
-```bash
-npx prisma migrate dev --name init
-```
+The CSV refreshes on backend startup and every six hours. When reports are fetched,
+CSV rows are keyed by crop, mandi, variety, grade, and report date. This preserves
+captured older reports as new dates arrive; it cannot recover reports that were never
+saved or are no longer returned by Agmarknet. Prices are converted from rupees per
+quintal to rupees per kilogram.
 
-## 4. (Optional) Add sample data
+The CSV is a last-known price snapshot, not a complete historical archive or mandi
+directory. Comparison lists markets present in the CSV or live results; it cannot
+guarantee all Karnataka mandis. The crop planner uses bundled agronomic profiles and
+weather normals and does not provide market price or profit estimates.
 
-```bash
-npm run seed
-```
+If Neon is unreachable after startup retries, the server still starts in degraded mode
+so live/CSV market-price routes can work. Features that require user data remain
+unavailable until Neon reconnects. `GET /api/health` reports `degraded` in that state.
 
-## 5. Run the server
+## API
 
-```bash
-npm run dev
-```
-
-Server runs on `http://localhost:5000` by default. Health check: `GET /api/health`.
-
-## 6. Import real mandi price data (Agmarknet / data.gov.in)
-
-Instead of only using the seed data, you can pull real daily mandi prices from the
-government's open dataset.
-
-**Get a free API key:**
-1. Go to https://data.gov.in and sign up.
-2. Go to **My Account → API Keys** and copy your key.
-3. Paste it into `.env` as `AGMARKNET_API_KEY`.
-
-**Run the import:**
-
-```bash
-npm run import:agmarknet -- --state Karnataka --commodity Tomato
-```
-
-This fetches records from the *"Current Daily Price of Various Commodities from Various
-Markets (Mandi)"* dataset (published by the Directorate of Marketing & Inspection,
-Ministry of Agriculture), cleans them, and stores them in your `Crop`, `Mandi`, and
-`Price` tables — creating crops/mandis that don't exist yet automatically.
-
-Start narrow (one state, one or two commodities) — the free tier is rate-limited and the
-full national dataset is very large.
-
-**Same thing via API** (useful for testing from Postman, or triggering later from an
-admin screen):
-
-```
-POST /api/admin/import-prices
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{ "state": "Karnataka", "commodity": "Tomato" }
-```
-
-**Notes on the data:**
-- Prices from Agmarknet are per **quintal** (100 kg), not per kg — the profit calculator
-  in this backend currently assumes price-per-kg, so if you use imported data, either
-  convert `quantityKg` to quintals before calling `/api/profit/calculate`, or divide the
-  imported prices by 100 during import. This is a good thing to decide as a team before
-  your next milestone.
-- Some rows from the government dataset have missing/blank prices — `importService.js`
-  silently skips those rather than inserting broken rows.
-- Re-running the import doesn't overwrite existing crops/mandis (it looks them up first),
-  but it does insert new `Price` rows each time, so running it daily builds up genuine
-  historical data for your trend charts.
-
-## Folder structure
-
-```
-config/         Shared Prisma client
-controllers/    Route handler logic
-services/       Reusable business logic (profit calc, recommendation, predictions)
-middleware/     JWT auth middleware
-routes/         All API routes, mounted under /api
-prisma/         schema.prisma (DB schema) + seed.js (sample data)
-server.js       App entry point
-```
-
-## API endpoints
-
-| Method | Endpoint | Auth required | Description |
-|---|---|---|---|
-| POST | /api/auth/signup | No | Create account and send a six-digit code to the signup email |
-| POST | /api/auth/verify-code | No | Verify signup email code and sign the user in |
-| POST | /api/auth/password-reset/request | No | Send a password reset code to a verified account email |
-| POST | /api/auth/password-reset/confirm | No | Verify reset code, change password, and send confirmation email |
-| POST | /api/auth/login | No | Log in with email and password; get JWT |
-| POST | /api/auth/google | No | Sign in or create an account with Google |
-| GET | /api/auth/me | Yes | Get current user |
-| GET | /api/crops | No | List all crops |
-| GET | /api/mandis | No | List all mandis |
-| GET | /api/prices?cropId= | No | Current prices for a crop |
-| GET | /api/prices/history?cropId=&mandiId=&days= | No | Historical prices |
-| POST | /api/profit/calculate | Yes | Calculate net profit for crop+mandi+quantity |
-| GET | /api/recommendations?cropId=&quantityKg= | Yes | Best mandi recommendation |
-| POST | /api/predictions | Yes | Save an ML price prediction |
-| GET | /api/predictions?cropId=&mandiId= | No | Get latest prediction |
-| POST | /api/admin/import-prices | Yes | Import real prices from Agmarknet for a state/commodity |
-
-See `SmartRaitha_MongoDB_to_Postgres_Migration.md` for the full phase-by-phase explanation of
-how this was migrated from MongoDB and why each piece is built this way.
+| Method | Endpoint | Auth | Description |
+|---|---|---:|---|
+| POST | `/api/auth/signup` | No | Create a user account |
+| POST | `/api/auth/verify-code` | No | Verify signup and sign in |
+| POST | `/api/auth/password-reset/request` | No | Request password reset |
+| POST | `/api/auth/password-reset/confirm` | No | Confirm password reset |
+| POST | `/api/auth/login` | No | Sign in with email and password |
+| POST | `/api/auth/google` | No | Google sign in |
+| GET | `/api/auth/me` | Yes | Get current user |
+| PUT | `/api/auth/profile` | Yes | Update current user's profile |
+| GET | `/api/crops?state=` | No | List Agmarknet commodities |
+| GET | `/api/crops/catalog` | No | List bundled crop-planner profiles |
+| GET | `/api/mandis?state=` | No | List mandis found in the CSV snapshot |
+| GET | `/api/prices/live?state=&commodity=` | No | Compare live and saved prices |
+| GET | `/api/prices/history?cropName=&state=&mandiName=&days=` | No | Read saved CSV reports |
+| GET | `/api/farm-guidance?latitude=&longitude=` | Yes | Local weather and guidance |
+| GET | `/api/farm-guidance/seasonal?latitude=&longitude=&month=&year=` | Yes | Seasonal crop suggestion |
+| GET | `/api/farm-guidance/planner?...` | Yes | Crop plan from profiles and climate normals |
+| POST | `/api/profit/calculate` | Yes | Estimate net profit for a priced mandi |
+| GET | `/api/recommendations?cropName=&state=` | Yes | Recommend a mandi using location and net return |
+| GET | `/api/predictions?cropName=&state=&mandiName=&targetDate=` | No | Forecast a mandi price |
+| POST | `/api/predictions/generate` | Yes | Forecast prices for selected mandis |
+| POST | `/api/assistant` | Yes | Ask the SmartRaitha assistant |

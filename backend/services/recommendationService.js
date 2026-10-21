@@ -1,48 +1,137 @@
-const prisma = require('../config/prisma');
-const { calculateProfit } = require('./profitService');
+const {
+  getLatestPricesByMarket,
+  getLiveMarketPrices,
+  normalizeCropName,
+} = require('./liveMarketPriceService');
+const { normalizeMandiName } = require('./marketUtils');
+const { estimateTransportation } = require('./transportEstimateService');
+const { resolveMandiCoordinates } = require('./mandiCoordinateService');
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = ((lat2 - lat1) * Math.PI) / 180;
-  const dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+function dateValue(date) {
+  return date ? date.getTime() : 0;
 }
 
-async function recommendBestMandi({ cropId, quantityKg, latitude, longitude }) {
-  const mandisWithPrice = await prisma.price.findMany({
-    where: { cropId },
-    distinct: ['mandiId'],
-    include: { mandi: true },
+function rankMarketPrices(prices) {
+  return prices
+    .slice()
+    .sort((a, b) => b.modalPrice - a.modalPrice || dateValue(b.date) - dateValue(a.date));
+}
+
+async function recommendBestMandi({
+  cropName,
+  state,
+  district,
+  originLatitude,
+  originLongitude,
+  quantityKg = 100,
+}) {
+  if (!cropName || !cropName.trim()) {
+    throw new Error('Selected crop name is required.');
+  }
+  if (!state || !state.trim()) {
+    throw new Error('Could not identify your state from your location. Allow location access and try again.');
+  }
+  const { prices: livePrices, marketScope, liveUnavailable } = await getLiveMarketPrices({
+    cropName,
+    state,
   });
 
-  const results = [];
-  for (const entry of mandisWithPrice) {
-    try {
-      const mandi = entry.mandi;
-      if (!mandi || mandi.latitude == null || mandi.longitude == null) continue;
-
-      const distanceKm = calculateDistance(latitude, longitude, mandi.latitude, mandi.longitude);
-      const profit = await calculateProfit({ cropId, mandiId: entry.mandiId, quantityKg, distanceKm });
-      results.push({ mandi, distanceKm, ...profit });
-    } catch (e) {
-      // skip mandis with no usable price/transport data
-    }
+  const markets = getLatestPricesByMarket(livePrices)
+    .filter((price) => normalizeCropName(price.cropName) === normalizeCropName(cropName));
+  if (markets.length === 0) {
+    return {
+      recommended: null,
+      reason: liveUnavailable
+        ? `Live Agmarknet is temporarily unreachable, and the saved snapshot has no price report for ${cropName.trim()} in ${state.trim()}. Try again after the data source is available.`
+        : `No Agmarknet price report was found in the latest data or saved snapshot for ${cropName.trim()} in ${state.trim()}.`,
+      dataSource: 'Agmarknet',
+      retrievedAt: new Date().toISOString(),
+      allOptions: [],
+      marketScope,
+    };
   }
-
-  results.sort((a, b) => b.netProfit - a.netProfit);
-  const topMandis = results.slice(0, 5);
-  const best = topMandis[0];
+  const latestPrices = await Promise.all(markets.map(async (price) => ({
+    mandiName: price.mandiName,
+    district: price.district,
+    state: price.state,
+    coordinates: await resolveMandiCoordinates(price.mandiName, price.district, price.state),
+    modalPrice: price.modalPrice,
+    priceUnit: price.priceUnit,
+    arrivalDate: price.arrivalDate,
+    date: price.date,
+    dataFreshness: price.dataFreshness,
+    ageDays: price.ageDays,
+  })));
+  const hasOrigin = originLatitude !== undefined && originLongitude !== undefined;
+  const pricedOptions = hasOrigin
+    ? await Promise.all(latestPrices.map(async (price) => {
+      const transport = await estimateTransportation({
+        originLatitude,
+        originLongitude,
+        destination: [price.mandiName, price.district, price.state, 'India']
+          .filter(Boolean)
+          .join(', '),
+        destinationCoordinates: price.coordinates,
+      });
+      const grossRevenue = Number((quantityKg * price.modalPrice).toFixed(2));
+      return {
+        ...price,
+        distanceKm: transport.distanceKm,
+        transportCost: transport.transportationCost,
+        estimatedNetProfit: Number((grossRevenue - transport.transportationCost).toFixed(2)),
+      };
+    }))
+    : latestPrices;
+  const allOptions = (hasOrigin
+    ? pricedOptions.sort((a, b) => b.estimatedNetProfit - a.estimatedNetProfit)
+    : district
+    ? pricedOptions.sort((a, b) => {
+      const aIsNearby = normalizeMandiName(a.district) === normalizeMandiName(district);
+      const bIsNearby = normalizeMandiName(b.district) === normalizeMandiName(district);
+      return Number(bIsNearby) - Number(aIsNearby)
+        || b.modalPrice - a.modalPrice
+        || dateValue(b.date) - dateValue(a.date);
+    })
+    : rankMarketPrices(pricedOptions))
+    .map((price) => ({
+      mandi: {
+        id: `${price.state}|${price.district || ''}|${price.mandiName}`,
+        name: price.mandiName,
+        district: price.district,
+        state: price.state,
+        latitude: price.coordinates?.latitude ?? null,
+        longitude: price.coordinates?.longitude ?? null,
+        coordinatePrecision: price.coordinates?.coordinatePrecision ?? null,
+      },
+      modalPrice: price.modalPrice,
+      priceUnit: price.priceUnit,
+      arrivalDate: price.arrivalDate,
+      reportedAt: price.date.toISOString(),
+      dataFreshness: price.dataFreshness,
+      ageDays: price.ageDays,
+      ...(hasOrigin ? {
+        distanceKm: price.distanceKm,
+        transportCost: price.transportCost,
+        estimatedNetProfit: price.estimatedNetProfit,
+        estimateQuantityKg: quantityKg,
+      } : {}),
+    }));
+  const best = allOptions[0];
 
   return {
     recommended: best || null,
     reason: best
-      ? `${best.mandi.name} gives the highest estimated net profit after transportation cost (${best.distanceKm.toFixed(1)} km away).`
-      : 'Not enough data to make a recommendation yet.',
-    allOptions: topMandis,
+      ? hasOrigin
+        ? `Highest estimated net return for ${quantityKg} kg from your current location after estimated road transport.${best.dataFreshness === 'cached' ? ` Using the latest saved Agmarknet report from ${best.ageDays} days ago.` : ''}`
+        : district && normalizeMandiName(best.mandi.district) === normalizeMandiName(district)
+        ? `Best available latest Agmarknet price in your district, ${district.trim()}. This comparison does not include transportation costs.`
+        : `Highest latest reported Agmarknet modal price for ${cropName.trim()} in ${state.trim()}. This comparison does not include transportation costs.`
+      : `No Agmarknet price report was found in the latest data or saved snapshot for ${cropName.trim()} in ${state.trim()}.`,
+    dataSource: 'Agmarknet',
+    retrievedAt: new Date().toISOString(),
+    allOptions,
+    marketScope,
   };
 }
 
-module.exports = { recommendBestMandi };
+module.exports = { recommendBestMandi, rankMarketPrices };

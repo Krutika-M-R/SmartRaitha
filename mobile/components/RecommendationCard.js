@@ -13,13 +13,13 @@ export default function RecommendationCard({ recommendation }) {
     return (
       <Animated.View style={{ transform: [{ scale: pressProgress.interpolate({ inputRange: [0, 1], outputRange: [1, 0.98] }) }] }}>
       <Pressable style={styles.emptyCard} onPressIn={() => Animated.spring(pressProgress, { toValue: 1, useNativeDriver: true }).start()} onPressOut={() => Animated.spring(pressProgress, { toValue: 0, useNativeDriver: true }).start()}>
-        <Text style={styles.emptyText}>{t('notEnoughData')}</Text>
+        <Text style={styles.emptyText}>{recommendation?.reason || t('notEnoughData')}</Text>
         </Pressable>
         </Animated.View>
     );
   }
 
-  const { mandi, netProfit } = recommendation.recommended;
+  const { mandi, modalPrice, arrivalDate } = recommendation.recommended;
 
   return (
     <Animated.View style={{ transform: [{ scale: pressProgress.interpolate({ inputRange: [0, 1], outputRange: [1, 0.98] }) }] }}>
@@ -33,7 +33,20 @@ export default function RecommendationCard({ recommendation }) {
         <View style={styles.bestBadge}><Text style={styles.bestText}>{t('bestMandi')}</Text></View>
       </View>
       <Text style={styles.mandiName}>{mandi.name}</Text>
-      <Text style={styles.profit}>Estimated profit: ₹{Number(netProfit).toFixed(2)}</Text>
+      {mandi.district ? <Text style={styles.reason}>{mandi.district}, {mandi.state}</Text> : null}
+      <Text style={styles.profit}>₹{Number(modalPrice).toFixed(2)}/kg modal price</Text>
+      {Number.isFinite(recommendation.estimatedNetProfit) && (
+        <Text style={styles.profit}>
+          Estimated net for {recommendation.estimateQuantityKg} kg after transport: ₹{Number(recommendation.estimatedNetProfit).toFixed(2)}
+        </Text>
+      )}
+      {Number.isFinite(recommendation.distanceKm) && (
+        <Text style={styles.reason}>Approx. {recommendation.distanceKm} km by road · estimated transport ₹{Number(recommendation.transportCost).toFixed(2)}</Text>
+      )}
+      {recommendation.dataFreshness === 'cached' && (
+        <Text style={styles.reason}>Using the latest saved Agmarknet price, reported {recommendation.ageDays} days ago.</Text>
+      )}
+      {arrivalDate ? <Text style={styles.reason}>Agmarknet report: {arrivalDate}</Text> : null}
       <Text style={styles.reason}>{recommendation.reason}</Text>
     </Pressable>
     </Animated.View>

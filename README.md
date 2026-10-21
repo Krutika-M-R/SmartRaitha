@@ -11,9 +11,8 @@ smartraitha-project/
 
 1. **backend** — set up `.env`, run migrations, seed data, `npm run dev`
    (see `backend/README.md`)
-2. **ml** — set up `.env` (same DATABASE_URL as backend), import some real price data
-   via the backend's Agmarknet importer, then `python train.py` and `python app.py`
-   (see `ml/README.md`)
+2. **ml** — train the Karnataka ten-year Random Forest with `python train_karnataka.py`,
+   then start the forecast API with `python app.py` (see `ml/README.md`)
 3. **mobile** — set `BASE_URL` in `services/api.js`, then `npx expo start`
    (see `mobile/README.md`)
 
@@ -23,12 +22,12 @@ smartraitha-project/
 React Native (mobile)
       │  REST API
       ▼
-Node + Express (backend)  ───────────┐
-      │  Prisma                       │  HTTP (POST /predict)
-      ▼                               ▼
-PostgreSQL (Neon)  ◄──── reads ──── Flask (ml/app.py)
-                                      │
-                                scikit-learn model
+Node + Express (backend)  ──HTTP /forecast──▶ Flask (ml/app.py)
+      │                                          ▲
+      ▼                                          │
+PostgreSQL (Neon)                  scikit-learn Random Forest
+                                                 ▲
+                           Karnataka 10-year Agmarknet CSV
 ```
 
 The backend is the only thing the mobile app talks to. The ML service is only ever

@@ -2,3 +2,53 @@ node_modules/
 .env    
 __pycache__/
 *.pyc
+ml/venv/
+ml/.venv/
+# Local environments and generated files
+ml/.venv312/
+mobile/dist/
+mobile/.expo/
+
+# Temporary backup files
+*.bak
+*.bak2
+*.bak3
+*.bak4
+*.bak6.txt
+*.bak7.txt
+
+# Local environment secrets
+.env
+.env.*
+!.env.example
+backend/data/*.tmp
+
+
+# Temporary files
+backend/data/*.tmp
+ml/.venv312/
+mobile/dist/
+mobile/.expo/
+*.bak
+*.bak2
+*.bak3
+*.bak4
+*.bak6.txt
+*.bak7.txt
+
+# Temporary files
+backend/data/*.tmp
+ml/.venv312/
+mobile/dist/
+mobile/.expo/
+*.bak
+*.bak2
+*.bak3
+*.bak4
+*.bak6.txt
+*.bak7.txt
+
+# Files containing real credentials
+backend/.env.example
+ml/.env.example
+mobile/.env.example

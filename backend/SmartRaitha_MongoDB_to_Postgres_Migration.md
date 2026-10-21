@@ -1,5 +1,11 @@
 # SmartRaitha — Migrating the Backend from MongoDB to PostgreSQL (Neon) + Prisma
 
+> Historical migration guide. The current backend keeps only `User` in the
+> application-managed Neon schema; crop, mandi, price, transport, prediction, and
+> Agmarknet tracking tables and their write paths have been removed. Follow
+> `README.md` for the current schema and setup instructions. Do not run the seed/import
+> examples in this archived guide against the current application.
+
 This guide takes your current SmartRaitha backend (Node.js + Express + MongoDB) and moves it to **Node.js + Express + PostgreSQL (Neon) + Prisma**, without touching your React Native/Expo app or your Python price-prediction model. Only the *database layer* changes — everything else (routes, business logic, JWT auth, profit calculation, recommendation logic) stays conceptually the same, just rewritten to talk to Prisma instead of Mongoose.
 
 We do this in **4 phases**. Do not skip ahead — each phase should be tested and working before you move to the next one.

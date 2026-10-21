@@ -1,43 +1,61 @@
-const prisma = require('../config/prisma');
+const { normalizeMandiName } = require('./marketUtils');
+const {
+  getLatestPricesByMarket,
+  getLiveMarketPrices,
+} = require('./liveMarketPriceService');
+const { estimateTransportation } = require('./transportEstimateService');
+const { resolveMandiCoordinates } = require('./mandiCoordinateService');
 
-// Gross Revenue = Quantity x Price
-// Total Cost    = Transportation + Other Costs
-// Net Profit    = Gross Revenue - Total Cost
-async function calculateProfit({ cropId, mandiId, quantityKg, distanceKm }) {
-  const price = await prisma.price.findFirst({
-    where: { cropId, mandiId },
-    orderBy: { date: 'desc' }
+function roundCurrency(amount) {
+  return Math.round((amount + Number.EPSILON) * 100) / 100;
+}
+
+async function calculateProfit({ cropName, mandiName, state, quantityKg, originLatitude, originLongitude }) {
+  const { prices } = await getLiveMarketPrices({
+    cropName,
+    state,
   });
-  if (!price) throw new Error('No price data found for this crop/mandi.');
-
-  const transport = await prisma.transportationCost.findFirst({ where: { mandiId } });
-
-  let transportCost = 0;
-  if (transport) {
-    const ratePerKm = Number(transport.ratePerKm ?? 0);
-    const travelDistanceKm = Number(distanceKm ?? transport.distanceKm ?? 0);
-    const estimatedCost = Number(transport.estimatedCost ?? 0);
-
-    if (travelDistanceKm > 0 && ratePerKm > 0) {
-      transportCost = travelDistanceKm * ratePerKm;
-    } else if (estimatedCost > 0) {
-      transportCost = estimatedCost;
-    }
+  const matchingPrices = getLatestPricesByMarket(prices).filter((price) => (
+    normalizeMandiName(price.mandiName) === normalizeMandiName(mandiName)
+    && normalizeMandiName(price.state) === normalizeMandiName(state)
+  ));
+  if (matchingPrices.length === 0) {
+    throw new Error('No Agmarknet price report was found for this crop and mandi in the latest data or saved snapshot.');
   }
 
-  const grossRevenue = quantityKg * price.modalPrice;
-  const otherCosts = 0; // extend later: commission, loading charges, etc.
-  const totalCost = transportCost + otherCosts;
-  const netProfit = grossRevenue - totalCost;
+  const latestDate = Math.max(...matchingPrices.map((price) => price.date.getTime()));
+  const latestPrice = matchingPrices.find((price) => price.date.getTime() === latestDate);
+  const modalPrice = latestPrice.modalPrice;
+  const destinationCoordinates = await resolveMandiCoordinates(mandiName, latestPrice.district, state);
+  const transport = await estimateTransportation({
+    originLatitude: Number(originLatitude),
+    originLongitude: Number(originLongitude),
+    destination: [mandiName, state, 'India'].filter(Boolean).join(', '),
+    destinationCoordinates,
+  });
+  const transportCost = transport.transportationCost;
+
+  const grossRevenue = roundCurrency(quantityKg * modalPrice);
+  const otherCosts = 0;
+  const totalCost = roundCurrency(transportCost + otherCosts);
+  const netProfit = roundCurrency(grossRevenue - totalCost);
 
   return {
-    modalPrice: price.modalPrice,
+    modalPrice: Number(modalPrice.toFixed(2)),
     grossRevenue,
     transportCost,
     otherCosts,
     totalCost,
     netProfit,
-    distanceKm: distanceKm ?? (transport ? Number(transport.distanceKm ?? 0) : null)
+    distanceKm: transport.distanceKm,
+    ratePerKm: transport.ratePerKm,
+    routeCoordinates: transport.routeCoordinates,
+    originCoordinates: transport.originCoordinates,
+    destinationCoordinates: transport.destinationCoordinates,
+    priceDate: new Date(latestDate).toISOString().slice(0, 10),
+    dataFreshness: latestPrice.dataFreshness,
+    ageDays: latestPrice.ageDays,
+    dataSource: 'Agmarknet',
   };
 }
 

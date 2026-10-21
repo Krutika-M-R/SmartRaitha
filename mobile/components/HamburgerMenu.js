@@ -1,59 +1,46 @@
 import React, { useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
-import { useLanguage } from '../context/LanguageContext';
-
-const menuItems = [
-  { route: 'Home', icon: 'home-outline', label: 'home' },
-  { route: 'Profile', icon: 'person-outline', label: 'profile' },
-  { route: 'Assistant', icon: 'sparkles-outline', label: 'assistant' },
-];
 
 export default function HamburgerMenu({ navigation }) {
-  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
+  const insets = useSafeAreaInsets();
 
-  function openRoute(route) {
+  function openSettings() {
     setVisible(false);
-    if (route === 'Home') {
-      const routeNames = navigation.getState()?.routeNames || [];
-      navigation.navigate(routeNames.includes('HomeMain') ? 'HomeMain' : 'Home');
-      return;
-    }
-    navigation.navigate(route);
+    navigation.navigate('Profile');
+  }
+
+  function openLittleLeaf() {
+    setVisible(false);
+    navigation.navigate('LittleLeaf');
   }
 
   return (
     <>
-      <Pressable style={styles.trigger} onPress={() => setVisible(true)} accessibilityLabel="Open menu">
-        <View style={styles.line} />
-        <View style={styles.line} />
-        <View style={styles.line} />
+      <Pressable
+        style={styles.trigger}
+        onPress={() => setVisible(true)}
+        accessibilityRole="button"
+        accessibilityLabel="More options"
+      >
+        <Ionicons name="ellipsis-vertical" size={22} color={colors.primary} />
       </Pressable>
       <Modal visible={visible} transparent animationType="fade" onRequestClose={() => setVisible(false)}>
         <Pressable style={styles.backdrop} onPress={() => setVisible(false)}>
-          <Pressable style={styles.panel} onPress={(event) => event.stopPropagation()}>
-            <View style={styles.panelHeader}>
-              <View>
-                <Text style={styles.brand}>SmartRaitha</Text>
-                <Text style={styles.menuTitle}>Menu</Text>
-              </View>
-              <Pressable onPress={() => setVisible(false)} style={styles.closeButton}>
-                <Ionicons name="close" size={22} color={colors.text} />
-              </Pressable>
-            </View>
-            {menuItems.map((item) => (
-              <Pressable key={item.route} style={styles.menuItem} onPress={() => openRoute(item.route)}>
-                <View style={styles.iconWrap}>
-                  <Ionicons name={item.icon} size={21} color={colors.primary} />
-                </View>
-                <Text style={styles.menuLabel}>{t(item.label)}</Text>
-                <Ionicons name="chevron-forward" size={19} color={colors.textSecondary} />
-              </Pressable>
-            ))}
-          </Pressable>
+          <View style={[styles.menu, { top: insets.top + 48 }]}>
+            <Pressable style={styles.menuItem} onPress={openSettings} accessibilityRole="button">
+              <Ionicons name="settings-outline" size={20} color={colors.primary} />
+              <Text style={styles.menuLabel}>Settings</Text>
+            </Pressable>
+            <Pressable style={styles.menuItem} onPress={openLittleLeaf} accessibilityRole="button">
+              <Ionicons name="sparkles-outline" size={20} color={colors.primary} />
+              <Text style={styles.menuLabel}>LittleLeaf</Text>
+            </Pressable>
+          </View>
         </Pressable>
       </Modal>
     </>
@@ -61,15 +48,23 @@ export default function HamburgerMenu({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  trigger: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: '#4A934E' },
-  line: { width: 19, height: 2, borderRadius: 2, backgroundColor: colors.surface, marginVertical: 2 },
-  backdrop: { flex: 1, backgroundColor: 'rgba(10, 35, 14, 0.38)' },
-  panel: { width: '82%', marginTop: 58, marginLeft: spacing.medium, backgroundColor: colors.surface, borderRadius: 22, padding: spacing.medium, shadowColor: '#173F1A', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.25, shadowRadius: 12, elevation: 10 },
-  panelHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: spacing.small, marginBottom: spacing.small },
-  brand: { color: colors.primary, fontSize: 12, fontWeight: '800' },
-  menuTitle: { color: colors.text, fontSize: 24, fontWeight: '800', marginTop: 3 },
-  closeButton: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background },
-  menuItem: { flexDirection: 'row', alignItems: 'center', padding: spacing.small, borderRadius: 14, marginBottom: 5 },
-  iconWrap: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EAF4EA' },
-  menuLabel: { flex: 1, color: colors.text, fontSize: 15, fontWeight: '700', marginLeft: spacing.medium },
+  trigger: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center' },
+  backdrop: { flex: 1, backgroundColor: 'rgba(10, 35, 14, 0.12)' },
+  menu: {
+    position: 'absolute',
+    right: spacing.medium,
+    minWidth: 184,
+    paddingVertical: spacing.small,
+    backgroundColor: colors.surface,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    shadowColor: '#173F1A',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.18,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  menuItem: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.medium, paddingVertical: spacing.small },
+  menuLabel: { color: colors.text, fontSize: 14, fontWeight: '600', marginLeft: spacing.medium },
 });

@@ -17,12 +17,16 @@ export function useLocation() {
       try {
         const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
         let placeName = '';
+        let state = '';
+        let district = '';
         try {
           const places = await Location.reverseGeocodeAsync({
             latitude: pos.coords.latitude,
             longitude: pos.coords.longitude,
           });
           const place = places[0];
+          state = place?.region || '';
+          district = place?.district || place?.subregion || place?.city || '';
           placeName = [place?.city, place?.district, place?.region]
             .filter(Boolean)
             .filter((value, index, values) => values.indexOf(value) === index)
@@ -30,7 +34,13 @@ export function useLocation() {
         } catch (e) {
           // Weather and mandi recommendations still work without a place name.
         }
-        setLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, placeName });
+        setLocation({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+          placeName,
+          state,
+          district,
+        });
       } catch (e) {
         setError('Could not fetch your location.');
       } finally {

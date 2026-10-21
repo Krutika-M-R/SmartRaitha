@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Image, View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, Alert, Animated, Image, View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Defs, Path, Text as SvgText, TextPath } from 'react-native-svg';
 import { colors } from '../constants/colors';
@@ -41,15 +41,19 @@ export default function HomeScreen({ navigation }) {
   const { t } = useLanguage();
   const { location, error: locationError, loading: locationLoading } = useLocation();
   const [crops, setCrops] = useState([]);
+  const [cropSearch, setCropSearch] = useState('');
   const [selectedCrop, setSelectedCrop] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
+  const [recommendationLoading, setRecommendationLoading] = useState(false);
+  const [recommendationError, setRecommendationError] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [weather, setWeather] = useState(null);
   const [weatherError, setWeatherError] = useState('');
   const heroProgress = useRef(new Animated.Value(0)).current;
   const weatherProgress = useRef(new Animated.Value(0)).current;
-  const guideProgress = useRef(new Animated.Value(0)).current;
+  const cropRequestId = useRef(0);
+  const recommendationRequestId = useRef(0);
 
   useEffect(() => {
     const animation = Animated.parallel([
@@ -61,14 +65,10 @@ export default function HomeScreen({ navigation }) {
         Animated.delay(220),
         Animated.spring(weatherProgress, { toValue: 1, useNativeDriver: true, speed: 16, bounciness: 8 }),
       ]),
-      Animated.sequence([
-        Animated.delay(360),
-        Animated.spring(guideProgress, { toValue: 1, useNativeDriver: true, speed: 16, bounciness: 8 }),
-      ]),
     ]);
     animation.start();
     return () => animation.stop();
-  }, [guideProgress, heroProgress, weatherProgress]);
+  }, [heroProgress, weatherProgress]);
 
   function popStyle(progress) {
     return {
@@ -81,49 +81,81 @@ export default function HomeScreen({ navigation }) {
   }
 
   useEffect(() => {
-    loadCrops();
-  }, []);
+    if (!locationLoading) loadCrops(location?.state);
+  }, [locationLoading, location?.state]);
 
-  async function loadCrops() {
+  async function loadCrops(state) {
+    const requestId = ++cropRequestId.current;
     setLoading(true);
     setError('');
     try {
-      const data = await cropService.getCrops();
-      setCrops(data);
-      if (data.length > 0) {
-        setSelectedCrop(data[0]);
-        loadRecommendation(data[0].id);
-      }
+      const [marketCropResult, stateCropResult] = await Promise.allSettled([
+        cropService.getCrops(),
+        state ? cropService.getCrops(state) : Promise.resolve([]),
+      ]);
+      if (requestId !== cropRequestId.current) return;
+      if (marketCropResult.status === 'rejected') throw marketCropResult.reason;
+
+      const stateCrops = stateCropResult.status === 'fulfilled'
+        ? stateCropResult.value
+        : [];
+      const availableCropNames = new Set(stateCrops.map((crop) => crop.name.toLocaleLowerCase()));
+      const cropOptions = state && stateCrops.length > 0
+        ? stateCrops
+        : marketCropResult.value;
+      const marketCrops = cropOptions
+        .map((crop) => ({
+          ...crop,
+          hasLocalPrices: availableCropNames.has(crop.name.toLocaleLowerCase()),
+        }));
+      setCrops(marketCrops);
+      setSelectedCrop(null);
     } catch (e) {
-      setError(e.message);
+      if (requestId === cropRequestId.current) {
+        setCrops([]);
+        setSelectedCrop(null);
+        setError(e.message);
+      }
     } finally {
-      setLoading(false);
+      if (requestId === cropRequestId.current) setLoading(false);
     }
   }
 
-  async function loadRecommendation(cropId) {
+  async function loadRecommendation(cropName) {
+    const requestId = ++recommendationRequestId.current;
+    setRecommendationLoading(true);
+    setRecommendationError('');
+    setRecommendation(null);
+
     if (!location) {
-      setRecommendation(null);
+      setRecommendationLoading(false);
       return;
     }
 
     try {
       const data = await recommendationService.getRecommendation(
-        cropId,
-        100,
-        location.latitude,
-        location.longitude,
+        cropName,
+        location.state,
+        location,
       );
-      setRecommendation(data);
+      if (requestId === recommendationRequestId.current) {
+        setRecommendation(data);
+      }
     } catch (e) {
-      // recommendation is optional on the home screen - fail quietly
-      setRecommendation(null);
+      if (requestId === recommendationRequestId.current) {
+        setRecommendation(null);
+        setRecommendationError(e.message || 'Could not fetch market recommendations.');
+      }
+    } finally {
+      if (requestId === recommendationRequestId.current) {
+        setRecommendationLoading(false);
+      }
     }
   }
 
   useEffect(() => {
     if (selectedCrop && location) {
-      loadRecommendation(selectedCrop.id);
+      loadRecommendation(selectedCrop.name);
     }
   }, [selectedCrop, location]);
 
@@ -144,6 +176,10 @@ export default function HomeScreen({ navigation }) {
     setSelectedCrop(crop);
   }
 
+  const matchingCrops = cropSearch.trim()
+    ? crops.filter((crop) => crop.name.toLocaleLowerCase().includes(cropSearch.trim().toLocaleLowerCase()))
+    : [];
+
   if (loading || locationLoading) return <LoadingIndicator message={t('loadingMarkets')} />;
 
   return (
@@ -155,7 +191,7 @@ export default function HomeScreen({ navigation }) {
         </View>
         <TouchableOpacity
           style={styles.farmerBadge}
-          onPress={() => navigation.navigate('Assistant')}
+          onPress={() => navigation.navigate('LittleLeaf')}
           accessibilityRole="button"
           accessibilityLabel="Open LittleLeaf chatbot"
         >
@@ -177,29 +213,17 @@ export default function HomeScreen({ navigation }) {
 
       <View style={styles.sectionHeader}>
         <View>
-          <Text style={styles.eyebrow}>01</Text>
-          <Text style={styles.sectionTitle}>{t('whatSelling')}</Text>
-        </View>
-        <Ionicons name="leaf-outline" size={24} color={colors.primary} />
-      </View>
-      <View style={styles.cropPanel}>
-        <View style={styles.chipRow}>
-          {crops.map((crop) => (
-            <CropSelector key={crop.id} crop={crop} selected={selectedCrop?.id === crop.id} onPress={handleSelectCrop} />
-          ))}
-        </View>
-      </View>
-
-      <View style={styles.sectionHeader}>
-        <View>
-          <Text style={styles.eyebrow}>02</Text>
           <Text style={styles.sectionTitle}>{t('help')}</Text>
         </View>
         <Ionicons name="partly-sunny-outline" size={25} color={colors.accent} />
       </View>
       <Animated.View style={[styles.weatherCard, popStyle(weatherProgress)]}>
         <Text style={styles.cardTitle}>{t('weather')}</Text>
-        {location?.placeName ? <Text style={styles.locationName}>{t('location')}: {location.placeName}</Text> : null}
+        {location ? (
+          <Text style={styles.locationName}>
+            {t('location')}: {location.placeName || `${location.latitude.toFixed(3)}, ${location.longitude.toFixed(3)}`}
+          </Text>
+        ) : null}
         {weather?.current ? (
           <>
             <View style={styles.weatherTop}>
@@ -213,86 +237,168 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.stat}>{t('rain')}: {Number(weather.current.precipitation || 0).toFixed(1)} mm</Text>
               <Text style={styles.stat}>{t('wind')}: {Math.round(weather.current.wind_speed_10m)} km/h</Text>
             </View>
-            <View style={styles.recommendationStrip}>
-              <Ionicons name="bulb-outline" size={20} color={colors.accent} />
-              <View style={styles.recommendationCopy}>
-                <Text style={styles.recommendationLabel}>{t('recommendedCrop')}</Text>
-                <Text style={styles.recommendationCrop}>{weather.seasonalAdvice.crop}</Text>
-                <Text style={styles.recommendationReason}>{weather.seasonalAdvice.reason}</Text>
-              </View>
-            </View>
-            <Text style={styles.forecastTitle}>{t('futureForecast')}</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.forecastRow}>
-              {weather.daily.time.map((date, index) => (
-                <View key={date} style={styles.forecastCard}>
-                  <Text style={styles.forecastDay}>{new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short' })}</Text>
-                  <Text style={styles.forecastIcon}>{getWeatherDescription(weather.daily.weather_code[index]) === 'Rainy' ? '🌧️' : '☀️'}</Text>
-                  <Text style={styles.forecastTemp}>{Math.round(weather.daily.temperature_2m_max[index])}° / {Math.round(weather.daily.temperature_2m_min[index])}°</Text>
-                  <Text style={styles.forecastRain}>{weather.daily.precipitation_probability_max[index]}% rain</Text>
-                </View>
-              ))}
-            </ScrollView>
-            {weather.futureAdvice && (
-              <View style={styles.futureAdvice}>
-                <Text style={styles.futureAdviceTitle}>Plan ahead: {weather.futureAdvice.crop}</Text>
-                <Text style={styles.recommendationReason}>{weather.futureAdvice.note}</Text>
-              </View>
-            )}
           </>
         ) : (
           <Text style={styles.weatherUnavailable}>{weatherError || t('weatherUnavailable')}</Text>
         )}
       </Animated.View>
 
-      <Animated.View style={[styles.guideCard, popStyle(guideProgress)]}>
-        <View style={styles.guideHeader}>
-          <Text style={styles.cardTitle}>{t('seasonalGuide')}</Text>
-          <Ionicons name="calendar-outline" size={20} color={colors.primary} />
+      <View style={styles.sectionHeader}>
+        <View>
+          <Text style={styles.sectionTitle}>{t('whatSelling')}</Text>
         </View>
-        {weather?.seasonalAdvice ? (
-          <>
-            <Text style={styles.guideCrop}>{weather.seasonalAdvice.crop}</Text>
-            <Text style={styles.guideWindow}>{t('cropTiming')}: {weather.seasonalAdvice.window}</Text>
-            <Text style={styles.guideText}>{weather.seasonalAdvice.reason}</Text>
-          </>
-        ) : (
-          <Text style={styles.guideText}>{t('helpText')}</Text>
+        <Ionicons name="leaf-outline" size={24} color={colors.primary} />
+      </View>
+      <View style={styles.cropPanel}>
+        <View style={styles.cropSearchRow}>
+          <Ionicons name="search" size={18} color={colors.textSecondary} />
+          <TextInput
+            style={styles.cropSearchInput}
+            value={cropSearch}
+            onChangeText={(value) => {
+              setCropSearch(value);
+              recommendationRequestId.current++;
+              setRecommendationLoading(false);
+              setSelectedCrop(null);
+              setRecommendation(null);
+            }}
+            placeholder="Search available crops"
+            placeholderTextColor={colors.textSecondary}
+            returnKeyType="search"
+            accessibilityLabel="Search crops available to sell"
+          />
+          {cropSearch ? (
+            <TouchableOpacity
+              onPress={() => {
+                setCropSearch('');
+                recommendationRequestId.current++;
+                setRecommendationLoading(false);
+                setSelectedCrop(null);
+                setRecommendation(null);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Clear crop search"
+            >
+              <Ionicons name="close-circle" size={19} color={colors.textSecondary} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+        {cropSearch.trim() ? (
+          matchingCrops.length ? (
+            <View style={[styles.chipRow, styles.cropSearchResults]}>
+              {matchingCrops.map((crop) => (
+                <CropSelector key={crop.id} crop={crop} selected={selectedCrop?.id === crop.id} onPress={handleSelectCrop} />
+              ))}
+            </View>
+          ) : (
+            <Text style={styles.cropFallbackNote}>No available crops match “{cropSearch.trim()}”.</Text>
+          )
+        ) : null}
+        {!crops.length && !error && (
+          <Text style={styles.cropFallbackNote}>{t('noCropOptions')}</Text>
         )}
-      </Animated.View>
+      </View>
 
-      {selectedCrop && (
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>{t('recommendedMarket')}</Text>
+        <Ionicons name="sparkles-outline" size={24} color={colors.accent} />
+      </View>
+      {selectedCrop ? (
         <>
-          <View style={styles.sectionHeader}>
-            <View>
-              <Text style={styles.eyebrow}>03</Text>
-              <Text style={styles.sectionTitle}>{t('recommendedMarket')}</Text>
+          {recommendationLoading ? (
+            <View style={styles.recommendationLoadingCard}>
+              <ActivityIndicator size="small" color={colors.primary} style={styles.recommendationSpinner} />
+              <Text style={styles.recommendationLoadingText}>
+                Fetching the latest Agmarknet market prices...
+              </Text>
             </View>
-            <Ionicons name="sparkles-outline" size={24} color={colors.accent} />
-          </View>
-          <RecommendationCard recommendation={recommendation} />
+          ) : recommendationError ? (
+            <View style={styles.recommendationErrorCard}>
+              <Ionicons name="alert-circle-outline" size={22} color="#D32F2F" />
+              <Text style={styles.recommendationErrorText}>{recommendationError}</Text>
+              <TouchableOpacity
+                style={styles.retryButton}
+                onPress={() => loadRecommendation(selectedCrop.name)}
+                accessibilityRole="button"
+                accessibilityLabel="Retry fetching recommendation"
+              >
+                <Text style={styles.retryButtonText}>Retry</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <>
+              <RecommendationCard recommendation={recommendation} />
 
-          {recommendation?.allOptions && recommendation.allOptions.length > 0 && (
-            <View style={{ marginTop: spacing.large }}>
-              <PriceBarChart
-                title={t('bestMandiGraph')}
-                recommendedMandiId={recommendation.recommended?.mandi?.id}
-                prices={recommendation.allOptions.map((item) => ({
-                  id: item.mandi.id,
-                  mandi: { id: item.mandi.id, name: item.mandi.name },
-                  modalPrice: item.modalPrice,
-                }))}
-              />
-            </View>
+              {recommendation?.allOptions && recommendation.allOptions.length > 0 && (
+                <View style={{ marginTop: spacing.large }}>
+                  <PriceBarChart
+                    title={t('bestMandiGraph')}
+                    recommendedMandiId={recommendation.recommended?.mandi?.id}
+                    prices={recommendation.allOptions.map((item) => ({
+                      id: item.mandi.id,
+                      mandi: { id: item.mandi.id, name: item.mandi.name },
+                      modalPrice: item.modalPrice,
+                    }))}
+                  />
+                </View>
+              )}
+            </>
           )}
-
-          <View style={styles.actions}>
-            <Text style={styles.actionHint}>{t('actionHint')}</Text>
-            <FeatureTile icon="analytics-outline" title={t('compareMarkets')} description={t('marketHint')} color="#1565C0" onPress={() => navigation.navigate('Markets', { crop: selectedCrop })} />
-            <View style={{ height: spacing.small }} />
-            <FeatureTile icon="calculator-outline" title={t('calculateProfit')} description={t('profitHint')} color={colors.accent} onPress={() => navigation.navigate('ProfitCalculator', { crop: selectedCrop })} />
-          </View>
         </>
+      ) : (
+        <Text style={styles.cropFallbackNote}>Select the crop for recommended market.</Text>
       )}
+
+      {!selectedCrop ? (
+        <Text style={styles.cropFallbackNote}>Search for and select a crop above to compare markets or calculate profit.</Text>
+      ) : null}
+      <View style={styles.actions}>
+        <FeatureTile
+          icon="analytics-outline"
+          title={t('compareMarkets')}
+          description={t('marketHint')}
+          color="#1565C0"
+          onPress={() => {
+            if (!selectedCrop) {
+              Alert.alert('Select a crop', 'Search for and select a crop above before comparing markets.');
+              return;
+            }
+            navigation.navigate('Markets', {
+              crop: selectedCrop,
+              state: location?.state,
+              location,
+            });
+          }}
+        />
+        <View style={{ height: spacing.small }} />
+        <FeatureTile
+          icon="calculator-outline"
+          title={t('calculateProfit')}
+          description={t('profitHint')}
+          color={colors.accent}
+          onPress={() => {
+            if (!selectedCrop) {
+              Alert.alert('Select a crop', 'Search for and select a crop above before calculating profit.');
+              return;
+            }
+            navigation.navigate('ProfitCalculator', { crop: selectedCrop, state: location?.state, location, recommendedMandiId: recommendation?.recommended?.mandi?.id });
+          }}
+        />
+      </View>
+
+      <View style={styles.sectionHeader}>
+        <View>
+          <Text style={styles.sectionTitle}>Seasonal planning</Text>
+        </View>
+        <Ionicons name="calendar-outline" size={24} color={colors.primary} />
+      </View>
+      <FeatureTile
+        icon="leaf-outline"
+        title="Smart 6-Month Crop Planner"
+        description="Explore suitable crops for your soil, irrigation, and sowing month."
+        onPress={() => navigation.navigate('CropPlanner', { location, locationError })}
+      />
+
     </ScrollView>
   );
 }
@@ -320,10 +426,13 @@ const styles = StyleSheet.create({
   farmerImage: { width: '100%', height: '100%' },
   heroHelpArc: { marginTop: -1, overflow: 'visible' },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.small },
-  eyebrow: { color: colors.accent, fontSize: 11, fontWeight: '800', marginBottom: 2 },
   sectionTitle: { fontSize: 19, fontWeight: '800', color: colors.text, marginBottom: spacing.small },
   cropPanel: { backgroundColor: colors.surface, borderRadius: 16, padding: spacing.medium, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.large },
+  cropSearchRow: { flexDirection: 'row', alignItems: 'center', minHeight: 44, borderRadius: 12, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.background, paddingHorizontal: spacing.medium },
+  cropSearchInput: { flex: 1, color: colors.text, fontSize: 14, paddingVertical: spacing.small, marginLeft: spacing.small },
+  cropSearchResults: { marginTop: spacing.medium },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.small },
+  cropFallbackNote: { color: colors.textSecondary, fontSize: 12, marginTop: spacing.small },
   weatherCard: { backgroundColor: colors.surface, borderRadius: 18, padding: spacing.large, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.medium },
   cardTitle: { fontSize: 15, fontWeight: '800', color: colors.text, marginBottom: spacing.medium },
   locationName: { color: colors.primary, fontSize: 13, fontWeight: '700', marginTop: -spacing.small, marginBottom: spacing.medium },
@@ -333,26 +442,52 @@ const styles = StyleSheet.create({
   weatherMeta: { color: colors.textSecondary, fontSize: 12, marginTop: 4 },
   weatherStats: { flexDirection: 'row', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: colors.border, marginTop: spacing.medium, paddingTop: spacing.medium },
   stat: { color: colors.textSecondary, fontSize: 12 },
-  recommendationStrip: { flexDirection: 'row', alignItems: 'flex-start', backgroundColor: '#FFF7E8', borderRadius: 12, padding: spacing.medium, marginTop: spacing.medium },
-  recommendationCopy: { flex: 1, marginLeft: spacing.small },
-  recommendationLabel: { color: colors.textSecondary, fontSize: 12 },
-  recommendationCrop: { color: colors.primary, fontSize: 20, fontWeight: '800', marginTop: 2 },
-  recommendationReason: { color: colors.textSecondary, fontSize: 12, marginTop: 3, lineHeight: 17 },
   weatherUnavailable: { color: colors.textSecondary, fontSize: 13 },
-  forecastTitle: { color: colors.text, fontSize: 14, fontWeight: '800', marginTop: spacing.large, marginBottom: spacing.small },
-  forecastRow: { gap: spacing.small },
-  forecastCard: { width: 94, backgroundColor: colors.background, borderRadius: 12, padding: spacing.small, alignItems: 'center' },
-  forecastDay: { color: colors.textSecondary, fontSize: 12, fontWeight: '700' },
-  forecastIcon: { fontSize: 24, marginVertical: 4 },
-  forecastTemp: { color: colors.text, fontSize: 11, fontWeight: '700' },
-  forecastRain: { color: colors.primary, fontSize: 10, marginTop: 4 },
-  futureAdvice: { borderLeftWidth: 3, borderLeftColor: colors.accent, paddingLeft: spacing.small, marginTop: spacing.medium },
-  futureAdviceTitle: { color: colors.text, fontSize: 14, fontWeight: '800' },
-  guideCard: { backgroundColor: '#EAF4EA', borderRadius: 18, padding: spacing.large, marginBottom: spacing.large },
-  guideHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  guideCrop: { color: colors.primary, fontSize: 24, fontWeight: '800', marginTop: spacing.small },
-  guideWindow: { color: colors.text, fontSize: 13, fontWeight: '600', marginTop: 4 },
-  guideText: { color: colors.textSecondary, fontSize: 12, lineHeight: 18, marginTop: spacing.medium },
   actions: { marginTop: spacing.large },
-  actionHint: { color: colors.textSecondary, fontSize: 13, marginBottom: spacing.small },
+  recommendationLoadingCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 14,
+    padding: spacing.large,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  recommendationSpinner: {
+    marginBottom: spacing.small,
+  },
+  recommendationLoadingText: {
+    color: colors.textSecondary,
+    fontSize: 13,
+    textAlign: 'center',
+    lineHeight: 18,
+  },
+  recommendationErrorCard: {
+    backgroundColor: '#FFEBEE',
+    borderRadius: 14,
+    padding: spacing.large,
+    borderWidth: 1,
+    borderColor: '#FFCDD2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  recommendationErrorText: {
+    color: '#C62828',
+    fontSize: 13,
+    textAlign: 'center',
+    lineHeight: 18,
+    marginTop: 6,
+    marginBottom: spacing.small,
+  },
+  retryButton: {
+    paddingHorizontal: spacing.medium,
+    paddingVertical: 6,
+    backgroundColor: colors.primary,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: colors.surface,
+    fontSize: 12,
+    fontWeight: '700',
+  },
 });

@@ -1,11 +1,25 @@
 import request from './api';
 
-async function getPricesForCrop(cropId) {
-  return request(`/prices?cropId=${cropId}`);
+async function getPricesForCrop(cropName, state) {
+  const params = new URLSearchParams({ cropName, state });
+  return request(`/prices?${params.toString()}`);
 }
 
-async function getPriceHistory(cropId, mandiId, days = 30) {
-  return request(`/prices/history?cropId=${cropId}&mandiId=${mandiId}&days=${days}`);
+async function getLivePricesForCrop(commodity, state) {
+  const params = new URLSearchParams({ commodity, state });
+  const response = await request(`/prices/live?${params.toString()}`);
+  return {
+    records: response.records || [],
+    marketScope: response.marketScope || 'state',
+    pricedCount: response.pricedCount || 0,
+    liveCount: response.liveCount || 0,
+  };
 }
 
-export default { getPricesForCrop, getPriceHistory };
+async function getPriceHistory(cropName, state, mandiName, days = 30) {
+  const params = new URLSearchParams({ cropName, state, days: String(days) });
+  if (mandiName) params.set('mandiName', mandiName);
+  return request(`/prices/history?${params.toString()}`);
+}
+
+export default { getPricesForCrop, getLivePricesForCrop, getPriceHistory };
