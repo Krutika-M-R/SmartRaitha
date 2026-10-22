@@ -32,7 +32,7 @@ export default function ProfitCalculatorScreen({ route }) {
 
   async function loadMandis() {
     try {
-      if (!state) throw new Error('Could not identify your state. Allow location access and reopen the profit calculator.');
+      if (!state) throw new Error(t('noStateForProfit'));
       const result = await priceService.getLivePricesForCrop(crop.name, state);
       const pricedMandis = result.records.filter((market) => (
         market.hasPrice
@@ -64,11 +64,11 @@ export default function ProfitCalculatorScreen({ route }) {
   async function findBestProfitMarket() {
     const qty = Number(quantity);
     if (!Number.isFinite(qty) || qty <= 0) {
-      setError('Enter a valid quantity before comparing mandi profits.');
+      setError(t('validQuantityBeforeCompare'));
       return;
     }
     if (!Number.isFinite(location?.latitude) || !Number.isFinite(location?.longitude)) {
-      setError('Allow location access to compare net profit after transport.');
+      setError(t('locationNeededForProfit'));
       return;
     }
 
@@ -84,7 +84,7 @@ export default function ProfitCalculatorScreen({ route }) {
       const best = recommendation.recommended;
       if (!best) {
         setBestEstimate(null);
-        throw new Error(recommendation.reason || 'No Agmarknet price is available in the latest data or saved snapshot to compare profit.');
+        throw new Error(recommendation.reason || t('noComparisonPrices'));
       }
 
       setBestEstimate(best);
@@ -102,11 +102,11 @@ export default function ProfitCalculatorScreen({ route }) {
     const qty = Number(quantity);
     const selectedMarket = mandis.find((market) => market.id === selectedMarketId);
     if (!selectedMarket || !qty || qty <= 0) {
-      setError('Please select a mandi and enter a valid quantity.');
+      setError(t('selectMandiQuantity'));
       return;
     }
     if (!Number.isFinite(location?.latitude) || !Number.isFinite(location?.longitude)) {
-      setError('Allow location access to estimate the route and transportation cost.');
+      setError(t('locationNeededForRoute'));
       return;
     }
     setCalculating(true);
@@ -147,14 +147,18 @@ export default function ProfitCalculatorScreen({ route }) {
         ) : (
           <>
             <Button
-              title="Find best mandi by net profit"
+              title={t('findBestMandiProfit')}
               onPress={findBestProfitMarket}
               loading={findingBest}
             />
             {bestEstimate && (
               <Text style={styles.estimateMessage}>
-                Best for {quantity} kg: {bestEstimate.mandi.name} — estimated net ₹{Number(bestEstimate.estimatedNetProfit).toFixed(2)}
-                {' '}after about {bestEstimate.distanceKm} km road transport.
+                {t('bestForQuantity', {
+                  quantity,
+                  mandi: bestEstimate.mandi.name,
+                  profit: Number(bestEstimate.estimatedNetProfit).toFixed(2),
+                  distance: bestEstimate.distanceKm,
+                })}
               </Text>
             )}
             <Text style={styles.label}>{t('selectMandi')}</Text>
@@ -166,8 +170,8 @@ export default function ProfitCalculatorScreen({ route }) {
                     mandi.mandi.name,
                     mandi.mandi.district,
                     mandi.hasPrice
-                      ? `₹${Number(mandi.modalPrice).toFixed(2)}/kg${mandi.dataFreshness === 'cached' ? ` · saved ${mandi.ageDays}d ago` : ''}`
-                      : 'No price available',
+                      ? `₹${Number(mandi.modalPrice).toFixed(2)}/kg${mandi.dataFreshness === 'cached' ? ` · ${t('savedDaysAgo', { days: mandi.ageDays })}` : ''}`
+                      : t('noPriceAvailable'),
                   ].filter(Boolean).join(' · ')}
                   variant={selectedMarketId === mandi.id ? 'primary' : 'secondary'}
                   disabled={!mandi.hasPrice}
@@ -181,7 +185,7 @@ export default function ProfitCalculatorScreen({ route }) {
               ))}
             </View>
             <Text style={styles.directoryNote}>
-              Only live or saved prices reported for the selected mandi are used for comparison and profit.
+              {t('marketComparisonDisclaimer')}
             </Text>
 
             <InputField
@@ -192,7 +196,7 @@ export default function ProfitCalculatorScreen({ route }) {
                 setBestEstimate(null);
               }}
               keyboardType="numeric"
-              placeholder="e.g. 100"
+              placeholder={t('exampleQuantity')}
             />
 
             <Button title={t('calculateProfit')} onPress={handleCalculate} loading={calculating} />

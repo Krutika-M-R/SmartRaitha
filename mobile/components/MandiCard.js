@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Animated, Pressable, View, Text, StyleSheet } from 'react-native';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function MandiCard({
   mandiName,
@@ -13,6 +14,7 @@ export default function MandiCard({
   dataFreshness,
   ageDays,
 }) {
+  const { t } = useLanguage();
   const pressProgress = useRef(new Animated.Value(0)).current;
   const hasLivePrice = Number.isFinite(modalPrice);
   return (
@@ -26,8 +28,8 @@ export default function MandiCard({
         <Text style={styles.name} numberOfLines={2} ellipsizeMode="tail">{mandiName}</Text>
         <Text style={styles.sub} numberOfLines={2} ellipsizeMode="tail">
           {[district, state, arrivalDate].filter(Boolean).join(' · ')}
-          {dataFreshness === 'cached' ? ` · saved price ${ageDays} days old` : ''}
-          {distanceKm != null ? `${district || state || arrivalDate || dataFreshness ? ' · ' : ''}about ${distanceKm} km away` : ''}
+          {dataFreshness === 'cached' ? ` · ${t('savedPriceAge', { days: ageDays })}` : ''}
+          {distanceKm != null ? `${district || state || arrivalDate || dataFreshness ? ' · ' : ''}${t('aboutDistanceAway', { distance: distanceKm })}` : ''}
         </Text>
       </View>
       <Text
@@ -37,8 +39,8 @@ export default function MandiCard({
         minimumFontScale={0.75}
       >
         {hasLivePrice
-          ? `₹${modalPrice.toFixed(2)}/kg${dataFreshness === 'cached' ? ' · saved' : ''}`
-          : 'No price available'}
+          ? `₹${modalPrice.toFixed(2)}/kg${dataFreshness === 'cached' ? ` · ${t('saved')}` : ''}`
+          : t('noPriceAvailable')}
       </Text>
     </Pressable>
     </Animated.View>

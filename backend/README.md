@@ -42,6 +42,14 @@ directory. Comparison lists markets present in the CSV or live results; it canno
 guarantee all Karnataka mandis. The crop planner uses bundled agronomic profiles and
 weather normals and does not provide market price or profit estimates.
 
+## Assistant
+
+LittleLeaf answers app-usage questions from a built-in knowledge base and handles
+market, weather, transport, profit, and forecast questions using SmartRaitha's own
+services and data. It does not call an external AI provider and does not require an
+AI API key. Live market-data features may still use `MANDI_API_KEY` for Agmarknet;
+this is separate from an AI provider key.
+
 If Neon is unreachable after startup retries, the server still starts in degraded mode
 so live/CSV market-price routes can work. Features that require user data remain
 unavailable until Neon reconnects. `GET /api/health` reports `degraded` in that state.

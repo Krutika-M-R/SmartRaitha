@@ -4,8 +4,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function HamburgerMenu({ navigation }) {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
   const insets = useSafeAreaInsets();
 
@@ -25,7 +27,7 @@ export default function HamburgerMenu({ navigation }) {
         style={styles.trigger}
         onPress={() => setVisible(true)}
         accessibilityRole="button"
-        accessibilityLabel="More options"
+        accessibilityLabel={t('moreOptions')}
       >
         <Ionicons name="ellipsis-vertical" size={22} color={colors.primary} />
       </Pressable>
@@ -34,11 +36,11 @@ export default function HamburgerMenu({ navigation }) {
           <View style={[styles.menu, { top: insets.top + 48 }]}>
             <Pressable style={styles.menuItem} onPress={openSettings} accessibilityRole="button">
               <Ionicons name="settings-outline" size={20} color={colors.primary} />
-              <Text style={styles.menuLabel}>Settings</Text>
+              <Text style={styles.menuLabel}>{t('settings')}</Text>
             </Pressable>
             <Pressable style={styles.menuItem} onPress={openLittleLeaf} accessibilityRole="button">
               <Ionicons name="sparkles-outline" size={20} color={colors.primary} />
-              <Text style={styles.menuLabel}>LittleLeaf</Text>
+              <Text style={styles.menuLabel}>{t('assistant')}</Text>
             </Pressable>
           </View>
         </Pressable>

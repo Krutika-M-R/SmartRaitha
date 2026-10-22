@@ -2,12 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ErrorMessage({ message }) {
+  const { localize } = useLanguage();
   if (!message) return null;
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{message}</Text>
+      <Text style={styles.text}>{localize(message)}</Text>
     </View>
   );
 }

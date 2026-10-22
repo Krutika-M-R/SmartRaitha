@@ -5,9 +5,11 @@ import AuthNavigator from './AuthNavigator';
 import AppNavigator from './AppNavigator';
 import LoadingIndicator from '../components/LoadingIndicator';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function RootNavigator() {
   const { user, loading } = useAuth();
+  const { t } = useLanguage();
   const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export default function RootNavigator() {
 
   if (showWelcome) return <WelcomeScreen />;
 
-  if (loading) return <LoadingIndicator message="Starting SmartRaitha..." />;
+  if (loading) return <LoadingIndicator message={t('startingApp')} />;
 
   return (
     <NavigationContainer>

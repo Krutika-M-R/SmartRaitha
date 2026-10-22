@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, Image, View, Text, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import { colors } from '../constants/colors';
+import { useLanguage } from '../context/LanguageContext';
 
 const produce = [
   { emoji: '🍎', styleName: 'produceOne', delay: 0 },
@@ -107,6 +108,7 @@ function FallingWatermelon() {
 }
 
 export default function WelcomeScreen() {
+  const { t } = useLanguage();
   const [fontsLoaded] = useFonts({
     VintageDisplay: require('@expo-google-fonts/abril-fatface/400Regular/AbrilFatface_400Regular.ttf'),
     DapperItalic: require('@expo-google-fonts/cormorant-garamond/600SemiBold_Italic/CormorantGaramond_600SemiBold_Italic.ttf'),
@@ -138,7 +140,7 @@ export default function WelcomeScreen() {
       <View style={styles.brandBlock}>
         <Text style={[styles.title, fontsLoaded && styles.vintageTitle]}>SmartRaitha</Text>
         <Text style={[styles.subtitle, fontsLoaded && styles.dapperTagline]}>
-          Every cost counted.{ '\n' }Every return considered.
+          {t('welcomeTagline')}
         </Text>
         <View style={styles.loadingTrack}>
           <Animated.View

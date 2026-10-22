@@ -27,13 +27,19 @@ function getGreeting(t) {
   return t('goodNight');
 }
 
-function getWeatherDescription(code) {
-  if (code === 0) return 'Clear sky';
-  if ([1, 2, 3].includes(code)) return 'Partly cloudy';
-  if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return 'Rainy';
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return 'Snowy';
-  if ([95, 96, 99].includes(code)) return 'Thunderstorm';
-  return 'Mixed weather';
+function getWeatherDescription(code, t) {
+  if (code === 0) return t('clearSky');
+  if ([1, 2, 3].includes(code)) return t('partlyCloudy');
+  if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return t('rainy');
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return t('snowy');
+  if ([95, 96, 99].includes(code)) return t('thunderstorm');
+  return t('mixedWeather');
+}
+
+function getPersonalizedGreeting(name, t) {
+  const greeting = getGreeting(t);
+  const normalizedName = name?.trim();
+  return normalizedName ? t('personalizedGreeting', { greeting, name: normalizedName }) : greeting;
 }
 
 export default function HomeScreen({ navigation }) {
@@ -155,7 +161,8 @@ export default function HomeScreen({ navigation }) {
       const data = await weatherService.getCurrentWeather(location.latitude, location.longitude);
       setWeather(data);
     } catch (e) {
-      setWeatherError(e.message);
+      console.warn('Could not load current weather:', e.message);
+      setWeatherError('weatherUnavailable');
     }
   }
 
@@ -173,14 +180,14 @@ export default function HomeScreen({ navigation }) {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Animated.View style={[styles.hero, popStyle(heroProgress)]}>
         <View style={styles.heroCopy}>
-          <Text style={styles.brand}>LittleLeaf</Text>
-          <Text style={styles.greeting}>{getGreeting(t)}{user?.name ? `, ${user.name}` : ''}</Text>
+          <Text style={styles.brand}>{t('assistant')}</Text>
+          <Text style={styles.greeting}>{getPersonalizedGreeting(user?.name, t)}</Text>
         </View>
         <TouchableOpacity
           style={styles.farmerBadge}
           onPress={() => navigation.navigate('LittleLeaf')}
           accessibilityRole="button"
-          accessibilityLabel="Open LittleLeaf chatbot"
+          accessibilityLabel={t('openAssistant')}
         >
           <View style={styles.farmerImageBadge}>
             <Image source={require('../assets/littleleaf-avatar.png')} style={styles.farmerImage} resizeMode="contain" />
@@ -190,13 +197,13 @@ export default function HomeScreen({ navigation }) {
               <Path id="homeHelpArc" d="M 5 2 Q 54 38 103 2" />
             </Defs>
             <SvgText fill="#F3F7EF" fontFamily="serif" fontSize={13} fontWeight="700" textAnchor="middle">
-              <TextPath href="#homeHelpArc" startOffset="50%">Any Help? 🌱</TextPath>
+              <TextPath href="#homeHelpArc" startOffset="50%">{t('anyHelp')}</TextPath>
             </SvgText>
           </Svg>
         </TouchableOpacity>
       </Animated.View>
 
-      <ErrorMessage message={error || locationError} />
+      <ErrorMessage message={error || (locationError ? t(locationError) : '')} />
 
       <View style={styles.sectionHeader}>
         <View>
@@ -216,7 +223,7 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.weatherTop}>
               <Text style={styles.temperature}>{Math.round(weather.current.temperature_2m)}°C</Text>
               <View>
-                <Text style={styles.weatherDescription}>{getWeatherDescription(weather.current.weather_code)}</Text>
+                <Text style={styles.weatherDescription}>{getWeatherDescription(weather.current.weather_code, t)}</Text>
                 <Text style={styles.weatherMeta}>{t('humidity')}: {weather.current.relative_humidity_2m}%</Text>
               </View>
             </View>
@@ -226,7 +233,7 @@ export default function HomeScreen({ navigation }) {
             </View>
           </>
         ) : (
-          <Text style={styles.weatherUnavailable}>{weatherError || t('weatherUnavailable')}</Text>
+          <Text style={styles.weatherUnavailable}>{weatherError ? t(weatherError) : t('weatherUnavailable')}</Text>
         )}
       </Animated.View>
 
@@ -246,13 +253,13 @@ export default function HomeScreen({ navigation }) {
               setCropSearch(value);
               setSelectedCrop(null);
             }}
-            placeholder="Search available crops"
+            placeholder={t('searchCrops')}
             placeholderTextColor={colors.textSecondary}
             returnKeyType="search"
-            accessibilityLabel="Search crops available to sell"
+            accessibilityLabel={t('searchCropsAccessibility')}
           />
           {cropSearch ? (
-            <TouchableOpacity onPress={() => setCropSearch('')} accessibilityRole="button" accessibilityLabel="Clear crop search">
+            <TouchableOpacity onPress={() => setCropSearch('')} accessibilityRole="button" accessibilityLabel={t('clearCropSearch')}>
               <Ionicons name="close-circle" size={19} color={colors.textSecondary} />
             </TouchableOpacity>
           ) : null}
@@ -265,7 +272,7 @@ export default function HomeScreen({ navigation }) {
               ))}
             </View>
           ) : (
-            <Text style={styles.cropFallbackNote}>No available crops match “{cropSearch.trim()}”.</Text>
+            <Text style={styles.cropFallbackNote}>{t('noSearchResults', { query: cropSearch.trim() })}</Text>
           )
         ) : null}
         {!crops.length && !error && (
@@ -297,11 +304,11 @@ export default function HomeScreen({ navigation }) {
           )}
         </>
       ) : (
-        <Text style={styles.cropFallbackNote}>Select the crop for recommended market.</Text>
+        <Text style={styles.cropFallbackNote}>{t('selectCropForRecommendation')}</Text>
       )}
 
       {!selectedCrop ? (
-        <Text style={styles.cropFallbackNote}>Search for and select a crop above to compare markets or calculate profit.</Text>
+        <Text style={styles.cropFallbackNote}>{t('selectCropForMarketActions')}</Text>
       ) : null}
       <View style={styles.actions}>
         <FeatureTile
@@ -311,7 +318,7 @@ export default function HomeScreen({ navigation }) {
           color="#1565C0"
           onPress={() => {
             if (!selectedCrop) {
-              Alert.alert('Select a crop', 'Search for and select a crop above before comparing markets.');
+              Alert.alert(t('selectCropAlertTitle'), t('selectCropBeforeCompare'));
               return;
             }
             navigation.navigate('Markets', {
@@ -329,7 +336,7 @@ export default function HomeScreen({ navigation }) {
           color={colors.accent}
           onPress={() => {
             if (!selectedCrop) {
-              Alert.alert('Select a crop', 'Search for and select a crop above before calculating profit.');
+              Alert.alert(t('selectCropAlertTitle'), t('selectCropBeforeProfit'));
               return;
             }
             navigation.navigate('ProfitCalculator', { crop: selectedCrop, state: location?.state, location, recommendedMandiId: recommendation?.recommended?.mandi?.id });
@@ -339,14 +346,14 @@ export default function HomeScreen({ navigation }) {
 
       <View style={styles.sectionHeader}>
         <View>
-          <Text style={styles.sectionTitle}>Seasonal planning</Text>
+          <Text style={styles.sectionTitle}>{t('seasonalPlanning')}</Text>
         </View>
         <Ionicons name="calendar-outline" size={24} color={colors.primary} />
       </View>
       <FeatureTile
         icon="leaf-outline"
-        title="Smart 6-Month Crop Planner"
-        description="Explore suitable crops for your soil, irrigation, and sowing month."
+        title={t('cropPlannerTitle')}
+        description={t('cropPlannerDescription')}
         onPress={() => navigation.navigate('CropPlanner', { location, locationError })}
       />
 

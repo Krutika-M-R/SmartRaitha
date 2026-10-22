@@ -4,8 +4,10 @@ import SmartCropPlanner from '../components/SmartCropPlanner';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
 import cropService from '../services/cropService';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function CropPlannerScreen({ route, location: providedLocation, locationError: providedLocationError }) {
+  const { localize } = useLanguage();
   const { location: routeLocation, locationError: routeLocationError } = route?.params || {};
   const location = providedLocation || routeLocation;
   const locationError = providedLocationError || routeLocationError;
@@ -28,7 +30,7 @@ export default function CropPlannerScreen({ route, location: providedLocation, l
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {catalogError ? <Text style={styles.error}>{catalogError}</Text> : null}
+      {catalogError ? <Text style={styles.error}>{localize(catalogError)}</Text> : null}
       <SmartCropPlanner location={location} locationError={locationError} crops={crops} />
     </ScrollView>
   );

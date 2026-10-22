@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
 import cropPlannerService from '../services/cropPlannerService';
+import { useLanguage } from '../context/LanguageContext';
 
 const SOILS = [
   { id: 'red', label: 'Red' },
@@ -31,8 +32,9 @@ const IRRIGATION = [
   { id: 'drip', label: 'Drip' },
 ];
 
-function getNextSixMonthPeriods() {
+function getNextSixMonthPeriods(language, t) {
   const now = new Date();
+  const locale = language === 'kn' ? 'kn-IN' : 'en-IN';
   return Array.from({ length: 2 }, (_, index) => {
     const startDate = new Date(now.getFullYear(), now.getMonth() + index * 3 + 1, 1);
     const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 2, 1);
@@ -44,9 +46,9 @@ function getNextSixMonthPeriods() {
       year: startDate.getFullYear(),
       startDate,
       endDate,
-      label: `${startDate.toLocaleDateString(undefined, { month: 'short' })}–${endDate.toLocaleDateString(undefined, { month: 'short' })}`,
+      label: `${startDate.toLocaleDateString(locale, { month: 'short' })}–${endDate.toLocaleDateString(locale, { month: 'short' })}`,
       yearLabel,
-      accessibilityLabel: `${startDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })} to ${endDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}`,
+      accessibilityLabel: `${startDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' })} ${t('to')} ${endDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' })}`,
     };
   });
 }
@@ -55,8 +57,33 @@ function formatMoney(value) {
   return `${value < 0 ? '-₹' : '₹'}${Math.abs(value).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
 }
 
-function formatDate(value) {
-  return new Date(`${value}T12:00:00Z`).toLocaleDateString(undefined, {
+function localizePlannerReason(reason, t) {
+  const rainfallWithinRange = reason.match(/^Historical rainfall for this month averages (\d+) mm/);
+  if (rainfallWithinRange) return t('reasonRainfallFits', { rainfall: rainfallWithinRange[1] });
+
+  const rainfallNeedsAttention = reason.match(/^Historical rainfall averages (\d+) mm/);
+  if (rainfallNeedsAttention) return t('reasonCheckWater', { rainfall: rainfallNeedsAttention[1] });
+
+  const temperatureInRange = reason.match(/^The historical monthly mean temperature \(([\d.]+)°C\)/);
+  if (temperatureInRange) return t('reasonTemperatureFits', { temperature: temperatureInRange[1] });
+
+  const reasonKeys = {
+    'The selected month matches a common sowing window for this crop.': 'reasonSowingWindow',
+    'This month is outside the crop’s main sowing window.': 'reasonOutsideSowingWindow',
+    'Irrigation can help offset the lower historical rainfall.': 'reasonIrrigationOffsetsRain',
+    'Historical monthly temperature is outside the crop’s preferred planning range.': 'reasonTemperatureOutside',
+    'Soil match is not included until you select a soil type.': 'reasonSoilNotSelected',
+    'The selected soil type is suitable for this crop.': 'reasonSoilSuitable',
+    'The selected soil type is less suitable; consider a local soil test and expert advice.': 'reasonSoilLessSuitable',
+    'This crop needs reliable water; rain-fed cultivation may be risky.': 'reasonReliableWater',
+    'Your irrigation selection supports this crop’s water needs.': 'reasonIrrigationSupports',
+    'This crop matches your selected preferences.': 'reasonPreferenceMatch',
+  };
+  return t(reasonKeys[reason] || 'generalCropSuitability');
+}
+
+function formatDate(value, language) {
+  return new Date(`${value}T12:00:00Z`).toLocaleDateString(language === 'kn' ? 'kn-IN' : 'en-IN', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
@@ -78,9 +105,9 @@ function SelectionChip({ label, selected, onPress, accessibilityLabel }) {
   );
 }
 
-function PriceTrend({ trend }) {
+function PriceTrend({ trend, t, language }) {
   if (!trend?.length) {
-    return <Text style={styles.muted}>No nearby verified ₹/kg market history yet.</Text>;
+    return <Text style={styles.muted}>{t('noNearbyPriceHistory')}</Text>;
   }
   const highest = Math.max(...trend.map((item) => item.modalPricePerKg), 1);
 
@@ -88,7 +115,7 @@ function PriceTrend({ trend }) {
     <View style={styles.trendWrap}>
       {trend.map((item) => {
         const date = new Date(`${item.month}-01T12:00:00Z`);
-        const label = date.toLocaleDateString(undefined, { month: 'short', timeZone: 'UTC' });
+        const label = date.toLocaleDateString(language === 'kn' ? 'kn-IN' : 'en-IN', { month: 'short', timeZone: 'UTC' });
         return (
           <View key={item.month} style={styles.trendColumn}>
             <Text style={styles.trendPrice}>₹{item.modalPricePerKg.toFixed(0)}</Text>
@@ -103,9 +130,9 @@ function PriceTrend({ trend }) {
   );
 }
 
-function CropPlanCard({ item, index, farmSizeAcres }) {
+function CropPlanCard({ item, index, farmSizeAcres, t, language }) {
   const [detailsVisible, setDetailsVisible] = useState(false);
-  const duration = `${item.durationDays[0]}–${item.durationDays[1]} days`;
+  const duration = t('dayRange', { start: item.durationDays[0], end: item.durationDays[1] });
   const finance = item.market?.finance;
   const profitRange = finance?.potentialProfitInr;
   const bestCrop = index === 0;
@@ -120,9 +147,9 @@ function CropPlanCard({ item, index, farmSizeAcres }) {
           <View style={styles.cropTitleGroup}>
             <View style={styles.cropTitleRow}>
               <Text style={styles.cropName}>{item.crop}</Text>
-              {bestCrop && <Text style={styles.bestBadge}>BEST MATCH</Text>}
+              {bestCrop && <Text style={styles.bestBadge}>{t('bestMatch')}</Text>}
             </View>
-            <Text style={styles.score}>{item.score}<Text style={styles.scoreOutOf}> / 100 fit</Text></Text>
+            <Text style={styles.score}>{item.score}<Text style={styles.scoreOutOf}>{t('fitScore')}</Text></Text>
           </View>
         </View>
         <Ionicons name="leaf" size={20} color={bestCrop ? colors.primary : '#86A98A'} />
@@ -134,21 +161,26 @@ function CropPlanCard({ item, index, farmSizeAcres }) {
       <View style={styles.cropFacts}>
         <View style={styles.fact}>
           <Ionicons name="time-outline" size={16} color={colors.primary} />
-          <Text style={styles.factText}>Grow time{"\n"}{duration}</Text>
+          <Text style={styles.factText}>{t('growTime')}{"\n"}{duration}</Text>
         </View>
         <View style={styles.fact}>
           <Ionicons name="water-outline" size={16} color={colors.primary} />
-          <Text style={styles.factText}>Water{"\n"}{item.waterNeeds}</Text>
+          <Text style={styles.factText}>{t('water')}{"\n"}{t({
+            Low: 'waterLow',
+            Medium: 'waterMedium',
+            High: 'waterHigh',
+            'Low to medium': 'waterLowMedium',
+          }[item.waterNeeds] || 'waterMedium')}</Text>
         </View>
         <View style={styles.fact}>
           <Ionicons name="scale-outline" size={16} color={colors.primary} />
-          <Text style={styles.factText}>Yield / acre{"\n"}{item.yieldKgPerAcre[0].toLocaleString('en-IN')}–{item.yieldKgPerAcre[1].toLocaleString('en-IN')} kg</Text>
+          <Text style={styles.factText}>{t('yieldPerAcre')}{"\n"}{item.yieldKgPerAcre[0].toLocaleString(language === 'kn' ? 'kn-IN' : 'en-IN')}–{item.yieldKgPerAcre[1].toLocaleString(language === 'kn' ? 'kn-IN' : 'en-IN')} kg</Text>
         </View>
       </View>
 
       <View style={styles.timeline}>
         <View style={styles.timelineHeader}>
-          <Text style={styles.timelineTitle}>Sowing to harvest</Text>
+          <Text style={styles.timelineTitle}>{t('sowingToHarvest')}</Text>
           <Text style={styles.timelineDuration}>{duration}</Text>
         </View>
         <View style={styles.timelineTrack}>
@@ -157,8 +189,8 @@ function CropPlanCard({ item, index, farmSizeAcres }) {
           <View style={styles.timelineEnd}><View style={[styles.timelineDot, styles.harvestDot]} /></View>
         </View>
         <View style={styles.timelineLabels}>
-          <Text style={styles.timelineLabel}>Sow {formatDate(item.sowingDate)}</Text>
-          <Text style={styles.timelineLabel}>Harvest ~{formatDate(item.harvestDate)}</Text>
+          <Text style={styles.timelineLabel}>{t('sow')} {formatDate(item.sowingDate, language)}</Text>
+          <Text style={styles.timelineLabel}>{t('harvest', { date: formatDate(item.harvestDate, language) })}</Text>
         </View>
       </View>
 
@@ -168,56 +200,59 @@ function CropPlanCard({ item, index, farmSizeAcres }) {
         accessibilityRole="button"
         accessibilityState={{ expanded: detailsVisible }}
       >
-        <Text style={styles.detailsToggleText}>{detailsVisible ? 'Hide crop details' : 'View crop details'}</Text>
+        <Text style={styles.detailsToggleText}>{detailsVisible ? t('hideCropDetails') : t('viewCropDetails')}</Text>
         <Ionicons name={detailsVisible ? 'chevron-up' : 'chevron-down'} size={18} color={colors.primary} />
       </TouchableOpacity>
       {detailsVisible && (
         <View style={styles.expandedDetails}>
-          <Text style={styles.detailTitle}>Suitable soil</Text>
-          <Text style={styles.financeNote}>{(item.soilTypes || []).map((soil) => soil[0].toUpperCase() + soil.slice(1)).join(', ') || 'Check with your local agriculture expert.'}</Text>
-          <Text style={[styles.detailTitle, styles.expandedTitle]}>Suitable irrigation</Text>
+          <Text style={styles.detailTitle}>{t('suitableSoil')}</Text>
+          <Text style={styles.financeNote}>{(item.soilTypes || []).map((soil) => t(`soil${soil[0].toUpperCase()}${soil.slice(1)}`)).join(', ') || t('checkLocalAgricultureExpert')}</Text>
+          <Text style={[styles.detailTitle, styles.expandedTitle]}>{t('suitableIrrigation')}</Text>
           <Text style={styles.financeNote}>{(item.irrigationTypes || []).map((type) => ({
-            rainfed: 'Rain-fed',
-            borewell: 'Borewell',
-            canal: 'Canal',
-            drip: 'Drip',
-          }[type] || type)).join(', ') || 'Choose based on local water availability.'}</Text>
-          <Text style={[styles.detailTitle, styles.expandedTitle]}>Why this crop matches</Text>
-          <Text style={styles.financeNote}>{item.reasons.slice(0, 3).join(' ')}</Text>
+            rainfed: t('irrigationRainfed'),
+            borewell: t('irrigationBorewell'),
+            canal: t('irrigationCanal'),
+            drip: t('irrigationDrip'),
+          }[type] || type)).join(', ') || t('chooseWaterAvailability')}</Text>
+          <Text style={[styles.detailTitle, styles.expandedTitle]}>{t('whyCropMatches')}</Text>
+          <Text style={styles.financeNote}>{item.reasons.slice(0, 3).map((reason) => localizePlannerReason(reason, t)).join(' ')}</Text>
 
           <View style={styles.marketSection}>
             <View style={styles.marketTitleRow}>
-              <Text style={styles.detailTitle}>Nearby mandi trend</Text>
+              <Text style={styles.detailTitle}>{t('nearbyMandiTrend')}</Text>
               {item.market?.latestPricePerKg != null && (
                 <Text style={styles.latestPrice}>₹{item.market.latestPricePerKg.toFixed(2)}/kg</Text>
               )}
             </View>
             {item.market?.mandi && (
-              <Text style={styles.marketSubtext}>Latest at {item.market.mandi} · {item.market.latestPriceDate}</Text>
+              <Text style={styles.marketSubtext}>{t('latestAt', { mandi: item.market.mandi, date: item.market.latestPriceDate })}</Text>
             )}
-            <PriceTrend trend={item.market?.trend} />
+            <PriceTrend trend={item.market?.trend} t={t} language={language} />
           </View>
 
           <View style={styles.financeCard}>
             <View style={styles.financeHeading}>
               <Ionicons name="calculator-outline" size={17} color={colors.primary} />
-              <Text style={styles.detailTitle}>Planning estimate · {farmSizeAcres} acre{farmSizeAcres === 1 ? '' : 's'}</Text>
+              <Text style={styles.detailTitle}>{t('planningEstimate', {
+                size: farmSizeAcres,
+                plural: farmSizeAcres === 1 ? '' : 's',
+              })}</Text>
             </View>
             <Text style={styles.financeRow}>
-              Cultivation cost: {formatMoney(item.cultivationCostInrPerAcre[0] * farmSizeAcres)}–{formatMoney(item.cultivationCostInrPerAcre[1] * farmSizeAcres)}
+              {t('cultivationCost')}: {formatMoney(item.cultivationCostInrPerAcre[0] * farmSizeAcres)}–{formatMoney(item.cultivationCostInrPerAcre[1] * farmSizeAcres)}
             </Text>
             {finance ? (
               <>
                 <Text style={styles.financeRow}>
-                  Potential profit: {formatMoney(profitRange[0])}–{formatMoney(profitRange[1])}
+                  {t('potentialProfit')}: {formatMoney(profitRange[0])}–{formatMoney(profitRange[1])}
                 </Text>
                 <Text style={styles.financeNote}>
-                  Uses a nearby recorded mandi price and the planner’s indicative yield/cost ranges. Actual results vary.
+                  {t('plannerFinanceDisclaimer')}
                 </Text>
               </>
             ) : (
               <Text style={styles.financeNote}>
-                Profit needs a nearby mandi record with a verified ₹/kg unit. Import current market data to calculate it.
+                {t('plannerProfitDataMissing')}
               </Text>
             )}
           </View>
@@ -228,7 +263,8 @@ function CropPlanCard({ item, index, farmSizeAcres }) {
 }
 
 export default function SmartCropPlanner({ location, locationError, crops = [] }) {
-  const periods = useMemo(() => getNextSixMonthPeriods(), []);
+  const { language, t, localize } = useLanguage();
+  const periods = useMemo(() => getNextSixMonthPeriods(language, t), [language]);
   const [selectedPeriod, setSelectedPeriod] = useState(periods[0]);
   const [soilType, setSoilType] = useState('unknown');
   const [irrigation, setIrrigation] = useState('rainfed');
@@ -306,7 +342,7 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
   async function updatePlannerLocation() {
     const query = locationInput.trim();
     if (!query) {
-      setLocationEditError('Enter a town, village, or district.');
+      setLocationEditError(t('enterTown'));
       return;
     }
     setLocationBusy(true);
@@ -314,13 +350,13 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
     try {
       const matches = await Location.geocodeAsync(query);
       if (!matches.length) {
-        setLocationEditError('Could not find that place. Try a nearby town or district.');
+        setLocationEditError(t('placeNotFound'));
         return;
       }
       const match = matches[0];
       setPlannerLocation({ latitude: match.latitude, longitude: match.longitude, placeName: query });
     } catch (geocodeError) {
-      setLocationEditError(geocodeError.message || 'Could not find that place.');
+      setLocationEditError(geocodeError.message || t('placeNotFound'));
     } finally {
       setLocationBusy(false);
     }
@@ -347,16 +383,16 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
       <View style={styles.header}>
         <View style={styles.headerIcon}><Ionicons name="leaf" size={22} color={colors.primary} /></View>
         <View style={styles.headerCopy}>
-          <Text style={styles.eyebrow}>PLAN WITH CONFIDENCE</Text>
-          <Text style={styles.title}>Smart 6-Month Crop Planner</Text>
-          <Text style={styles.subtitle}>Seasonal fit, local climate and nearby mandi records in one place.</Text>
+          <Text style={styles.eyebrow}>{t('plannerEyebrow')}</Text>
+          <Text style={styles.title}>{t('cropPlannerTitle')}</Text>
+          <Text style={styles.subtitle}>{t('plannerSubtitle')}</Text>
         </View>
       </View>
 
       <View style={styles.section}>
         <View style={styles.sectionTitleRow}>
-          <Text style={styles.sectionTitle}>Choose a planning period</Text>
-          <Text style={styles.sectionHint}>Plan starts in first month</Text>
+          <Text style={styles.sectionTitle}>{t('choosePlanningPeriod')}</Text>
+          <Text style={styles.sectionHint}>{t('planStartsFirstMonth')}</Text>
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.monthRow}>
           {periods.map((period, index) => {
@@ -382,16 +418,16 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
 
       <View style={styles.settingsCard}>
         <View style={styles.sectionTitleRow}>
-          <Text style={styles.sectionTitle}>Your farm details</Text>
+          <Text style={styles.sectionTitle}>{t('farmDetails')}</Text>
           <Ionicons name="options-outline" size={20} color={colors.primary} />
         </View>
-        <Text style={styles.fieldLabel}>Location</Text>
+        <Text style={styles.fieldLabel}>{t('location')}</Text>
         <View style={styles.locationRow}>
           <TextInput
             style={styles.locationInput}
             value={locationInput}
             onChangeText={setLocationInput}
-            placeholder={plannerLocation?.placeName || 'Town, village, or district'}
+            placeholder={plannerLocation?.placeName || t('locationPlaceholder')}
             placeholderTextColor={colors.textSecondary}
             returnKeyType="done"
             onSubmitEditing={updatePlannerLocation}
@@ -403,10 +439,10 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
           </TouchableOpacity>
         </View>
         {locationEditError ? <Text style={styles.errorText}>{locationEditError}</Text> : null}
-        {plannerLocation?.placeName ? <Text style={styles.locationCaption}>Planning for {plannerLocation.placeName}</Text> : null}
+        {plannerLocation?.placeName ? <Text style={styles.locationCaption}>{t('planningFor', { place: plannerLocation.placeName })}</Text> : null}
 
         <View style={styles.farmSizeRow}>
-          <Text style={styles.fieldLabel}>Farm size</Text>
+          <Text style={styles.fieldLabel}>{t('farmSize')}</Text>
           <View style={styles.acreInputWrap}>
             <TextInput
               style={styles.acreInput}
@@ -414,28 +450,28 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
               onChangeText={setFarmSizeInput}
               keyboardType="decimal-pad"
               onEndEditing={commitFarmSize}
-              accessibilityLabel="Farm size in acres"
+              accessibilityLabel={t('farmSizeAccessibility')}
             />
-            <Text style={styles.acreUnit}>acres</Text>
+            <Text style={styles.acreUnit}>{t('acres')}</Text>
           </View>
         </View>
 
-        <Text style={styles.fieldLabel}>Soil type</Text>
+        <Text style={styles.fieldLabel}>{t('soilType')}</Text>
         <View style={styles.chipRow}>
-          <SelectionChip label="Not sure" selected={soilType === 'unknown'} onPress={() => setSoilType('unknown')} />
+          <SelectionChip label={t('notSure')} selected={soilType === 'unknown'} onPress={() => setSoilType('unknown')} />
           {SOILS.map((soil) => (
-            <SelectionChip key={soil.id} label={soil.label} selected={soilType === soil.id} onPress={() => setSoilType(soil.id)} />
+            <SelectionChip key={soil.id} label={t(`soil${soil.id[0].toUpperCase()}${soil.id.slice(1)}`)} selected={soilType === soil.id} onPress={() => setSoilType(soil.id)} />
           ))}
         </View>
 
-        <Text style={styles.fieldLabel}>Irrigation</Text>
+        <Text style={styles.fieldLabel}>{t('irrigation')}</Text>
         <View style={styles.chipRow}>
           {IRRIGATION.map((option) => (
-            <SelectionChip key={option.id} label={option.label} selected={irrigation === option.id} onPress={() => setIrrigation(option.id)} />
+            <SelectionChip key={option.id} label={t(`irrigation${option.id[0].toUpperCase()}${option.id.slice(1)}`)} selected={irrigation === option.id} onPress={() => setIrrigation(option.id)} />
           ))}
         </View>
 
-        <Text style={styles.fieldLabel}>Crop preferences <Text style={styles.optional}>(optional)</Text></Text>
+        <Text style={styles.fieldLabel}>{t('cropPreferences')} <Text style={styles.optional}>{t('optional')}</Text></Text>
         <View style={styles.chipRow}>
           {crops.map((crop) => (
             <SelectionChip
@@ -453,10 +489,17 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
           <View style={styles.climateIcon}><Ionicons name="partly-sunny-outline" size={20} color={colors.primary} /></View>
           <View style={styles.climateCopy}>
             <Text style={styles.climateTitle}>
-              {plan.region} · {selectedPeriod.startDate.toLocaleDateString(undefined, { month: 'short', year: 'numeric' })} climate
+              {t('climate', {
+                region: plan.region,
+                date: selectedPeriod.startDate.toLocaleDateString(language === 'kn' ? 'kn-IN' : 'en-IN', { month: 'short', year: 'numeric' }),
+              })}
             </Text>
             <Text style={styles.climateDetail}>
-              {Math.round(plan.climate.rainfallMm)} mm average rain · {plan.climate.temperatureC.toFixed(1)}°C mean · {plan.climate.years}-year history
+              {t('climateDetail', {
+                rain: Math.round(plan.climate.rainfallMm),
+                temperature: plan.climate.temperatureC.toFixed(1),
+                years: plan.climate.years,
+              })}
             </Text>
           </View>
         </View>
@@ -464,21 +507,21 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
 
       <View style={styles.resultsHeader}>
         <View>
-          <Text style={styles.sectionTitle}>Top 3 crops for {selectedPeriod.label}</Text>
-          <Text style={styles.sectionHint}>Ranked by crop preferences, season and farm details</Text>
+          <Text style={styles.sectionTitle}>{t('topCrops', { period: selectedPeriod.label })}</Text>
+          <Text style={styles.sectionHint}>{t('rankedBy')}</Text>
         </View>
-        {bestScore != null && <Text style={styles.bestFit}>{bestScore}% best fit</Text>}
+        {bestScore != null && <Text style={styles.bestFit}>{t('bestFit', { score: bestScore })}</Text>}
       </View>
 
       {!plannerLocation ? (
-        <Text style={styles.errorPanel}>{locationError || 'Allow location access or search for your town to build a plan.'}</Text>
+        <Text style={styles.errorPanel}>{locationError ? t(locationError) : t('allowLocationOrSearch')}</Text>
       ) : loading ? (
         <View style={styles.loadingPanel}>
           <ActivityIndicator color={colors.primary} />
-          <Text style={styles.loadingText}>Checking seasonal climate and nearby mandi data…</Text>
+          <Text style={styles.loadingText}>{t('checkingClimate')}</Text>
         </View>
       ) : error ? (
-        <Text style={styles.errorPanel}>{error}</Text>
+        <Text style={styles.errorPanel}>{localize(error)}</Text>
       ) : plan?.recommendations?.length ? (
         <>
           {plan.recommendations.map((item, index) => (
@@ -487,12 +530,14 @@ export default function SmartCropPlanner({ location, locationError, crops = [] }
               item={item}
               index={index}
               farmSizeAcres={farmSize}
+              t={t}
+              language={language}
             />
           ))}
           <Text style={styles.disclaimer}>{plan.estimatesNote}</Text>
         </>
       ) : (
-        <Text style={styles.errorPanel}>No crop profiles are available for this location yet.</Text>
+        <Text style={styles.errorPanel}>{t('noCropProfiles')}</Text>
       )}
     </Animated.View>
   );

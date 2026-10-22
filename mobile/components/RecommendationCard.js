@@ -5,6 +5,23 @@ import { spacing } from '../constants/spacing';
 import { useLanguage } from '../context/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';
 
+function translateRecommendationReason(reason, t) {
+  if (typeof reason !== 'string') return '';
+  const netReturn = reason.match(/^Highest estimated net return for (\d+) kg from your current location after estimated road transport\.(?: Using the latest saved Agmarknet report from (\d+) days ago\.)?$/);
+  if (netReturn) {
+    const summary = t('recommendationNetReturn', { quantity: netReturn[1] });
+    return netReturn[2] ? `${summary} ${t('recommendationSavedReport', { days: netReturn[2] })}` : summary;
+  }
+
+  const districtMatch = reason.match(/^Best available latest Agmarknet price in your district, (.+)\. This comparison does not include transportation costs\.$/);
+  if (districtMatch) return t('recommendationBestDistrict', { district: districtMatch[1] });
+
+  const priceMatch = reason.match(/^Highest latest reported Agmarknet modal price for (.+) in (.+)\. This comparison does not include transportation costs\.$/);
+  if (priceMatch) return t('recommendationBestPrice', { crop: priceMatch[1], state: priceMatch[2] });
+
+  return reason;
+}
+
 export default function RecommendationCard({ recommendation }) {
   const { t } = useLanguage();
   const pressProgress = useRef(new Animated.Value(0)).current;
@@ -13,7 +30,7 @@ export default function RecommendationCard({ recommendation }) {
     return (
       <Animated.View style={{ transform: [{ scale: pressProgress.interpolate({ inputRange: [0, 1], outputRange: [1, 0.98] }) }] }}>
       <Pressable style={styles.emptyCard} onPressIn={() => Animated.spring(pressProgress, { toValue: 1, useNativeDriver: true }).start()} onPressOut={() => Animated.spring(pressProgress, { toValue: 0, useNativeDriver: true }).start()}>
-        <Text style={styles.emptyText}>{recommendation?.reason || t('notEnoughData')}</Text>
+        <Text style={styles.emptyText}>{t('notEnoughData')}</Text>
         </Pressable>
         </Animated.View>
     );
@@ -34,20 +51,26 @@ export default function RecommendationCard({ recommendation }) {
       </View>
       <Text style={styles.mandiName}>{mandi.name}</Text>
       {mandi.district ? <Text style={styles.reason}>{mandi.district}, {mandi.state}</Text> : null}
-      <Text style={styles.profit}>₹{Number(modalPrice).toFixed(2)}/kg modal price</Text>
+      <Text style={styles.profit}>₹{Number(modalPrice).toFixed(2)}/kg {t('modalPricePerKg')}</Text>
       {Number.isFinite(recommendation.estimatedNetProfit) && (
         <Text style={styles.profit}>
-          Estimated net for {recommendation.estimateQuantityKg} kg after transport: ₹{Number(recommendation.estimatedNetProfit).toFixed(2)}
+          {t('estimatedNetForQuantity', {
+            quantity: recommendation.estimateQuantityKg,
+            profit: Number(recommendation.estimatedNetProfit).toFixed(2),
+          })}
         </Text>
       )}
       {Number.isFinite(recommendation.distanceKm) && (
-        <Text style={styles.reason}>Approx. {recommendation.distanceKm} km by road · estimated transport ₹{Number(recommendation.transportCost).toFixed(2)}</Text>
+        <Text style={styles.reason}>{t('approxRoadTransport', {
+          distance: recommendation.distanceKm,
+          cost: Number(recommendation.transportCost).toFixed(2),
+        })}</Text>
       )}
       {recommendation.dataFreshness === 'cached' && (
-        <Text style={styles.reason}>Using the latest saved Agmarknet price, reported {recommendation.ageDays} days ago.</Text>
+        <Text style={styles.reason}>{t('savedAgmarknetAge', { days: recommendation.ageDays })}</Text>
       )}
-      {arrivalDate ? <Text style={styles.reason}>Agmarknet report: {arrivalDate}</Text> : null}
-      <Text style={styles.reason}>{recommendation.reason}</Text>
+      {arrivalDate ? <Text style={styles.reason}>{t('agmarknetReport', { date: arrivalDate })}</Text> : null}
+      <Text style={styles.reason}>{translateRecommendationReason(recommendation.reason, t)}</Text>
     </Pressable>
     </Animated.View>
   );

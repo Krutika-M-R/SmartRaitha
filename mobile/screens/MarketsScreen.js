@@ -30,7 +30,7 @@ export default function MarketsScreen({ route }) {
     setPredictions([]);
     try {
       if (!state) {
-        throw new Error('Could not identify your state. Allow location access and reopen market comparison.');
+        throw new Error(t('noStateFound'));
       }
       const result = await priceService.getLivePricesForCrop(crop.name, state);
       const pricedRecords = result.records.filter((item) => (
@@ -116,10 +116,12 @@ export default function MarketsScreen({ route }) {
                     <Text style={styles.predictionDate}>{t('predictedOn')}: {prediction.predictedDate}</Text>
                     {prediction.dataFreshness === 'cached' && (
                       <Text style={styles.predictionDate}>
-                        Saved Agmarknet report through {prediction.latestPriceDate}
+                          {t('savedReportThrough', { date: prediction.latestPriceDate })}
                       </Text>
                     )}
-                    <Text style={styles.predictionDate}>{prediction.modelVersion}</Text>
+                    {prediction.modelVersion ? (
+                      <Text style={styles.predictionDate}>{t('modelVersion', { version: prediction.modelVersion })}</Text>
+                    ) : null}
                   </View>
                   <Text style={styles.predictionPrice}>₹{Number(prediction.predictedPrice).toFixed(2)}</Text>
                 </View>
@@ -128,15 +130,15 @@ export default function MarketsScreen({ route }) {
           )}
           {prices.length > 0 && !prices.some((price) => price.hasPrice) && (
             <Text style={styles.empty}>
-              No Agmarknet report was found in the latest data or saved snapshot for {crop.name} in the listed mandis.
+              {t('noReportForCrop', { crop: crop.name })}
             </Text>
           )}
         </>
       )}
       ListEmptyComponent={(
         <Text style={styles.empty}>
-          No Agmarknet price is currently available for {crop.name}
-          {marketScope === 'state' ? ` in ${state}.` : '.'}
+          {t('noCurrentCropPrice', { crop: crop.name })}
+          {marketScope === 'state' ? ` ${t('inState', { state })}` : '.'}
         </Text>
       )}
       renderItem={({ item }) => (
@@ -153,7 +155,7 @@ export default function MarketsScreen({ route }) {
       )}
       ListFooterComponent={prices.some((price) => !price.hasLivePrice) ? (
         <Text style={styles.directoryNote}>
-          Saved prices are shown when a newer live report is unavailable. Markets without any saved or live report cannot be compared for {crop.name}.
+          {t('savedPricesFallback', { crop: crop.name })}
         </Text>
       ) : null}
     />

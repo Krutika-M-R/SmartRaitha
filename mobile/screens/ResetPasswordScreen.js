@@ -10,7 +10,7 @@ import authService from '../services/authService';
 import { validateEmail, validatePassword } from '../utils/validation';
 
 export default function ResetPasswordScreen({ navigation, route }) {
-  const { t } = useLanguage();
+  const { t, localize } = useLanguage();
   const [email, setEmail] = useState(route.params?.email || '');
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
@@ -22,7 +22,7 @@ export default function ResetPasswordScreen({ navigation, route }) {
 
   async function sendCode() {
     const normalizedEmail = email.trim().toLowerCase();
-    const emailError = validateEmail(normalizedEmail);
+    const emailError = validateEmail(normalizedEmail, t);
     if (emailError) {
       setError(emailError);
       return;
@@ -35,7 +35,7 @@ export default function ResetPasswordScreen({ navigation, route }) {
       const result = await authService.requestPasswordReset(normalizedEmail);
       setEmail(normalizedEmail);
       setCodeSent(true);
-      setSuccess(result.message || 'If a verified account exists, a reset code has been sent.');
+      setSuccess(t('resetCodeSent'));
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -45,16 +45,16 @@ export default function ResetPasswordScreen({ navigation, route }) {
 
   async function resetPassword() {
     if (!/^\d{6}$/.test(code.trim())) {
-      setError('Enter the 6-digit reset code.');
+      setError(t('sixDigitReset'));
       return;
     }
-    const passwordError = validatePassword(password);
+    const passwordError = validatePassword(password, t);
     if (passwordError) {
       setError(passwordError);
       return;
     }
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError(t('passwordMismatch'));
       return;
     }
 
@@ -77,28 +77,28 @@ export default function ResetPasswordScreen({ navigation, route }) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>Reset password</Text>
-        <Text style={styles.subtitle}>We’ll email you a one-time code to confirm it’s your account.</Text>
+        <Text style={styles.title}>{t('resetPassword')}</Text>
+        <Text style={styles.subtitle}>{t('resetPasswordSubtitle')}</Text>
         <ErrorMessage message={error} />
-        {success ? <Text style={styles.success}>{success}</Text> : null}
+        {success ? <Text style={styles.success}>{localize(success)}</Text> : null}
 
-        <InputField label={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="you@example.com" />
+        <InputField label={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder={t('emailPlaceholder')} />
         {!codeSent ? (
-          <Button title="Send reset code" onPress={sendCode} loading={loading} />
+          <Button title={t('sendResetCode')} onPress={sendCode} loading={loading} />
         ) : (
           <>
-            <InputField label="Email verification code" value={code} onChangeText={setCode} keyboardType="number-pad" placeholder="6-digit code" />
+            <InputField label={t('emailVerificationCode')} value={code} onChangeText={setCode} keyboardType="number-pad" placeholder={t('sixDigitCode')} />
             <TouchableOpacity onPress={sendCode} disabled={loading} style={styles.resendWrap}>
-              <Text style={styles.link}>Resend code</Text>
+              <Text style={styles.link}>{t('resendCode')}</Text>
             </TouchableOpacity>
-            <InputField label="New password" value={password} onChangeText={setPassword} secureTextEntry placeholder="********" />
+            <InputField label={t('newPassword')} value={password} onChangeText={setPassword} secureTextEntry placeholder="********" />
             <InputField label={t('confirmPassword')} value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry placeholder="********" />
-            <Button title="Change password" onPress={resetPassword} loading={loading} />
+            <Button title={t('changePassword')} onPress={resetPassword} loading={loading} />
           </>
         )}
 
         <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.backWrap}>
-          <Text style={styles.link}>Back to login</Text>
+          <Text style={styles.link}>{t('backToLogin')}</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>

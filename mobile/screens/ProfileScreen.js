@@ -11,7 +11,7 @@ import TopHeader from '../components/TopHeader';
 
 export default function ProfileScreen({ navigation }) {
   const { user, logout, updateProfile } = useAuth();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t, localize } = useLanguage();
   const [gender, setGender] = useState(user?.gender || '');
   const [age, setAge] = useState(user?.age ? String(user.age) : '');
   const [place, setPlace] = useState(user?.place || '');
@@ -48,8 +48,8 @@ export default function ProfileScreen({ navigation }) {
         <InputField label={t('age')} value={age} onChangeText={setAge} keyboardType="numeric" placeholder={t('agePlaceholder')} />
         <InputField label={t('place')} value={place} onChangeText={setPlace} placeholder={t('placePlaceholder')} />
 
-        {error ? <Text style={styles.error}>{error}</Text> : null}
-        {message ? <Text style={styles.message}>{message}</Text> : null}
+        {error ? <Text style={styles.error}>{localize(error)}</Text> : null}
+        {message ? <Text style={styles.message}>{localize(message)}</Text> : null}
         <Button title={t('saveProfile')} onPress={handleSave} loading={saving} />
 
         <Text style={styles.label}>{t('language')}</Text>

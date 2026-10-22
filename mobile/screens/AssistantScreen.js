@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
@@ -9,17 +9,32 @@ import assistantService from '../services/assistantService';
 import TopHeader from '../components/TopHeader';
 import { useLocation } from '../hooks/useLocation';
 
+function isLocationPermissionConfirmation(message, history) {
+  const lastAssistantMessage = history.slice(-1)[0];
+  if (lastAssistantMessage?.role !== 'assistant'
+    || !/\b(location|permission|allow|enable)\b|ಸ್ಥಳ|ಅನುಮತಿ|स्थान|अनुमति|లొకేషన్|అనుమతి/i
+      .test(lastAssistantMessage.content)) return false;
+  return /^(yes|yes please|yeah|yep|sure|okay|ok|allow|enable|go ahead|done|granted|enabled it|i enabled it|location is on|ಹೌದು|ಸರಿ|हाँ|ठीक है|అవును|సరే)[.! ]*$/i
+    .test(message.trim());
+}
+
+function needsFreshLocation(message) {
+  return /\b(weather|forecast|rain|temperature|humidity|wind|near me|nearby|nearest|local|my area|best mandi|recommend.*mandi|mandi.*recommend)\b|ಹವಾಮಾನ|ಮಳೆ|ಸ್ಥಳ|ಹತ್ತಿರ|मौसम|बारिश|पास|వాతావరణం|వర్షం|దగ్గర/i
+    .test(message);
+}
+
 export default function AssistantScreen({ navigation }) {
-  const { language, t } = useLanguage();
-  const { location } = useLocation();
+  const { language, t, localize } = useLanguage();
+  const { location, requestLocation } = useLocation();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [speakingMessageIndex, setSpeakingMessageIndex] = useState(null);
+  const requestInProgress = useRef(false);
   const glowProgress = React.useRef(new Animated.Value(0)).current;
   const isSpeaking = speakingMessageIndex !== null;
 
-  const speechLanguage = { en: 'en-IN', kn: 'kn-IN', hi: 'hi-IN', te: 'te-IN' }[language] || 'en-IN';
+  const speechLanguage = { en: 'en-IN', kn: 'kn-IN' }[language] || 'en-IN';
 
   function speakReply(text, index) {
     if (speakingMessageIndex === index) {
@@ -61,19 +76,26 @@ export default function AssistantScreen({ navigation }) {
 
   async function sendMessage() {
     const trimmedMessage = message.trim();
-    if (!trimmedMessage || loading) return;
+    if (!trimmedMessage || loading || requestInProgress.current) return;
 
+    requestInProgress.current = true;
     const nextMessages = [...messages, { role: 'user', content: trimmedMessage }];
     setMessages(nextMessages);
     setMessage('');
     setLoading(true);
     try {
-      const response = await assistantService.askAssistant(trimmedMessage, language, nextMessages, location);
+      const shouldRefreshLocation = isLocationPermissionConfirmation(trimmedMessage, messages)
+        || needsFreshLocation(trimmedMessage);
+      const currentLocation = shouldRefreshLocation
+        ? (await requestLocation()) || location
+        : location;
+      const response = await assistantService.askAssistant(trimmedMessage, language, messages, currentLocation);
       setMessages((current) => [...current, { role: 'assistant', content: response.reply }]);
     } catch (error) {
-      const errorMessage = error.message || t('assistantUnavailable');
-      setMessages((current) => [...current, { role: 'assistant', content: errorMessage }]);
+      console.warn('LittleLeaf request failed:', error.message);
+      setMessages((current) => [...current, { role: 'assistant', content: t('assistantUnavailable') }]);
     } finally {
+      requestInProgress.current = false;
       setLoading(false);
     }
   }
@@ -100,15 +122,17 @@ export default function AssistantScreen({ navigation }) {
               <Image source={require('../assets/littleleaf-avatar.png')} style={styles.avatar} />
             </View>
             <View style={styles.identityCopy}>
-              <Text style={styles.title}>LittleLeaf</Text>
-              <Text style={styles.greeting}>Hiiii, fren! 💚🍃</Text>
+              <Text style={styles.title}>{t('assistant')}</Text>
+              <Text style={styles.greeting}>{t('greetingFriend')}</Text>
             </View>
           </View>
         </View>
-        <Text style={styles.subtitle}>Your tiny corner of comfort. How can I help you today?</Text>
+        <Text style={styles.subtitle}>{t('assistantTagline')}</Text>
         {messages.map((item, index) => (
           <View key={`${item.role}-${index}`} style={[styles.bubble, item.role === 'user' ? styles.userBubble : styles.assistantBubble]}>
-            <Text style={[styles.bubbleText, item.role === 'user' && styles.userText]}>{item.content}</Text>
+            <Text style={[styles.bubbleText, item.role === 'user' && styles.userText]}>
+              {item.role === 'assistant' ? localize(item.content) : item.content}
+            </Text>
             {item.role === 'assistant' && (
               <TouchableOpacity
                 onPress={() => speakReply(item.content, index)}

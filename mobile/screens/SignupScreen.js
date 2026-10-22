@@ -11,7 +11,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 export default function SignupScreen({ navigation }) {
   const { signup, verifySignupCode } = useAuth();
-  const { t } = useLanguage();
+  const { t, localize } = useLanguage();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,30 +28,30 @@ export default function SignupScreen({ navigation }) {
     const normalizedName = name.trim();
     const normalizedEmail = email.trim().toLowerCase();
     if (!normalizedName || !normalizedEmail || !password || !confirmPassword) {
-      setError('Please fill in all fields.');
+      setError(t('fillAllFields'));
       return;
     }
 
-    const nameErr = validateName(normalizedName);
+    const nameErr = validateName(normalizedName, t);
     if (nameErr) {
       setError(nameErr);
       return;
     }
 
-    const emailErr = validateEmail(normalizedEmail);
+    const emailErr = validateEmail(normalizedEmail, t);
     if (emailErr) {
       setError(emailErr);
       return;
     }
 
-    const passErr = validatePassword(password);
+    const passErr = validatePassword(password, t);
     if (passErr) {
       setError(passErr);
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError(t('passwordMismatch'));
       return;
     }
 
@@ -59,7 +59,7 @@ export default function SignupScreen({ navigation }) {
     try {
       await signup(normalizedName, normalizedEmail, password);
       setVerificationSent(true);
-      setSuccess(`We sent a verification code to ${normalizedEmail}. Enter it below.`);
+      setSuccess(t('verificationSent', { email: normalizedEmail }));
     } catch (e) {
       setError(e.message);
     } finally {
@@ -69,7 +69,7 @@ export default function SignupScreen({ navigation }) {
 
   async function handleVerifyCode() {
     if (!/^\d{6}$/.test(code.trim())) {
-      setError('Enter the 6-digit verification code.');
+      setError(t('sixDigitVerification'));
       return;
     }
 
@@ -96,12 +96,12 @@ export default function SignupScreen({ navigation }) {
         <Text style={styles.subtitle}>{t('joinSmartRaitha')}</Text>
 
         <ErrorMessage message={error} />
-        {success ? <Text style={styles.success}>{success}</Text> : null}
+        {success ? <Text style={styles.success}>{localize(success)}</Text> : null}
 
-        <InputField label={t('name')} value={name} onChangeText={setName} placeholder="Your name" />
+        <InputField label={t('name')} value={name} onChangeText={setName} placeholder={t('namePlaceholder')} />
         {!verificationSent && (
           <>
-            <InputField label={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="you@example.com" />
+            <InputField label={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder={t('emailPlaceholder')} />
             <InputField label={t('password')} value={password} onChangeText={setPassword} secureTextEntry placeholder="********" />
             <InputField label={t('confirmPassword')} value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry placeholder="********" />
           </>
@@ -109,8 +109,8 @@ export default function SignupScreen({ navigation }) {
 
         {verificationSent && (
           <>
-            <InputField label="Email verification code" value={code} onChangeText={setCode} keyboardType="number-pad" placeholder="6-digit code" />
-            <Button title="Verify and continue" onPress={handleVerifyCode} loading={loading} />
+            <InputField label={t('emailVerificationCode')} value={code} onChangeText={setCode} keyboardType="number-pad" placeholder={t('sixDigitCode')} />
+            <Button title={t('verifyContinue')} onPress={handleVerifyCode} loading={loading} />
           </>
         )}
         {!verificationSent && <Button title={t('signUp')} onPress={handleSignup} loading={loading} />}

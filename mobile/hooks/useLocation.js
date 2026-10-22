@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
 export function useLocation() {
@@ -6,48 +6,58 @@ export function useLocation() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
+  const requestLocation = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setError('Location permission denied. Enable it to get mandi recommendations near you.');
-        setLoading(false);
-        return;
+        setError('locationPermissionDenied');
+        setLocation(null);
+        return null;
       }
+
+      const position = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      let placeName = '';
+      let state = '';
+      let district = '';
       try {
-        const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
-        let placeName = '';
-        let state = '';
-        let district = '';
-        try {
-          const places = await Location.reverseGeocodeAsync({
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
-          });
-          const place = places[0];
-          state = place?.region || '';
-          district = place?.district || place?.subregion || place?.city || '';
-          placeName = [place?.city, place?.district, place?.region]
-            .filter(Boolean)
-            .filter((value, index, values) => values.indexOf(value) === index)
-            .join(', ');
-        } catch (e) {
-          // Weather and mandi recommendations still work without a place name.
-        }
-        setLocation({
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-          placeName,
-          state,
-          district,
+        const places = await Location.reverseGeocodeAsync({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
         });
-      } catch (e) {
-        setError('Could not fetch your location.');
-      } finally {
-        setLoading(false);
+        const place = places[0];
+        state = place?.region || '';
+        district = place?.district || place?.subregion || place?.city || '';
+        placeName = [place?.city, place?.district, place?.region]
+          .filter(Boolean)
+          .filter((value, index, values) => values.indexOf(value) === index)
+          .join(', ');
+      } catch (error) {
+        // Coordinates are enough for weather and distance estimates.
       }
-    })();
+
+      const currentLocation = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        placeName,
+        state,
+        district,
+      };
+      setLocation(currentLocation);
+      return currentLocation;
+    } catch (error) {
+      setError('locationUnavailable');
+      setLocation(null);
+      return null;
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { location, error, loading };
+  useEffect(() => {
+    requestLocation();
+  }, [requestLocation]);
+
+  return { location, error, loading, requestLocation };
 }

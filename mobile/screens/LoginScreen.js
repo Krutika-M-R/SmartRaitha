@@ -10,7 +10,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 export default function LoginScreen({ navigation, route }) {
   const { login } = useAuth();
-  const { t } = useLanguage();
+  const { t, localize } = useLanguage();
   const [email, setEmail] = useState(route.params?.email || '');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,17 +19,17 @@ export default function LoginScreen({ navigation, route }) {
 
   useEffect(() => {
     if (route.params?.email) setEmail(route.params.email);
-    if (route.params?.signupComplete) setSuccess('Account created. Log in with your email and password.');
+    if (route.params?.signupComplete) setSuccess(t('accountCreatedMessage'));
     if (route.params?.passwordResetComplete) {
-      setSuccess(route.params.resetMessage || 'Password changed successfully. Log in with your new password.');
+      setSuccess(t('passwordChangedMessage'));
     }
-  }, [route.params?.email, route.params?.passwordResetComplete, route.params?.resetMessage, route.params?.signupComplete]);
+  }, [route.params?.email, route.params?.passwordResetComplete, route.params?.signupComplete, t]);
 
   async function handleLogin() {
     setError('');
     const normalizedEmail = email.trim().toLowerCase();
     if (!normalizedEmail || !password) {
-      setError('Please enter your email and password.');
+      setError(t('pleaseEnterEmailPassword'));
       return;
     }
     setLoading(true);
@@ -55,15 +55,15 @@ export default function LoginScreen({ navigation, route }) {
         <Text style={styles.subtitle}>{t('loginSubtitle')}</Text>
 
         <ErrorMessage message={error} />
-        {success ? <Text style={styles.success}>{success}</Text> : null}
+        {success ? <Text style={styles.success}>{localize(success)}</Text> : null}
 
-        <InputField label={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="you@example.com" />
+        <InputField label={t('email')} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder={t('emailPlaceholder')} />
         <InputField label={t('password')} value={password} onChangeText={setPassword} secureTextEntry placeholder="••••••••" />
 
         <Button title={t('logIn')} onPress={handleLogin} loading={loading} />
 
         <TouchableOpacity onPress={() => navigation.navigate('ResetPassword', { email: email.trim().toLowerCase() })} style={styles.forgotWrap}>
-          <Text style={styles.link}>Forgot password?</Text>
+          <Text style={styles.link}>{t('forgotPassword')}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Signup')} style={styles.linkWrap}>

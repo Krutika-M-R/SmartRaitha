@@ -92,7 +92,7 @@ export default function PriceBarChart({ prices, recommendedMandiId, title }) {
           <View key={`legend-${item.id ?? index}`} style={styles.legendItem}>
             <View style={[styles.legendDot, { backgroundColor: mandiColors[index % mandiColors.length] }]} />
             <Text style={styles.legendText} numberOfLines={1}>
-              {item.mandi?.name || 'Market'}{String(item.mandi?.id) === String(recommendedMandiId) ? ` (${t('bestMandi')})` : ''}
+              {item.mandi?.name || t('marketNameFallback')}{String(item.mandi?.id) === String(recommendedMandiId) ? ` (${t('bestMandi')})` : ''}
             </Text>
           </View>
         ))}

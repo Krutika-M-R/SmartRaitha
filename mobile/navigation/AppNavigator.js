@@ -33,12 +33,12 @@ function HomeStack() {
         name="CropPlanner"
         component={CropPlannerScreen}
         options={({ navigation }) => ({
-          title: 'Crop Planner',
+          title: t('cropPlannerTitle'),
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => navigation.goBack()}
               accessibilityRole="button"
-              accessibilityLabel="Go back"
+              accessibilityLabel={t('goBack')}
               style={{ paddingRight: 18, paddingVertical: 8 }}
             >
               <Ionicons name="arrow-back" size={23} color={colors.primary} />

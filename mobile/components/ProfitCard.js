@@ -45,7 +45,7 @@ export default function ProfitCard({ result }) {
           <Row label={t('modalPrice')} value={result.modalPrice} />
           {result.dataFreshness === 'cached' && (
             <Text style={styles.transportCalculation}>
-              Latest saved Agmarknet report: {result.priceDate} ({result.ageDays} days old)
+              {t('latestSavedPrice', { date: result.priceDate, days: result.ageDays })}
             </Text>
           )}
           <Row label={t('grossRevenue')} value={result.grossRevenue} />
@@ -73,18 +73,18 @@ export default function ProfitCard({ result }) {
                 longitudeDelta: 0.15,
               }}
               onMapReady={fitRoute}
-              accessibilityLabel="Driving route to the selected mandi"
+              accessibilityLabel={t('drivingRouteAccessibility')}
             >
               <Polyline coordinates={routeCoordinates} strokeColor={colors.primary} strokeWidth={5} />
               {result.originCoordinates && (
-                <Marker coordinate={result.originCoordinates} title="Your location" pinColor="#1565C0" />
+                <Marker coordinate={result.originCoordinates} title={t('yourLocationMarker')} pinColor="#1565C0" />
               )}
               {result.destinationCoordinates && (
-                <Marker coordinate={result.destinationCoordinates} title="Selected mandi" />
+                <Marker coordinate={result.destinationCoordinates} title={t('selectedMandiMarker')} />
               )}
             </MapView>
             <View pointerEvents="none" style={styles.mapAttribution}>
-              <Text style={styles.mapAttributionText}>Route © OpenStreetMap contributors</Text>
+              <Text style={styles.mapAttributionText}>{t('osmAttribution')}</Text>
             </View>
           </View>
         )}
