@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Animated, Image, View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Alert, Animated, Image, View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Defs, Path, Text as SvgText, TextPath } from 'react-native-svg';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
 import CropSelector from '../components/CropSelector';
+import InputField from '../components/InputField';
+import Button from '../components/Button';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import RecommendationCard from '../components/RecommendationCard';
@@ -51,6 +53,12 @@ export default function HomeScreen({ navigation }) {
   const [selectedCrop, setSelectedCrop] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
   const [recommendationError, setRecommendationError] = useState('');
+  const [transportMode, setTransportMode] = useState('');
+  const [fuelType, setFuelType] = useState('');
+  const [transportRate, setTransportRate] = useState('');
+  const [trainFare, setTrainFare] = useState('');
+  const [otherCosts, setOtherCosts] = useState('');
+  const [recommendationLoading, setRecommendationLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [weather, setWeather] = useState(null);
@@ -58,6 +66,7 @@ export default function HomeScreen({ navigation }) {
   const heroProgress = useRef(new Animated.Value(0)).current;
   const weatherProgress = useRef(new Animated.Value(0)).current;
   const cropRequestId = useRef(0);
+  const recommendationRequestId = useRef(0);
 
   useEffect(() => {
     const animation = Animated.parallel([
@@ -125,33 +134,6 @@ export default function HomeScreen({ navigation }) {
     }
   }
 
-  async function loadRecommendation(cropName) {
-    setRecommendationError('');
-    if (!location) {
-      setRecommendation(null);
-      return;
-    }
-
-    setRecommendation(null);
-    try {
-      const data = await recommendationService.getRecommendation(
-        cropName,
-        location.state,
-        location,
-      );
-      setRecommendation(data);
-    } catch (e) {
-      setRecommendation(null);
-      setRecommendationError(e.message);
-    }
-  }
-
-  useEffect(() => {
-    if (selectedCrop && location) {
-      loadRecommendation(selectedCrop.name);
-    }
-  }, [selectedCrop, location]);
-
   useEffect(() => {
     if (location) loadWeather();
   }, [location]);
@@ -168,11 +150,65 @@ export default function HomeScreen({ navigation }) {
 
   function handleSelectCrop(crop) {
     setSelectedCrop(crop);
+    clearRecommendation();
   }
 
   const matchingCrops = cropSearch.trim()
     ? crops.filter((crop) => crop.name.toLocaleLowerCase().includes(cropSearch.trim().toLocaleLowerCase()))
     : [];
+  const enteredTransportCost = transportMode === 'public' ? trainFare : transportRate;
+  const transportDetailsReady = Boolean(
+    transportMode
+    && (transportMode !== 'private' || fuelType)
+    && enteredTransportCost.trim()
+    && Number.isFinite(Number(enteredTransportCost))
+    && Number(enteredTransportCost) >= 0
+    && otherCosts.trim()
+    && Number.isFinite(Number(otherCosts))
+    && Number(otherCosts) >= 0,
+  );
+
+  function clearRecommendation() {
+    recommendationRequestId.current++;
+    setRecommendation(null);
+    setRecommendationError('');
+    setRecommendationLoading(false);
+  }
+
+  async function findBestMandi() {
+    if (!selectedCrop) return;
+    if (!location?.state) {
+      setRecommendationError(t('noStateForProfit'));
+      return;
+    }
+    if (!transportDetailsReady) {
+      setRecommendationError(t('completeTransportDetails'));
+      return;
+    }
+    clearRecommendation();
+    setRecommendationLoading(true);
+    const requestId = recommendationRequestId.current;
+    const transportDetails = {
+      ...(transportMode === 'public'
+        ? { fixedTransportCost: Number(trainFare) }
+        : { transportCostPerKm: Number(transportRate) }),
+      otherCosts: Number(otherCosts),
+    };
+    try {
+      const data = await recommendationService.getRecommendation(
+        selectedCrop.name,
+        location.state,
+        location,
+        100,
+        transportDetails,
+      );
+      if (requestId === recommendationRequestId.current) setRecommendation(data);
+    } catch (e) {
+      if (requestId === recommendationRequestId.current) setRecommendationError(e.message);
+    } finally {
+      if (requestId === recommendationRequestId.current) setRecommendationLoading(false);
+    }
+  }
 
   if (loading || locationLoading) return <LoadingIndicator message={t('loadingMarkets')} />;
 
@@ -252,6 +288,7 @@ export default function HomeScreen({ navigation }) {
             onChangeText={(value) => {
               setCropSearch(value);
               setSelectedCrop(null);
+              clearRecommendation();
             }}
             placeholder={t('searchCrops')}
             placeholderTextColor={colors.textSecondary}
@@ -280,14 +317,163 @@ export default function HomeScreen({ navigation }) {
         )}
       </View>
 
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{t('recommendedMarket')}</Text>
-        <Ionicons name="sparkles-outline" size={24} color={colors.accent} />
+      <View style={styles.recommendedHeader}>
+        <Text style={styles.recommendedTitle}>{t('recommendedMarket')}</Text>
       </View>
       {selectedCrop ? (
         <>
+          <Text style={styles.transportLabel}>{t('transportModeLabel')}</Text>
+          <View style={styles.optionGrid}>
+            <View style={styles.optionGridRow}>
+              <Pressable
+                style={[styles.optionButton, transportMode === 'private' && styles.optionButtonSelected]}
+                onPress={() => {
+                  setTransportMode('private');
+                  clearRecommendation();
+                }}
+                accessibilityRole="button"
+                accessibilityState={{ selected: transportMode === 'private' }}
+              >
+                <Ionicons
+                  name="car-sport-outline"
+                  size={16}
+                  color={transportMode === 'private' ? colors.surface : colors.primary}
+                />
+                <Text style={[styles.optionButtonText, transportMode === 'private' && styles.optionButtonTextSelected]}>
+                  {t('privateVehicle')}
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[styles.optionButton, transportMode === 'public' && styles.optionButtonSelected]}
+                onPress={() => {
+                  setTransportMode('public');
+                  setFuelType('');
+                  clearRecommendation();
+                }}
+                accessibilityRole="button"
+                accessibilityState={{ selected: transportMode === 'public' }}
+              >
+                <Ionicons
+                  name="train-outline"
+                  size={16}
+                  color={transportMode === 'public' ? colors.surface : colors.primary}
+                />
+                <Text style={[styles.optionButtonText, transportMode === 'public' && styles.optionButtonTextSelected]}>
+                  {t('publicTransport')}
+                </Text>
+              </Pressable>
+            </View>
+            <View style={styles.optionGridRowCentered}>
+              <Pressable
+                style={[styles.optionButton, styles.optionButtonThird, transportMode === 'rental' && styles.optionButtonSelected]}
+                onPress={() => {
+                  setTransportMode('rental');
+                  setFuelType('');
+                  clearRecommendation();
+                }}
+                accessibilityRole="button"
+                accessibilityState={{ selected: transportMode === 'rental' }}
+              >
+                <Ionicons
+                  name="car-outline"
+                  size={16}
+                  color={transportMode === 'rental' ? colors.surface : colors.primary}
+                />
+                <Text style={[styles.optionButtonText, transportMode === 'rental' && styles.optionButtonTextSelected]}>
+                  {t('rentVehicle')}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+          {transportMode === 'private' && (
+            <>
+              <Text style={styles.transportLabel}>{t('fuelType')}</Text>
+              <View style={styles.optionGrid}>
+                <View style={styles.optionGridRow}>
+                  {[
+                    ['diesel', t('diesel')],
+                    ['petrol', t('petrol')],
+                  ].map(([value, label]) => (
+                    <Pressable
+                      key={value}
+                      style={[styles.optionButton, fuelType === value && styles.optionButtonSelected]}
+                      onPress={() => {
+                        setFuelType(value);
+                        clearRecommendation();
+                      }}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected: fuelType === value }}
+                    >
+                      <Text style={[styles.optionButtonText, fuelType === value && styles.optionButtonTextSelected]}>
+                          {label}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </View>
+                <View style={styles.optionGridRowCentered}>
+                  <Pressable
+                    style={[styles.optionButton, styles.optionButtonThird, fuelType === 'electric' && styles.optionButtonSelected]}
+                    onPress={() => {
+                      setFuelType('electric');
+                      clearRecommendation();
+                    }}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: fuelType === 'electric' }}
+                  >
+                    <Text style={[styles.optionButtonText, fuelType === 'electric' && styles.optionButtonTextSelected]}>
+                      {t('electric')}
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </>
+          )}
+          {transportMode === 'public' && (
+            <>
+              <Text style={styles.transportLabel}>{t('publicTransportType')}</Text>
+              <Text style={styles.cropFallbackNote}>{t('train')}</Text>
+            </>
+          )}
+          {transportMode && (
+            <InputField
+              compact
+              label={transportMode === 'public' ? t('trainFare') : t('transportCostPerKm')}
+              value={transportMode === 'public' ? trainFare : transportRate}
+              onChangeText={(value) => {
+                if (transportMode === 'public') setTrainFare(value);
+                else setTransportRate(value);
+                clearRecommendation();
+              }}
+              keyboardType="decimal-pad"
+              placeholder="0"
+            />
+          )}
+          <InputField
+            compact
+            label={t('otherCharges')}
+            value={otherCosts}
+            onChangeText={(value) => {
+              setOtherCosts(value);
+              clearRecommendation();
+            }}
+            keyboardType="decimal-pad"
+            placeholder="0"
+          />
+          {!transportDetailsReady ? (
+            <Text style={styles.cropFallbackNote}>{t('selectTransportForRecommendation')}</Text>
+          ) : null}
+          <Button
+            compact
+            title={t('findBestMandiProfit')}
+            onPress={findBestMandi}
+            loading={recommendationLoading}
+            disabled={!transportDetailsReady
+              || !location?.state
+              || !Number.isFinite(location?.latitude)
+              || !Number.isFinite(location?.longitude)}
+          />
           <ErrorMessage message={recommendationError} />
-          <RecommendationCard recommendation={recommendation} />
+          {recommendation ? <RecommendationCard recommendation={recommendation} /> : null}
 
           {recommendation?.allOptions && recommendation.allOptions.length > 0 && (
             <View style={{ marginTop: spacing.large }}>
@@ -339,7 +525,20 @@ export default function HomeScreen({ navigation }) {
               Alert.alert(t('selectCropAlertTitle'), t('selectCropBeforeProfit'));
               return;
             }
-            navigation.navigate('ProfitCalculator', { crop: selectedCrop, state: location?.state, location, recommendedMandiId: recommendation?.recommended?.mandi?.id });
+            if (!transportDetailsReady) {
+              Alert.alert(t('transportModeLabel'), t('completeTransportDetails'));
+              return;
+            }
+            navigation.navigate('ProfitCalculator', {
+              crop: selectedCrop,
+              state: location?.state,
+              location,
+              transportMode,
+              fuelType,
+              transportDetails: transportMode === 'public'
+                ? { fixedTransportCost: Number(trainFare), otherCosts: Number(otherCosts) }
+                : { transportCostPerKm: Number(transportRate), otherCosts: Number(otherCosts) },
+            });
           }}
         />
       </View>
@@ -385,6 +584,40 @@ const styles = StyleSheet.create({
   heroHelpArc: { marginTop: -1, overflow: 'visible' },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.small },
   sectionTitle: { fontSize: 19, fontWeight: '800', color: colors.text, marginBottom: spacing.small },
+  recommendedHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 },
+  recommendedTitle: { fontSize: 18, fontWeight: '800', color: colors.text },
+  label: { fontSize: 13, color: colors.textSecondary, marginBottom: spacing.small },
+  transportLabel: { fontSize: 13, color: colors.textSecondary, marginBottom: 5, marginTop: 3 },
+  optionGrid: { gap: 5, marginBottom: 7 },
+  optionGridRow: { flexDirection: 'row', gap: 6 },
+  optionGridRowCentered: { flexDirection: 'row', justifyContent: 'center' },
+  optionButton: {
+    flex: 1,
+    minWidth: 0,
+    minHeight: 42,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#B9D8BD',
+    backgroundColor: '#F8FCF8',
+  },
+  optionButtonThird: { flex: 0, width: '48%' },
+  optionButtonSelected: { backgroundColor: colors.primary, borderColor: colors.primary },
+  optionButtonText: {
+    flexShrink: 1,
+    minWidth: 0,
+    color: colors.primary,
+    fontSize: 13,
+    lineHeight: 16,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  optionButtonTextSelected: { color: colors.surface },
   cropPanel: { backgroundColor: colors.surface, borderRadius: 16, padding: spacing.medium, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.large },
   cropSearchRow: { flexDirection: 'row', alignItems: 'center', minHeight: 44, borderRadius: 12, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.background, paddingHorizontal: spacing.medium },
   cropSearchInput: { flex: 1, color: colors.text, fontSize: 14, paddingVertical: spacing.small, marginLeft: spacing.small },

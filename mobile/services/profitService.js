@@ -1,6 +1,13 @@
 import request from './api';
 
-async function calculateProfit(cropName, state, mandiName, quantityKg, location) {
+async function calculateProfit(
+  cropName,
+  state,
+  mandiName,
+  quantityKg,
+  location,
+  transportDetails,
+) {
   return request('/profit/calculate', {
     method: 'POST',
     auth: true,
@@ -11,6 +18,7 @@ async function calculateProfit(cropName, state, mandiName, quantityKg, location)
       quantityKg,
       originLatitude: location.latitude,
       originLongitude: location.longitude,
+      ...transportDetails,
     },
   });
 }

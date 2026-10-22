@@ -50,7 +50,9 @@ export default function ProfitCard({ result }) {
           )}
           <Row label={t('grossRevenue')} value={result.grossRevenue} />
           <Row label={t('transportationCost')} value={result.transportCost} />
-          {Number.isFinite(Number(result.distanceKm)) && Number.isFinite(Number(result.ratePerKm)) && (
+          {Number.isFinite(Number(result.distanceKm))
+            && result.ratePerKm != null
+            && Number.isFinite(Number(result.ratePerKm)) && (
             <Text style={styles.transportCalculation}>
               {Number(result.distanceKm).toFixed(1)} km × ₹{Number(result.ratePerKm).toFixed(2)}/km
             </Text>

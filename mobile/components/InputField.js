@@ -4,15 +4,19 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
 
-export default function InputField({ label, value, onChangeText, secureTextEntry, keyboardType, placeholder }) {
+export default function InputField({ label, value, onChangeText, secureTextEntry, keyboardType, placeholder, compact = false }) {
   const [hidden, setHidden] = useState(secureTextEntry);
 
   return (
-    <View style={styles.container}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
+    <View style={[styles.container, compact && styles.compactContainer]}>
+      {label ? <Text style={[styles.label, compact && styles.compactLabel]}>{label}</Text> : null}
       <View style={styles.inputWrap}>
         <TextInput
-          style={[styles.input, secureTextEntry && { paddingRight: 40 }]}
+          style={[
+            styles.input,
+            compact && styles.compactInput,
+            secureTextEntry && { paddingRight: 40 },
+          ]}
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry ? hidden : false}
@@ -36,7 +40,9 @@ export default function InputField({ label, value, onChangeText, secureTextEntry
 
 const styles = StyleSheet.create({
   container: { marginBottom: spacing.medium },
+  compactContainer: { marginBottom: 10 },
   label: { fontSize: 13, color: colors.textSecondary, marginBottom: spacing.small / 2 },
+  compactLabel: { marginBottom: 3 },
   inputWrap: { justifyContent: 'center' },
   input: {
     borderWidth: 1,
@@ -48,6 +54,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     backgroundColor: colors.surface,
   },
+  compactInput: { paddingVertical: 8, fontSize: 14 },
   eyeIcon: {
     position: 'absolute',
     right: 12,

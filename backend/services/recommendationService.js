@@ -6,6 +6,11 @@ const {
 const { normalizeMandiName } = require('./marketUtils');
 const { estimateTransportation } = require('./transportEstimateService');
 const { resolveMandiCoordinates } = require('./mandiCoordinateService');
+const {
+  DEFAULT_MANDI_RADIUS_KM,
+  MAX_MANDI_RADIUS_KM,
+  getDistanceKm,
+} = require('./marketDistanceService');
 
 function dateValue(date) {
   return date ? date.getTime() : 0;
@@ -24,6 +29,9 @@ async function recommendBestMandi({
   originLatitude,
   originLongitude,
   quantityKg = 100,
+  transportCostPerKm,
+  fixedTransportCost,
+  otherCosts = 0,
 }) {
   if (!cropName || !cropName.trim()) {
     throw new Error('Selected crop name is required.');
@@ -63,8 +71,38 @@ async function recommendBestMandi({
     ageDays: price.ageDays,
   })));
   const hasOrigin = originLatitude !== undefined && originLongitude !== undefined;
+  let searchRadiusKm = null;
+  let nearbyPrices = latestPrices;
+  if (hasOrigin) {
+    const pricesWithDistance = latestPrices.map((price) => ({
+      ...price,
+      distanceKm: getDistanceKm(
+        Number(originLatitude),
+        Number(originLongitude),
+        price.coordinates,
+      ),
+    }));
+    const withinDefaultRadius = pricesWithDistance.filter(
+      (price) => price.distanceKm <= DEFAULT_MANDI_RADIUS_KM,
+    );
+    searchRadiusKm = withinDefaultRadius.length ? DEFAULT_MANDI_RADIUS_KM : MAX_MANDI_RADIUS_KM;
+    nearbyPrices = (withinDefaultRadius.length
+      ? withinDefaultRadius
+      : pricesWithDistance.filter((price) => price.distanceKm <= MAX_MANDI_RADIUS_KM));
+  }
+  if (hasOrigin && nearbyPrices.length === 0) {
+    return {
+      recommended: null,
+      reason: `No mandi with a reported ${cropName.trim()} price was found within ${MAX_MANDI_RADIUS_KM} km.`,
+      dataSource: 'Agmarknet',
+      retrievedAt: new Date().toISOString(),
+      allOptions: [],
+      marketScope,
+      searchRadiusKm: MAX_MANDI_RADIUS_KM,
+    };
+  }
   const pricedOptions = hasOrigin
-    ? await Promise.all(latestPrices.map(async (price) => {
+    ? await Promise.all(nearbyPrices.map(async (price) => {
       const transport = await estimateTransportation({
         originLatitude,
         originLongitude,
@@ -74,11 +112,20 @@ async function recommendBestMandi({
         destinationCoordinates: price.coordinates,
       });
       const grossRevenue = Number((quantityKg * price.modalPrice).toFixed(2));
+      const transportCost = transportCostPerKm !== undefined
+        ? Number((transport.distanceKm * transportCostPerKm).toFixed(2))
+        : fixedTransportCost !== undefined
+        ? fixedTransportCost
+        : transport.transportationCost;
+      const totalCosts = Number((transportCost + otherCosts).toFixed(2));
       return {
         ...price,
+        searchDistanceKm: price.distanceKm,
         distanceKm: transport.distanceKm,
-        transportCost: transport.transportationCost,
-        estimatedNetProfit: Number((grossRevenue - transport.transportationCost).toFixed(2)),
+        roadDistanceKm: transport.distanceKm,
+        transportCost,
+        otherCosts,
+        estimatedNetProfit: Number((grossRevenue - totalCosts).toFixed(2)),
       };
     }))
     : latestPrices;
@@ -111,18 +158,24 @@ async function recommendBestMandi({
       ageDays: price.ageDays,
       ...(hasOrigin ? {
         distanceKm: price.distanceKm,
+        searchDistanceKm: price.searchDistanceKm,
+        roadDistanceKm: price.roadDistanceKm,
         transportCost: price.transportCost,
+        otherCosts: price.otherCosts,
         estimatedNetProfit: price.estimatedNetProfit,
         estimateQuantityKg: quantityKg,
       } : {}),
     }));
   const best = allOptions[0];
+  const transportBasis = transportCostPerKm !== undefined || fixedTransportCost !== undefined
+    ? 'after the entered transport cost and other charges.'
+    : 'after estimated road transport.';
 
   return {
     recommended: best || null,
     reason: best
       ? hasOrigin
-        ? `Highest estimated net return for ${quantityKg} kg from your current location after estimated road transport.${best.dataFreshness === 'cached' ? ` Using the latest saved Agmarknet report from ${best.ageDays} days ago.` : ''}`
+        ? `Highest estimated net return for ${quantityKg} kg from your current location ${transportBasis}${best.dataFreshness === 'cached' ? ` Using the latest saved Agmarknet report from ${best.ageDays} days ago.` : ''}`
         : district && normalizeMandiName(best.mandi.district) === normalizeMandiName(district)
         ? `Best available latest Agmarknet price in your district, ${district.trim()}. This comparison does not include transportation costs.`
         : `Highest latest reported Agmarknet modal price for ${cropName.trim()} in ${state.trim()}. This comparison does not include transportation costs.`
@@ -131,7 +184,13 @@ async function recommendBestMandi({
     retrievedAt: new Date().toISOString(),
     allOptions,
     marketScope,
+    ...(hasOrigin ? { searchRadiusKm } : {}),
   };
 }
 
-module.exports = { recommendBestMandi, rankMarketPrices };
+module.exports = {
+  DEFAULT_MANDI_RADIUS_KM,
+  MAX_MANDI_RADIUS_KM,
+  recommendBestMandi,
+  rankMarketPrices,
+};

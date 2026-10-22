@@ -29,7 +29,7 @@ export default function MandiCard({
         <Text style={styles.sub} numberOfLines={2} ellipsizeMode="tail">
           {[district, state, arrivalDate].filter(Boolean).join(' · ')}
           {dataFreshness === 'cached' ? ` · ${t('savedPriceAge', { days: ageDays })}` : ''}
-          {distanceKm != null ? `${district || state || arrivalDate || dataFreshness ? ' · ' : ''}${t('aboutDistanceAway', { distance: distanceKm })}` : ''}
+          {distanceKm != null ? `${district || state || arrivalDate || dataFreshness ? ' · ' : ''}${t('aboutDistanceAway', { distance: distanceKm.toFixed(1) })}` : ''}
         </Text>
       </View>
       <Text

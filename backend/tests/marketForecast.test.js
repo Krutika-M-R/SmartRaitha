@@ -882,12 +882,25 @@ test('recommendation and profit use CSV prices without reading Neon price or man
       mandiName: 'Mysuru APMC',
       state: 'Karnataka',
       quantityKg: 100,
-      originLatitude: 12.9,
-      originLongitude: 77.6,
+      originLatitude: 12.3,
+      originLongitude: 76.65,
     });
     assert.equal(profitResult.modalPrice, 21);
     assert.equal(profitResult.grossRevenue, 2100);
     assert.equal(profitResult.dataFreshness, 'cached');
+    const costAdjustedProfit = await calculateProfit({
+      cropName: 'Neon Exclusion Test Crop',
+      mandiName: 'Mysuru APMC',
+      state: 'Karnataka',
+      quantityKg: 100,
+      originLatitude: 12.3,
+      originLongitude: 76.65,
+      transportCostPerKm: 20,
+      otherCosts: 125,
+    });
+    assert.equal(costAdjustedProfit.transportCost, 20);
+    assert.equal(costAdjustedProfit.otherCosts, 125);
+    assert.equal(costAdjustedProfit.netProfit, 1955);
   } finally {
     axios.get = originalGet;
     prisma.price.findMany = originalPriceFindMany;
@@ -1026,8 +1039,8 @@ test('ranks location-aware mandi options by estimated net profit after transport
     if (url === 'https://nominatim.openstreetmap.org/search') {
       return {
         data: [{
-          lat: params.q.includes('Near') ? '13.0' : '15.0',
-          lon: params.q.includes('Near') ? '77.6' : '75.0',
+          lat: params.q.includes('Near') ? '13.0' : '13.1',
+          lon: params.q.includes('Near') ? '77.6' : '77.7',
         }],
       };
     }
@@ -1055,6 +1068,37 @@ test('ranks location-aware mandi options by estimated net profit after transport
     assert.equal(result.recommended.estimatedNetProfit, 4930);
     assert.equal(result.recommended.distanceKm, 10);
     assert.equal(result.allOptions[1].estimatedNetProfit, 3900);
+    assert.equal(result.searchRadiusKm, 80);
+    const costAdjusted = await recommendBestMandi({
+      cropName: 'Tomato',
+      state: 'Karnataka',
+      originLatitude: 12.9,
+      originLongitude: 77.5,
+      quantityKg: 100,
+      transportCostPerKm: 1,
+      otherCosts: 100,
+    });
+    assert.equal(costAdjusted.recommended.mandi.name, 'Far APMC');
+    assert.equal(costAdjusted.recommended.transportCost, 300);
+    assert.equal(costAdjusted.recommended.otherCosts, 100);
+    assert.equal(costAdjusted.recommended.estimatedNetProfit, 5600);
+    const expandedSearch = await recommendBestMandi({
+      cropName: 'Tomato',
+      state: 'Karnataka',
+      originLatitude: 12.25,
+      originLongitude: 77.5,
+    });
+    assert.equal(expandedSearch.searchRadiusKm, 100);
+    assert.equal(expandedSearch.allOptions.length, 2);
+    const outsideMaximum = await recommendBestMandi({
+      cropName: 'Tomato',
+      state: 'Karnataka',
+      originLatitude: 10,
+      originLongitude: 70,
+    });
+    assert.equal(outsideMaximum.recommended, null);
+    assert.equal(outsideMaximum.searchRadiusKm, 100);
+    assert.match(outsideMaximum.reason, /within 100 km/);
   } finally {
     axios.get = originalGet;
     prisma.mandi.findMany = originalMandiFindMany;
@@ -1349,7 +1393,7 @@ test('calculates profit using a selected live mandi price and its state', async 
         code: 'Ok',
         routes: [{
           distance: 1000,
-          geometry: { coordinates: [[77.6, 12.9], [88.3953, 26.7271]] },
+          geometry: { coordinates: [[88.38, 26.72], [88.3953, 26.7271]] },
         }],
       },
     };
@@ -1361,8 +1405,8 @@ test('calculates profit using a selected live mandi price and its state', async 
       mandiName: 'Siliguri APMC',
       state: 'West Bengal',
       quantityKg: 100,
-      originLatitude: 12.9,
-      originLongitude: 77.6,
+      originLatitude: 26.72,
+      originLongitude: 88.38,
     });
 
     assert.equal(result.modalPrice, 125);

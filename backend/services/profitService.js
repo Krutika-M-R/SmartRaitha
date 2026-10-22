@@ -5,12 +5,23 @@ const {
 } = require('./liveMarketPriceService');
 const { estimateTransportation } = require('./transportEstimateService');
 const { resolveMandiCoordinates } = require('./mandiCoordinateService');
+const { MAX_MANDI_RADIUS_KM, getDistanceKm } = require('./marketDistanceService');
 
 function roundCurrency(amount) {
   return Math.round((amount + Number.EPSILON) * 100) / 100;
 }
 
-async function calculateProfit({ cropName, mandiName, state, quantityKg, originLatitude, originLongitude }) {
+async function calculateProfit({
+  cropName,
+  mandiName,
+  state,
+  quantityKg,
+  originLatitude,
+  originLongitude,
+  transportCostPerKm,
+  fixedTransportCost,
+  otherCosts = 0,
+}) {
   const { prices } = await getLiveMarketPrices({
     cropName,
     state,
@@ -27,16 +38,27 @@ async function calculateProfit({ cropName, mandiName, state, quantityKg, originL
   const latestPrice = matchingPrices.find((price) => price.date.getTime() === latestDate);
   const modalPrice = latestPrice.modalPrice;
   const destinationCoordinates = await resolveMandiCoordinates(mandiName, latestPrice.district, state);
+  const searchDistanceKm = getDistanceKm(
+    Number(originLatitude),
+    Number(originLongitude),
+    destinationCoordinates,
+  );
+  if (searchDistanceKm > MAX_MANDI_RADIUS_KM) {
+    throw new Error(`The selected mandi is more than ${MAX_MANDI_RADIUS_KM} km from your location.`);
+  }
   const transport = await estimateTransportation({
     originLatitude: Number(originLatitude),
     originLongitude: Number(originLongitude),
     destination: [mandiName, state, 'India'].filter(Boolean).join(', '),
     destinationCoordinates,
   });
-  const transportCost = transport.transportationCost;
+  const transportCost = transportCostPerKm !== undefined
+    ? roundCurrency(transport.distanceKm * transportCostPerKm)
+    : fixedTransportCost !== undefined
+    ? roundCurrency(fixedTransportCost)
+    : transport.transportationCost;
 
   const grossRevenue = roundCurrency(quantityKg * modalPrice);
-  const otherCosts = 0;
   const totalCost = roundCurrency(transportCost + otherCosts);
   const netProfit = roundCurrency(grossRevenue - totalCost);
 
@@ -48,7 +70,8 @@ async function calculateProfit({ cropName, mandiName, state, quantityKg, originL
     totalCost,
     netProfit,
     distanceKm: transport.distanceKm,
-    ratePerKm: transport.ratePerKm,
+    searchDistanceKm: Number(searchDistanceKm.toFixed(1)),
+    ratePerKm: transportCostPerKm ?? (fixedTransportCost === undefined ? transport.ratePerKm : null),
     routeCoordinates: transport.routeCoordinates,
     originCoordinates: transport.originCoordinates,
     destinationCoordinates: transport.destinationCoordinates,

@@ -3,7 +3,7 @@ import { Animated, Pressable, Text, StyleSheet, ActivityIndicator } from 'react-
 import { colors } from '../constants/colors';
 import { spacing } from '../constants/spacing';
 
-export default function Button({ title, onPress, loading, variant = 'primary', disabled }) {
+export default function Button({ title, onPress, loading, variant = 'primary', disabled, compact = false }) {
   const isSecondary = variant === 'secondary';
   const pressProgress = useRef(new Animated.Value(0)).current;
 
@@ -16,6 +16,7 @@ export default function Button({ title, onPress, loading, variant = 'primary', d
     <Pressable
       style={[
         styles.button,
+        compact && styles.compactButton,
         isSecondary ? styles.secondary : styles.primary,
         (disabled || loading) && styles.disabled,
       ]}
@@ -27,7 +28,7 @@ export default function Button({ title, onPress, loading, variant = 'primary', d
       {loading ? (
         <ActivityIndicator color={isSecondary ? colors.primary : colors.surface} />
       ) : (
-        <Text style={[styles.text, isSecondary && { color: colors.primary }]}>{title}</Text>
+        <Text style={[styles.text, compact && styles.compactText, isSecondary && { color: colors.primary }]}>{title}</Text>
       )}
     </Pressable>
     </Animated.View>
@@ -46,8 +47,10 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 4,
   },
+  compactButton: { paddingVertical: 10 },
   primary: { backgroundColor: colors.primary },
   secondary: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.primary },
   disabled: { opacity: 0.5 },
   text: { color: colors.surface, fontSize: 16, fontWeight: '600' },
+  compactText: { fontSize: 14 },
 });

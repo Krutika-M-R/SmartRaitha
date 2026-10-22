@@ -36,7 +36,16 @@ export default function RecommendationCard({ recommendation }) {
     );
   }
 
-  const { mandi, modalPrice, arrivalDate } = recommendation.recommended;
+  const {
+    mandi,
+    modalPrice,
+    arrivalDate,
+    distanceKm,
+    transportCost,
+    otherCosts,
+    estimatedNetProfit,
+    estimateQuantityKg,
+  } = recommendation.recommended;
 
   return (
     <Animated.View style={{ transform: [{ scale: pressProgress.interpolate({ inputRange: [0, 1], outputRange: [1, 0.98] }) }] }}>
@@ -52,18 +61,19 @@ export default function RecommendationCard({ recommendation }) {
       <Text style={styles.mandiName}>{mandi.name}</Text>
       {mandi.district ? <Text style={styles.reason}>{mandi.district}, {mandi.state}</Text> : null}
       <Text style={styles.profit}>₹{Number(modalPrice).toFixed(2)}/kg {t('modalPricePerKg')}</Text>
-      {Number.isFinite(recommendation.estimatedNetProfit) && (
+      {Number.isFinite(estimatedNetProfit) && (
         <Text style={styles.profit}>
           {t('estimatedNetForQuantity', {
-            quantity: recommendation.estimateQuantityKg,
-            profit: Number(recommendation.estimatedNetProfit).toFixed(2),
+            quantity: estimateQuantityKg,
+            profit: Number(estimatedNetProfit).toFixed(2),
           })}
         </Text>
       )}
-      {Number.isFinite(recommendation.distanceKm) && (
-        <Text style={styles.reason}>{t('approxRoadTransport', {
-          distance: recommendation.distanceKm,
-          cost: Number(recommendation.transportCost).toFixed(2),
+      {Number.isFinite(distanceKm) && (
+        <Text style={styles.reason}>{t('mandiDistanceSummary', {
+          distance: Number(distanceKm).toFixed(1),
+          cost: Number(transportCost).toFixed(2),
+          otherCosts: Number(otherCosts).toFixed(2),
         })}</Text>
       )}
       {recommendation.dataFreshness === 'cached' && (

@@ -13,5 +13,5 @@ export function getMarketDistanceKm(location, mandi) {
     + Math.cos(originLatitude) * Math.cos(destinationLatitude)
     * Math.sin(longitudeDelta / 2) ** 2;
 
-  return Math.round(6371 * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine)));
+  return 6371 * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
 }

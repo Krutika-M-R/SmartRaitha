@@ -14,9 +14,17 @@ import { getMarketDistanceKm } from '../utils/marketDistance';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function ProfitCalculatorScreen({ route }) {
-  const { crop, state, location, recommendedMandiId } = route.params;
+  const {
+    crop,
+    state,
+    location,
+    transportMode,
+    fuelType,
+    transportDetails,
+  } = route.params;
   const { t } = useLanguage();
   const [mandis, setMandis] = useState([]);
+  const [searchRadiusKm, setSearchRadiusKm] = useState(80);
   const [selectedMarketId, setSelectedMarketId] = useState(null);
   const [quantity, setQuantity] = useState('100');
   const [result, setResult] = useState(null);
@@ -33,32 +41,59 @@ export default function ProfitCalculatorScreen({ route }) {
   async function loadMandis() {
     try {
       if (!state) throw new Error(t('noStateForProfit'));
+      if (!Number.isFinite(location?.latitude) || !Number.isFinite(location?.longitude)) {
+        throw new Error(t('locationNeededForProfit'));
+      }
       const result = await priceService.getLivePricesForCrop(crop.name, state);
       const pricedMandis = result.records.filter((market) => (
         market.hasPrice
         && Number.isFinite(Number(market.modalPrice))
         && Number(market.modalPrice) > 0
-      ));
-      const distanceSortedMandis = pricedMandis.sort((a, b) => {
-        const aDistance = getMarketDistanceKm(location, a.mandi);
-        const bDistance = getMarketDistanceKm(location, b.mandi);
-        if (aDistance != null && bDistance != null) return aDistance - bDistance;
+      )).map((market) => ({
+        ...market,
+        searchDistanceKm: getMarketDistanceKm(location, market.mandi),
+      })).map((market) => ({
+        ...market,
+        distanceKm: market.searchDistanceKm == null
+          ? null
+          : Number(market.searchDistanceKm.toFixed(1)),
+      })).filter((market) => market.distanceKm != null);
+      const withinDefaultRadius = pricedMandis.filter((market) => market.searchDistanceKm <= 80);
+      const radius = withinDefaultRadius.length ? 80 : 100;
+      const inRangeMandis = withinDefaultRadius.length
+        ? withinDefaultRadius
+        : pricedMandis.filter((market) => market.searchDistanceKm <= 100);
+      const distanceSortedMandis = inRangeMandis.sort((a, b) => {
+        const aDistance = a.searchDistanceKm;
+        const bDistance = b.searchDistanceKm;
         return Number(b.hasLivePrice) - Number(a.hasLivePrice)
+          || aDistance - bDistance
           || a.mandi.name.localeCompare(b.mandi.name);
       });
+      setSearchRadiusKm(radius);
       setMandis(distanceSortedMandis);
-      const recommendedMarket = pricedMandis.find((market) => market.id === recommendedMandiId);
-      const bestAvailableMarket = pricedMandis.reduce((best, market) => (
-        !best || market.modalPrice > best.modalPrice ? market : best
-      ), null);
-      if (recommendedMarket || bestAvailableMarket) {
-        setSelectedMarketId((recommendedMarket || bestAvailableMarket).id);
-      }
     } catch (e) {
       setError(e.message);
     } finally {
       setLoadingMandis(false);
     }
+  }
+
+  function getTransportDetails() {
+    const hasTransportCost = Number.isFinite(transportDetails?.transportCostPerKm)
+      || Number.isFinite(transportDetails?.fixedTransportCost);
+    if (!transportMode || (transportMode === 'private' && !fuelType)
+      || !hasTransportCost
+      || !Number.isFinite(transportDetails?.otherCosts)
+      || transportDetails.transportCostPerKm < 0
+      || transportDetails.fixedTransportCost < 0
+      || transportDetails.otherCosts < 0
+      || (transportDetails.transportCostPerKm !== undefined
+        && transportDetails.fixedTransportCost !== undefined)) {
+      setError(t('completeTransportDetails'));
+      return null;
+    }
+    return transportDetails;
   }
 
   async function findBestProfitMarket() {
@@ -67,6 +102,8 @@ export default function ProfitCalculatorScreen({ route }) {
       setError(t('validQuantityBeforeCompare'));
       return;
     }
+    const transportDetails = getTransportDetails();
+    if (!transportDetails) return;
     if (!Number.isFinite(location?.latitude) || !Number.isFinite(location?.longitude)) {
       setError(t('locationNeededForProfit'));
       return;
@@ -80,6 +117,7 @@ export default function ProfitCalculatorScreen({ route }) {
         state,
         location,
         qty,
+        transportDetails,
       );
       const best = recommendation.recommended;
       if (!best) {
@@ -105,6 +143,8 @@ export default function ProfitCalculatorScreen({ route }) {
       setError(t('selectMandiQuantity'));
       return;
     }
+    const transportDetails = getTransportDetails();
+    if (!transportDetails) return;
     if (!Number.isFinite(location?.latitude) || !Number.isFinite(location?.longitude)) {
       setError(t('locationNeededForRoute'));
       return;
@@ -118,6 +158,7 @@ export default function ProfitCalculatorScreen({ route }) {
         selectedMarket.mandi.name,
         qty,
         location,
+        transportDetails,
       );
       setResult(data);
     } catch (e) {
@@ -126,6 +167,22 @@ export default function ProfitCalculatorScreen({ route }) {
       setCalculating(false);
     }
   }
+
+  const isLocationAvailable = Number.isFinite(location?.latitude)
+    && Number.isFinite(location?.longitude);
+  const transportDetailsReady = Boolean(
+    transportMode
+    && (transportMode !== 'private' || fuelType)
+    && transportDetails
+    && Number.isFinite(transportDetails.otherCosts)
+    && transportDetails.otherCosts >= 0
+    && ((Number.isFinite(transportDetails.transportCostPerKm)
+      && transportDetails.transportCostPerKm >= 0
+      && transportDetails.fixedTransportCost === undefined)
+      || (Number.isFinite(transportDetails.fixedTransportCost)
+        && transportDetails.fixedTransportCost >= 0
+        && transportDetails.transportCostPerKm === undefined)),
+  );
 
   if (loadingMandis) return <LoadingIndicator message={t('loadingMarkets')} />;
 
@@ -143,13 +200,39 @@ export default function ProfitCalculatorScreen({ route }) {
         <ErrorMessage message={error} />
 
         {mandis.length === 0 ? (
-          <Text style={styles.emptyMessage}>{t('noLiveMandiPrices')} ({state}).</Text>
+          <Text style={styles.emptyMessage}>
+            {t('noMandiWithinRadius', { radius: 100 })} ({state}).
+          </Text>
         ) : (
           <>
+            <Text style={styles.directoryNote}>
+              {t('mandiSearchRadius', { radius: searchRadiusKm })}
+            </Text>
+            {transportDetailsReady ? (
+              <Text style={styles.directoryNote}>
+                {t('selectedTransportSummary', {
+                  mode: transportMode === 'private'
+                    ? t('privateVehicle')
+                    : transportMode === 'public'
+                    ? t('publicTransport')
+                    : t('rentVehicle'),
+                  fuel: transportMode === 'private'
+                    ? ` (${t(fuelType)})`
+                    : transportMode === 'public'
+                    ? ` (${t('train')})`
+                    : '',
+                })}
+              </Text>
+            ) : (
+              <Text style={styles.directoryNote}>{t('selectTransportForRecommendation')}</Text>
+            )}
             <Button
               title={t('findBestMandiProfit')}
               onPress={findBestProfitMarket}
               loading={findingBest}
+              disabled={!transportDetailsReady || !quantity.trim()
+                || !Number.isFinite(Number(quantity)) || Number(quantity) <= 0
+                || !isLocationAvailable}
             />
             {bestEstimate && (
               <Text style={styles.estimateMessage}>
@@ -158,6 +241,7 @@ export default function ProfitCalculatorScreen({ route }) {
                   mandi: bestEstimate.mandi.name,
                   profit: Number(bestEstimate.estimatedNetProfit).toFixed(2),
                   distance: bestEstimate.distanceKm,
+                  price: Number(bestEstimate.modalPrice).toFixed(2),
                 })}
               </Text>
             )}
@@ -169,6 +253,7 @@ export default function ProfitCalculatorScreen({ route }) {
                   title={[
                     mandi.mandi.name,
                     mandi.mandi.district,
+                    t('aboutDistanceAway', { distance: mandi.distanceKm }),
                     mandi.hasPrice
                       ? `₹${Number(mandi.modalPrice).toFixed(2)}/kg${mandi.dataFreshness === 'cached' ? ` · ${t('savedDaysAgo', { days: mandi.ageDays })}` : ''}`
                       : t('noPriceAvailable'),
@@ -199,7 +284,14 @@ export default function ProfitCalculatorScreen({ route }) {
               placeholder={t('exampleQuantity')}
             />
 
-            <Button title={t('calculateProfit')} onPress={handleCalculate} loading={calculating} />
+            <Button
+              title={t('calculateProfit')}
+              onPress={handleCalculate}
+              loading={calculating}
+              disabled={!transportDetailsReady || !quantity.trim()
+                || !Number.isFinite(Number(quantity)) || Number(quantity) <= 0
+                || !selectedMarketId || !isLocationAvailable}
+            />
           </>
         )}
 
